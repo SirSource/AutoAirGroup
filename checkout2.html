@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Checkout</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="css/base.css" data-rel-css="" />
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <link rel="shortcut icon" href="img/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon/180x180.png">
+  <link rel="icon" href="img/apple-touch-icon/180x180.png">
+
+    
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="js/index.js" data-rel-js></script>
+
+
+    <link rel="stylesheet" type="text/css" href="css/example1.css" data-rel-css="" />
+    <link rel="stylesheet" type="text/css" href="css/example2.css" data-rel-css="" />
+    <link rel="stylesheet" type="text/css" href="css/example3.css" data-rel-css="" />
+    <link rel="stylesheet" type="text/css" href="css/example4.css" data-rel-css="" />
+    <link rel="stylesheet" type="text/css" href="css/example5.css" data-rel-css="" />
+</head>
+
+
+
+
+<body>
+
+
+
+    <!--Card group-->
+    <div class="card-deck">
+
+        <!--Card-->
+        <div class="card mb-4">
+
+            <!--Card image-->
+            <div class="view overlay">
+
+                <a href="#!">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body">
+
+                <!--Title-->
+                
+                <h4>Cart Summary </h4>
+                
+                <!--Table-->
+<table class="table table-hover table-responsive-md table table-responsive">
+
+    <!--Table head-->
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class="th-lg">Product</th>
+            <th class="th-lg">Price</th>
+            <th class="th-lg">Qty</th>
+        </tr>
+    </thead>
+    <!--Table head-->
+
+    <!--Table body-->
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>
+                <img src="img/condenser.png" alt="placeholder" class="img-thumbnail">
+                <i class="fa fa-cloud pr-2" aria-hidden="true"></i>Condenser Parallel Flow</td>
+            <td>120.00</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>
+            <img src="img/compresor.png" alt="placeholder" class="img-thumbnail">
+            <i class="fa fa-coffee pr-2" aria-hidden="true"></i>Compressor Assembly</td>
+            <td>200.00</td>
+            <td>1</td>
+        </tr>
+     
+    </tbody>
+    <!--Table body-->
+
+</table>
+<!--Table-->
+                
+
+                
+        
+
+                <!--Text-->
+
+             
+
+
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+
+            </div>
+            <!--Card content-->
+
+        </div>
+        <!--Card-->
+
+        <!--Card-->
+        <div class="card mb-4">
+
+            <!--Card image-->
+            <div class="view overlay">
+
+                <a href="#!">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body">
+                <!--Title-->
+                <h4 class="card-title">Shipping Method</h4>
+
+                <!--Text-->
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+        Store Pickup
+    </label>
+                </div>
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                    <label class="form-check-label" for="exampleRadios2">
+        Regular Shipping
+    </label>
+                </div>
+
+
+                <h4>Shipping Address</h4>
+                
+                
+                 <form>
+
+                    <div class="form-group">
+                        <!-- Full Name -->
+                        <label for="full_name_id" class="control-label">Full Name</label>
+                        <input type="text" class="form-control" id="full_name_id" name="full_name" placeholder="John Deer">
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Street 1 -->
+                        <label for="street1_id" class="control-label">Street Address 1</label>
+                        <input type="text" class="form-control" id="street1_id" name="street1" placeholder="Street address, P.O. box, company name, c/o">
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Street 2 -->
+                        <label for="street2_id" class="control-label">Street Address 2</label>
+                        <input type="text" class="form-control" id="street2_id" name="street2" placeholder="Apartment, suite, unit, building, floor, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <!-- City-->
+                        <label for="city_id" class="control-label">City</label>
+                        <input type="text" class="form-control" id="city_id" name="city" placeholder="Smallville">
+                    </div>
+
+                    <div class="form-group">
+                        <!-- State Button -->
+                        <label for="state_id" class="control-label">State</label>
+                        <select class="form-control" id="state_id">
+			<option value="AL">Alabama</option>
+			<option value="AK">Alaska</option>
+			<option value="AZ">Arizona</option>
+			<option value="AR">Arkansas</option>
+			<option value="CA">California</option>
+			<option value="CO">Colorado</option>
+			<option value="CT">Connecticut</option>
+			<option value="DE">Delaware</option>
+			<option value="DC">District Of Columbia</option>
+			<option value="FL">Florida</option>
+			<option value="GA">Georgia</option>
+			<option value="HI">Hawaii</option>
+			<option value="ID">Idaho</option>
+			<option value="IL">Illinois</option>
+			<option value="IN">Indiana</option>
+			<option value="IA">Iowa</option>
+			<option value="KS">Kansas</option>
+			<option value="KY">Kentucky</option>
+			<option value="LA">Louisiana</option>
+			<option value="ME">Maine</option>
+			<option value="MD">Maryland</option>
+			<option value="MA">Massachusetts</option>
+			<option value="MI">Michigan</option>
+			<option value="MN">Minnesota</option>
+			<option value="MS">Mississippi</option>
+			<option value="MO">Missouri</option>
+			<option value="MT">Montana</option>
+			<option value="NE">Nebraska</option>
+			<option value="NV">Nevada</option>
+			<option value="NH">New Hampshire</option>
+			<option value="NJ">New Jersey</option>
+			<option value="NM">New Mexico</option>
+			<option value="NY">New York</option>
+			<option value="NC">North Carolina</option>
+			<option value="ND">North Dakota</option>
+			<option value="OH">Ohio</option>
+			<option value="OK">Oklahoma</option>
+			<option value="OR">Oregon</option>
+			<option value="PA">Pennsylvania</option>
+			<option value="PR">Puerto Rico</option>
+			<option value="RI">Rhode Island</option>
+			<option value="SC">South Carolina</option>
+			<option value="SD">South Dakota</option>
+			<option value="TN">Tennessee</option>
+			<option value="TX">Texas</option>
+			<option value="UT">Utah</option>
+			<option value="VT">Vermont</option>
+			<option value="VA">Virginia</option>
+			<option value="WA">Washington</option>
+			<option value="WV">West Virginia</option>
+			<option value="WI">Wisconsin</option>
+			<option value="WY">Wyoming</option>
+			
+		</select>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Zip Code-->
+                        <label for="zip_id" class="control-label">Zip Code</label>
+                        <input type="text" class="form-control" id="zip_id" name="zip" placeholder="#####">
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input filled-in" type="checkbox" value="" id="filledInCheckbox1">
+                        <label class="form-check-label" for="filledInCheckbox1">
+                    Ship to same address
+                </label>
+                    </div>
+
+
+
+                </form>
+                
+                
+                
+
+                
+  
+
+
+
+
+
+
+
+
+
+
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                <!-- Filled-in checkbox -->
+
+            </div>
+            <!--Card content-->
+
+
+
+        </div>
+        <!--Card-->
+
+        <!--Card-->
+        <div class="card mb-4">
+
+            <!--Card image-->
+            <div class="view overlay">
+
+                <a href="#!">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body">
+                <!--Title-->
+                
+                
+                                <h4>Payment and Billing Information </h4>
+                
+                                  <!--Example 5-->
+      <div class="cell example example5">
+        <form>
+          <div id="example5-paymentRequest">
+            <!--Stripe paymentRequestButton Element inserted here-->
+          </div>
+          <fieldset>
+            <legend class="card-only" data-tid="elements_examples.form.pay_with_card">Pay with card</legend>
+            <legend class="payment-request-available" data-tid="elements_examples.form.enter_card_manually">Or enter card details</legend>
+            <div class="row">
+              <div class="field">
+                <label for="example5-name" data-tid="elements_examples.form.name_label">Name</label>
+                <input id="example5-name" data-tid="elements_examples.form.name_placeholder" class="input" type="text" placeholder="Jane Doe" required="">
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="example5-email" data-tid="elements_examples.form.email_label">Email</label>
+                <input id="example5-email" data-tid="elements_examples.form.email_placeholder" class="input" type="text" placeholder="janedoe@gmail.com" required="">
+              </div>
+              <div class="field">
+                <label for="example5-phone" data-tid="elements_examples.form.phone_label">Phone</label>
+                <input id="example5-phone" data-tid="elements_examples.form.phone_placeholder" class="input" type="text" placeholder="(941) 555-0123" required="">
+              </div>
+            </div>
+            <div data-locale-reversible>
+              <div class="row">
+                <div class="field">
+                  <label for="example5-address" data-tid="elements_examples.form.address_label">Address</label>
+                  <input id="example5-address" data-tid="elements_examples.form.address_placeholder" class="input" type="text" placeholder="185 Berry St" required="">
+                </div>
+              </div>
+              <div class="row" data-locale-reversible>
+                <div class="field">
+                  <label for="example5-city" data-tid="elements_examples.form.city_label">City</label>
+                  <input id="example5-city" data-tid="elements_examples.form.city_placeholder" class="input" type="text" placeholder="San Francisco" required="">
+                </div>
+                <div class="field">
+                  <label for="example5-state" data-tid="elements_examples.form.state_label">State</label>
+                  <input id="example5-state" data-tid="elements_examples.form.state_placeholder" class="input empty" type="text" placeholder="CA" required="">
+                </div>
+                <div class="field">
+                  <label for="example5-zip" data-tid="elements_examples.form.postal_code_label">ZIP</label>
+                  <input id="example5-zip" data-tid="elements_examples.form.postal_code_placeholder" class="input empty" type="text" placeholder="94107" required="">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="example5-card" data-tid="elements_examples.form.card_label">Card</label>
+                <div id="example5-card" class="input"></div>
+              </div>
+            </div>
+            <button type="submit" data-tid="elements_examples.form.pay_button">Pay $25</button>
+          </fieldset>
+          <div class="error" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+              <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
+              <path class="glyph" fill="#FFF" d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"></path>
+            </svg>
+            <span class="message"></span></div>
+        </form>
+        <div class="success">
+          <div class="icon">
+            <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <circle class="border" cx="42" cy="42" r="40" stroke-linecap="round" stroke-width="4" stroke="#000" fill="none"></circle>
+              <path class="checkmark" stroke-linecap="round" stroke-linejoin="round" d="M23.375 42.5488281 36.8840688 56.0578969 64.891932 28.0500338" stroke-width="4" stroke="#000" fill="none"></path>
+            </svg>
+          </div>
+          <h3 class="title" data-tid="elements_examples.success.title">Payment successful</h3>
+          <p class="message"><span data-tid="elements_examples.success.message">Thanks for trying Stripe Elements. No money was charged, but we generated a token: </span><span class="token">tok_189gMN2eZvKYlo2CwTBv9KKh</span></p>
+          <a class="reset" href="#">
+            <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path fill="#000000" d="M15,7.05492878 C10.5000495,7.55237307 7,11.3674463 7,16 C7,20.9705627 11.0294373,25 16,25 C20.9705627,25 25,20.9705627 25,16 C25,15.3627484 24.4834055,14.8461538 23.8461538,14.8461538 C23.2089022,14.8461538 22.6923077,15.3627484 22.6923077,16 C22.6923077,19.6960595 19.6960595,22.6923077 16,22.6923077 C12.3039405,22.6923077 9.30769231,19.6960595 9.30769231,16 C9.30769231,12.3039405 12.3039405,9.30769231 16,9.30769231 L16,12.0841673 C16,12.1800431 16.0275652,12.2738974 16.0794108,12.354546 C16.2287368,12.5868311 16.5380938,12.6540826 16.7703788,12.5047565 L22.3457501,8.92058924 L22.3457501,8.92058924 C22.4060014,8.88185624 22.4572275,8.83063012 22.4959605,8.7703788 C22.6452866,8.53809377 22.5780351,8.22873685 22.3457501,8.07941076 L22.3457501,8.07941076 L16.7703788,4.49524351 C16.6897301,4.44339794 16.5958758,4.41583275 16.5,4.41583275 C16.2238576,4.41583275 16,4.63969037 16,4.91583275 L16,7 L15,7 L15,7.05492878 Z M16,32 C7.163444,32 0,24.836556 0,16 C0,7.163444 7.163444,0 16,0 C24.836556,0 32,7.163444 32,16 C32,24.836556 24.836556,32 16,32 Z"></path>
+            </svg>
+          </a>
+        </div>
+
+        
+      </div>
+
+
+                <!--Text-->
+
+
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                <button type="button" class="btn btn-light-blue btn-md">Read more</button>
+            </div>
+            <!--Card content-->
+
+        </div>
+        <!--Card-->
+
+    </div>
+    <!--Card group-->
+    
+    
+    <!-- Simple localization script for Stripe's examples page. -->
+    <script src="js/l10n.js" data-rel-js></script>
+
+
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+
+
+
+
+
+
+    
+
+    <!-- Scripts for each example: -->
+    <script src="js/example1.js" data-rel-js></script>
+    <script src="js/example2.js" data-rel-js></script>
+    <script src="js/example3.js" data-rel-js></script>
+    <script src="js/example4.js" data-rel-js></script>
+    <script src="js/example5.js" data-rel-js></script>
+</body>
+
+
+</html>
