@@ -14,7 +14,6 @@ class UsersDao:
         users = self.db
         for doc in users.find():
             allUsers.append(doc)
-        print("The list of users includes:\n")
         return allUsers
 
     def getUserByUsername(self, username):
