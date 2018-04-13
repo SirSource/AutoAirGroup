@@ -17,6 +17,15 @@ class UsersDao:
         print("The list of users includes:\n")
         return allUsers
 
+    def getUserByUsername(self, username):
+        """
+        Fetch a user by a specified username.
+        :param username: The username of the user to be fetched.
+        :return: The user information that matches the username provided.
+        """
+        user = self.db.find_one({"username": username})
+        return user
+
     def getUserByEmail(self, email):
         """
         Fetch a user by a specified email.
