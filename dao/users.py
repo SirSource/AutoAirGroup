@@ -1,6 +1,4 @@
 from config.dbconfig import client
-import json
-
 
 class UsersDao:
 
