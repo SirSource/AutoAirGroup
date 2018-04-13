@@ -71,6 +71,41 @@ class UsersDao:
         }
         return self.db.insert_one(newUser).inserted_id
 
+    def updateUserAddress(self, username, city, place, street, zip):
+        # TODO: implement
+        # Must be able to change the address of the user
+        # who's username is provided as a parameter
+        # return user ID
+        # Document the function
+        address = {
+            "city": city,
+            "place": place,
+            "street": street,
+            "zipcode": zip
+        }
+        return None
+
+    def updateUserPhone(self, username, phone):
+        # TODO: implement
+        # Update the phone number of the user who's
+        # username is provided
+        # Document the function
+        return None
+
+    def updateUserEmail(self, username, email):
+        # TODO: implement
+        # Update the email of the user who's
+        # username is provided
+        # Document the function
+        return None
+
+    def updateUserPassword(self, username, password):
+        # TODO: implement
+        # Update the password of the user who's
+        # username is provided
+        # Document the function
+        return None
+
     def deleteUserByEmail(self, email):
         """
         Delete a user by the provided email
