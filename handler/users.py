@@ -20,3 +20,5 @@ class UserHandler:
             result = self.user_dictionary(row)
             result_list.append(result)
         return jsonify(Users = result_list)
+
+#TODO add handler for other functions (getUserByUsername, getUserByEmail, etc.)
