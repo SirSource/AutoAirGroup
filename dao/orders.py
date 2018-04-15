@@ -5,7 +5,6 @@ class OrdersDao:
     def __init__(self):
         self.db = client.AutoAirGroupdb.orders
 
-
     def getAllOrders(self):
         allOrders = []
         orders = self.db
