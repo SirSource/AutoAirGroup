@@ -40,4 +40,10 @@ class OrdersDao:
             allOrders.append(doc)
         return allOrders
 
+    def deleteOrderById(self, oID):
+        return self.db.delete_many({"orderid": oID})
+
+    def deleteOrderByUserEmail(self, email):
+        return self.db.delete_many({"uemail": email})
+
     #TODO: Add more functions for getters, inserts, and deletes
