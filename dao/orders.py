@@ -40,4 +40,4 @@ class OrdersDao:
             allOrders.append(doc)
         return allOrders
 
-    #TODO: Ad more functions for getters, inserts, and deletes
+    #TODO: Add more functions for getters, inserts, and deletes
