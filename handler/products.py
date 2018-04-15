@@ -89,3 +89,18 @@ class ProductsHandler:
 
 
 
+    #Returns product info by car make, car model, car year, car motor
+    def searchProductsByCar(self,args):
+        cmake = args.get('cmake')
+        cmodel = args.get('cmodel')
+        cyear = args.get('cyear')
+        cmotor = args.get('cmotor')
+
+        dao = ProductsDao()
+        if(len(args)==4) and cmake and cmodel and cyear and cmotor:
+            plist = dao.getProductsByCar(cmake, cmodel, int(cyear), cmotor)
+            result_list = []
+            for row in plist:
+                result = self.products_dictionary(row)
+                result_list.append(result)
+            return jsonify(Products = result_list)
