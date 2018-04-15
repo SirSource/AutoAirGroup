@@ -73,4 +73,17 @@ class ProductsDao:
             cm.append(doc)
         return cm
 
+    #Returns the product information by searching the car make, car model,
+    #car year, and car motor
+    def getProductsByCar(self, cmake, cmodel, cyear, cmotor):
+        products = self.db
+        p =[]
+        for doc in products.find({'car.make': cmake, 'car.model':cmodel, 'car.year':cyear, 'car.motor':cmotor},{'car.make':0,'car.model':0,'car.year':0,'car.motor':0}):
+            p.append(doc)
+
+        return p
+
+
+
+
 
