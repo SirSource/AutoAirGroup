@@ -18,6 +18,16 @@ class ProductsHandler:
         result = {*pid,*row}
         return result
 
+    def product_carInfo_dictionary(self,row):
+        car = row['car']
+        del row['_id']
+        result = {**car,**row}
+        return result
+
+
+
+    #=========================================================#
+
     def getAllProducts(self):
         dao = ProductsDao()
         list = dao.getAllProducts()
@@ -36,5 +46,46 @@ class ProductsHandler:
            result = self.product_id_dictionary(row)
            result_list.append(result)
         return jsonify(Products = list)
+
+    #returns all the car make available in the db
+    def getAllCarMake(self):
+        dao = ProductsDao()
+        list = dao.getCarMake()
+        result_list = []
+        for row in list:
+            result = self.product_carInfo_dictionary(row)
+            result_list.append(result)
+        return jsonify(CarMake = list)
+
+    # returns all the car model available in the db
+    def getAllCarModel(self):
+        dao = ProductsDao()
+        list = dao.getCarModel()
+        result_list = []
+        for row in list:
+            result = self.product_carInfo_dictionary(row)
+            result_list.append(result)
+        return jsonify(CarModel=list)
+
+    # returns all the car year available in the db
+    def getAllCarYear(self):
+        dao = ProductsDao()
+        list = dao.getCarYear()
+        result_list = []
+        for row in list:
+            result = self.product_carInfo_dictionary(row)
+            result_list.append(result)
+        return jsonify(CarYear=list)
+
+    # returns all the car motor available in the db
+    def getAllCarMotor(self):
+        dao = ProductsDao()
+        list = dao.getCarMotor()
+        result_list = []
+        for row in list:
+            result = self.product_carInfo_dictionary(row)
+            result_list.append(result)
+        return jsonify(CarMotor=list)
+
 
 
