@@ -10,7 +10,8 @@ def home():
 
 @app.route('/catalog')
 def catalog():
-    return render_template('catalog.html')
+    products = p().getAllProducts()
+    return render_template('catalog.html', products = products)
 
 @app.route('/about')
 def about():
@@ -23,6 +24,12 @@ def accounts():
 @app.route('/users')
 def getAllUsers():
     return u().getAllUsers()
+
+#---ADMIN PAGES---#
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -67,14 +67,21 @@
         </h3>
     </div>
     <!--Deck of Cards-->
-    {% if 1 == 1 %}
-        <div>blah blah blah blah</div>
-    {% else %}
-        <h1>There are no products in the catalog.</h1>
-    {% endif %}
     <div class="row mb-4">
         <div class="card-deck">
             <!--Card-->
+            {% for item in products %}
+                <div class="card aag-min-width-card">
+                    <div class="card-header">
+                        {{ item['pname']}}
+                    </div>
+                    <div class="card-body">
+                        <img class="agg-max-width-card-img" src="{{ url_for('static', filename='img/' + item['image']) }}">
+                        <p class="card-text">{{ item['pdetails'] }}</p>
+                        <a href="#" class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
     <!--Additional Info Box-->

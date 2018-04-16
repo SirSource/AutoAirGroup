@@ -1,5 +1,3 @@
-from flask import jsonify
-
 from dao.products import ProductsDao
 
 
@@ -9,7 +7,6 @@ class ProductsHandler:
         car = row['car']
         del row['car']
         del row['_id']
-        del row['image']
         result = {**car, **row}
         return result
 
@@ -33,7 +30,6 @@ class ProductsHandler:
         for row in list:
             result = self.products_dictionary(row)
             result_list.append(result)
-        #return jsonify(Products=result_list)
         return result_list
 
     # Returns the ID of the product by entering the name of the product
@@ -44,7 +40,7 @@ class ProductsHandler:
         for row in list:
             result = self.product_id_dictionary(row)
             result_list.append(result)
-        return jsonify(Products=list)
+        return result_list
 
     # returns all the car make available in the db
     def getAllCarMake(self):
@@ -54,7 +50,7 @@ class ProductsHandler:
         for row in list:
             result = self.product_carInfo_dictionary(row)
             result_list.append(result)
-        return jsonify(CarMake=list)
+        return result_list
 
     # returns all the car model available in the db
     def getAllCarModel(self):
@@ -64,7 +60,7 @@ class ProductsHandler:
         for row in list:
             result = self.product_carInfo_dictionary(row)
             result_list.append(result)
-        return jsonify(CarModel=list)
+        return result_list
 
     # returns all the car year available in the db
     def getAllCarYear(self):
@@ -74,7 +70,7 @@ class ProductsHandler:
         for row in list:
             result = self.product_carInfo_dictionary(row)
             result_list.append(result)
-        return jsonify(CarYear=list)
+        return result_list
 
     # returns all the car motor available in the db
     def getAllCarMotor(self):
@@ -84,7 +80,7 @@ class ProductsHandler:
         for row in list:
             result = self.product_carInfo_dictionary(row)
             result_list.append(result)
-        return jsonify(CarMotor=list)
+        return result_list
 
     # Returns product info by car make, car model, car year, car motor
     def searchProductsByCar(self, args):
@@ -100,4 +96,4 @@ class ProductsHandler:
             for row in plist:
                 result = self.products_dictionary(row)
                 result_list.append(result)
-            return jsonify(Products=result_list)
+            return result_list
