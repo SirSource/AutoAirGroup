@@ -1,9 +1,8 @@
 from flask import Flask, render_template
-from handler.users import UserHandler
-from config.dbconfig import client
+from handler.users import UserHandler as u
+from handler.products import ProductsHandler as p
 
 app = Flask(__name__)
-#mongo = PyMongo(app)
 
 @app.route('/')
 def home():
@@ -23,7 +22,7 @@ def accounts():
 
 @app.route('/users')
 def getAllUsers():
-    return UserHandler().getAllUsers()
+    return u().getAllUsers()
 
 if __name__ == '__main__':
     app.run(debug=True)

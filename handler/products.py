@@ -33,7 +33,8 @@ class ProductsHandler:
         for row in list:
             result = self.products_dictionary(row)
             result_list.append(result)
-        return jsonify(Products=result_list)
+        #return jsonify(Products=result_list)
+        return result_list
 
     # Returns the ID of the product by entering the name of the product
     def getProductIDbyName(self, pname):
