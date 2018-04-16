@@ -1,0 +1,30 @@
+es = {
+    "home-nav":"Inicio",
+    "catalog-nav":"Catálogo de Products",
+    "delivery-nav":"Envíos",
+    "about-nav":"Sobre Nosotros",
+    "contact-nav":"Contactenos",
+    "account-btn":"Mi Cuenta",
+    "search-bar":"Buscar...",
+    "search-btn":"Buscar!",
+    "featured-title":"Productos Destacados",
+    #Catalog
+    "search-title":"Busqueda avanzada de products",
+    "car-make":"Marca del vehículo",
+    "year":"Año",
+    "part-category":"Categoría",
+    "catalog-title":"Catálogo de Productos",
+    #Login
+    "login-title":"Accesa tu cuenta",
+    "email":"Correo Electrónico",
+    "password":"Contraseña",
+    "recover":"Recuperar Contraseña",
+    "sign-in":"Entrar",
+    "register":"Crear una cuenta",
+    "register-title":"Llene los campos para registrarse",
+    "first-name":"Nombre",
+    "last-name":"Apellido",
+    "email-hint":"Este campo servirá como su nombre de usuario.",
+    "password-hint":"Mínimo de 8 caracteres. Al menos: 1 letra mayúscula, 1 número y 1 caracter especial (@,#,$,%,*,?,!,/)",
+    "register-btn":"Registrarse"
+}
