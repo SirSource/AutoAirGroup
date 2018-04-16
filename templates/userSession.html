@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}My Account{% endblock %}
+{% block main %}
+    <!--User Session Box Box-->
+    <div class="row mt-3 bg-white p-4 aag-shadow">
+        <div class="col-lg-12 aag-border-bottom">
+            <h4>Access your account!</h4>
+        </div>
+        <div class="col-lg-6 mx-auto">
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> The username or password combination are incorrect.
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <a href="#">Recover Lost Password</a>
+                </div>
+            </form>
+        </div>
+        <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
+            <button class="btn btn-primary">Sign In</button>
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample"
+                    aria-expanded="false"
+                    aria-controls="collapseExample">
+                Create new Account!
+            </button>
+        </p>
+        <div class="collapse col-md-6 mx-auto" id="collapseExample">
+            <h5>Register Below!</h5>
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> Specific error message for invalid registration.
+            </div>
+            <div class="card card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" class="form-control" id="first-name" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" class="form-control" id="last-name" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email">
+                        <small class="text-muted">This will also be your username.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password">
+                        <small class="text-muted">Minimum of 8 characters. At least: 1 uppercase, 1 number, and 1
+                            special character (@, #, $, %,
+                            *, ?, !, /)
+                        </small>
+                    </div>
+                    <button class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
