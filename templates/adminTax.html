@@ -1,0 +1,37 @@
+{% extends "adminlayout.html" %}
+{% block title %}Configure Tax{% endblock %}
+{% block main %}
+    <!--Featured Section-->
+    <div class="row mt-3 mb-3">
+        <h3 class="font-weight-bold">
+            Configure Sitewide Tax
+        </h3>
+    </div>
+    <!--Dashboard Main Info Box-->
+    <div class="row mt-3 bg-white p-4 aag-shadow">
+        <div class="col-lg-12 aag-border-bottom">
+            <h5>Sales tax for all products</h5>
+        </div>
+        <div class="col-md-6 mt-3 mx-auto">
+            <div class="alert alert-danger" role="alert">
+                <h5>
+                    <strong>Warning!</strong>
+                </h5> Changing this setting will affect all future orders on the website. Make updates only if the local
+                tax
+                rate has changed, otherwise you may owe the state sales tax!
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="tax-rate">Tax Rate (%)</label>
+                    <input type="text" class="form-control" id="tax-rate" placeholder="Example: 11.5">
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" id="country" placeholder="Puerto Rico" readonly>
+                </div>
+                <button class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,6 +1,5 @@
 from dao.products import ProductsDao
 
-
 class ProductsHandler:
 
     def products_dictionary(self, row):

@@ -4,3 +4,5 @@ dictionary = p().getAllProducts()
 
 for x in dictionary:
     print(x)
+
+from handler.tax import TaxHandler as t

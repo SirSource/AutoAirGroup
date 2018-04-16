@@ -1,6 +1,3 @@
-from bson import json_util
-import json
-from flask import jsonify
 from dao.users import UsersDao
 
 class UserHandler:
@@ -19,6 +16,6 @@ class UserHandler:
         for row in list:
             result = self.user_dictionary(row)
             result_list.append(result)
-        return jsonify(Users = result_list)
+        return result_list
 
 #TODO add handler for other functions (getUserByUsername, getUserByEmail, etc.)
