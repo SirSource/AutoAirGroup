@@ -13,20 +13,18 @@ class ProductsHandler:
         result = {**car, **row}
         return result
 
-    def product_id_dictionary(self,row):
+    def product_id_dictionary(self, row):
         pid = row['pid']
-        result = {*pid,*row}
+        result = {*pid, *row}
         return result
 
-    def product_carInfo_dictionary(self,row):
+    def product_carInfo_dictionary(self, row):
         car = row['car']
         del row['_id']
-        result = {**car,**row}
+        result = {**car, **row}
         return result
 
-
-
-    #=========================================================#
+    # =========================================================#
 
     def getAllProducts(self):
         dao = ProductsDao()
@@ -37,17 +35,17 @@ class ProductsHandler:
             result_list.append(result)
         return jsonify(Products=result_list)
 
-    #Returns the ID of the product by entering the name of the product
-    def getProductIDbyName(self,pname):
+    # Returns the ID of the product by entering the name of the product
+    def getProductIDbyName(self, pname):
         dao = ProductsDao()
         list = dao.getProductIDbyName(pname)
         result_list = []
         for row in list:
-           result = self.product_id_dictionary(row)
-           result_list.append(result)
-        return jsonify(Products = list)
+            result = self.product_id_dictionary(row)
+            result_list.append(result)
+        return jsonify(Products=list)
 
-    #returns all the car make available in the db
+    # returns all the car make available in the db
     def getAllCarMake(self):
         dao = ProductsDao()
         list = dao.getCarMake()
@@ -55,7 +53,7 @@ class ProductsHandler:
         for row in list:
             result = self.product_carInfo_dictionary(row)
             result_list.append(result)
-        return jsonify(CarMake = list)
+        return jsonify(CarMake=list)
 
     # returns all the car model available in the db
     def getAllCarModel(self):
@@ -87,20 +85,18 @@ class ProductsHandler:
             result_list.append(result)
         return jsonify(CarMotor=list)
 
-
-
-    #Returns product info by car make, car model, car year, car motor
-    def searchProductsByCar(self,args):
+    # Returns product info by car make, car model, car year, car motor
+    def searchProductsByCar(self, args):
         cmake = args.get('cmake')
         cmodel = args.get('cmodel')
         cyear = args.get('cyear')
         cmotor = args.get('cmotor')
 
         dao = ProductsDao()
-        if(len(args)==4) and cmake and cmodel and cyear and cmotor:
+        if (len(args) == 4) and cmake and cmodel and cyear and cmotor:
             plist = dao.getProductsByCar(cmake, cmodel, int(cyear), cmotor)
             result_list = []
             for row in plist:
                 result = self.products_dictionary(row)
                 result_list.append(result)
-            return jsonify(Products = result_list)
+            return jsonify(Products=result_list)
