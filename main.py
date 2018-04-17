@@ -53,5 +53,6 @@ def adminTax():
 def adminStaff():
     return render_template('adminStaff.html')
 
+
 if __name__ == '__main__':
     app.run(debug=True)

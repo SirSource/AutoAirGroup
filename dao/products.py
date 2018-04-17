@@ -78,8 +78,7 @@ class ProductsDao:
     def getProductsByCar(self, cmake, cmodel, cyear, cmotor):
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'car.motor': cmotor},
-                                 {'car.make': 0, 'car.model': 0, 'car.year': 0, 'car.motor': 0}):
+        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'car.motor': cmotor}):
             p.append(doc)
 
         return p

@@ -1,12 +1,9 @@
 from handler.products import ProductsHandler as p
-
-dictionary = p().getAllProducts()
+y = ['BMW','M3',2018,'CX222']
+dictionary = p().searchProductsByCar(y)
 
 for x in dictionary:
     print(x)
 
-from handler.tax import TaxHandler as t
 
-tax = t().getTax()
-fee = tax['fee']
-print(fee)
+
