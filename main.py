@@ -1,7 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template
 from handler.users import UserHandler as u
 from handler.products import ProductsHandler as p
-from handler.orders import OrdersHandler as o
+from handler.tax import TaxHandler as t
 
 app = Flask(__name__)
 
@@ -41,9 +41,13 @@ def adminProducts():
     products = p().getAllProducts()
     return render_template('adminProducts.html', products = products)
 
-@app.route('/admin/tax')
+@app.route('/admin/tax', methods=['GET','POST'])
 def adminTax():
-    return render_template('adminTax.html')
+    value = True
+    if request.method == 'POST':
+        value = t().setTax(request.form.getlist('tax'))
+    tax = t().getTax()
+    return render_template('adminTax.html', fee = tax, value = value)
 
 @app.route('/admin/staff')
 def adminStaff():

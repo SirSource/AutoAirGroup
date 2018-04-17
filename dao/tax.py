@@ -6,5 +6,8 @@ class TaxDao:
         self.db = client.AutoAirGroupdb.tax
 
     def getTax(self):
-        tax = self.db
+        tax = self.db.find_one()
         return tax
+
+    def setTax(self, tax):
+        return self.db.update({'fee': self.getTax()['fee']}, {'$set':{'fee': tax}})
