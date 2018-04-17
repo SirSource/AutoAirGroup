@@ -1,12 +1,12 @@
-from handler.products import ProductsHandler as p
+from bson import Decimal128
 
-dictionary = p().getAllProducts()
+from dao.staff import StaffDao as s
+from config.dbconfig import client as db
+import bson
 
-for x in dictionary:
-    print(x)
 
-from handler.tax import TaxHandler as t
+# s().insertStaff('Gustavo', 'Marrero', 'AAG1', True, 'gustavo.marrero1@upr.edu', 'gamar123', 'Rio Piedras')
 
-tax = t().getTax()
-fee = tax['fee']
-print(fee)
+
+
+db.AutoAirGroupdb.products.insert_one({'image': "", "pid":"1", "pcategory": "Compressor", "pname":"algarete", "pdetails": "das", "plocation": "baya,on", "pprice": Decimal128('5.99'), "pbrand":"Apple","qty": 23})
