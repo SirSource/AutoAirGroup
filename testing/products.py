@@ -1,4 +1,15 @@
-from handler.staff import StaffHandler as s
+from handler.products import ProductsHandler as p
+test = ["BMW","M3"]
+test1=["Honda","Civic"]
+dictionary = p().searchProductsByCar(test)
+for row in dictionary:
+    print(row)
+# dictionary = p().searchProductsByCar(test1)
+# print(dictionary)
 
-list = []
-print(s().insertStaff('Jaime', 'Cortes', 'AAG2', True, 'jaime.cortes@upr.edu', 'Temporary', 'Rio Piedras'))
+
+from handler.tax import TaxHandler as t
+
+# tax = t().getTax()
+# fee = tax['fee']
+# print(fee)
