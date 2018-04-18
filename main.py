@@ -28,7 +28,6 @@ def getAllUsers():
     return u().getAllUsers()
 
 #---ADMIN PAGES---#
-
 @app.route('/admin')
 def admin():
     return render_template('admin.html')
