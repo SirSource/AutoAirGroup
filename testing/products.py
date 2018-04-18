@@ -1,12 +1,4 @@
-from handler.products import ProductsHandler as p
+from handler.staff import StaffHandler as s
 
-dictionary = p().getAllProducts()
-
-for x in dictionary:
-    print(x)
-
-from handler.tax import TaxHandler as t
-
-tax = t().getTax()
-fee = tax['fee']
-print(fee)
+list = []
+print(s().insertStaff('Jaime', 'Cortes', 'AAG2', True, 'jaime.cortes@upr.edu', 'Temporary', 'Rio Piedras'))

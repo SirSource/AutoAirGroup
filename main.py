@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 from handler.users import UserHandler as u
 from handler.products import ProductsHandler as p
 from handler.tax import TaxHandler as t
+from handler.staff import StaffHandler as s
 
 app = Flask(__name__)
 
@@ -49,9 +50,22 @@ def adminTax():
     tax = t().getTax()
     return render_template('adminTax.html', fee = tax, value = value)
 
-@app.route('/admin/staff')
+@app.route('/admin/staff', methods=['GET','POST'])
 def adminStaff():
-    return render_template('adminStaff.html')
+    staff = s().getAllStaff()
+    if request.method == 'POST':
+        method = request.form['_method']
+        if method == 'ADD':
+            addSuccess = s().insertStaff(request.form)
+            if addSuccess:
+                return render_template('adminStaff.html', addSuccess = 'pass', staff = staff)
+            else:
+                return render_template('adminStaff.html', addSuccess = 'fail', staff = staff)
+        if method == 'SEARCH':
+            None
+        if method == 'DELETE':
+            None
+    return render_template('adminStaff.html', staff = staff)
 
 
 if __name__ == '__main__':

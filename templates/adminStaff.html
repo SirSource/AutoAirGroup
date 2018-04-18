@@ -1,193 +1,147 @@
 {% extends "adminlayout.html" %}
-{% block title %}Staff Accounts{% endblock %}
+{% block title %}Cuentas de empleados{% endblock %}
 {% block main %}
     <!--Featured Section-->
     <div class="row mt-3 mb-3">
         <h3 class="font-weight-bold">
-            Staff Accounts
+            Cuentas de empleados
         </h3>
     </div>
     <!--Dashboard Main Info Box-->
     <div class="row mt-3 bg-white p-4 aag-shadow">
         <div class="col-md">
-            <h5 class="aag-border-bottom">Add an Employee</h5>
+            <h5 class="aag-border-bottom">Añadir Empleado</h5>
+            {% if addSuccess == 'fail' %}
+                <div class="col alert-danger pt-3 pb-3">
+                    <span><strong>Error:</strong> Hay campos vacios u ocurrió uno de los siguientes errores:</span>
+                    <ul>
+                        <li>EID ya existe en el sistema.</li>
+                        <li>Email ya existe en el sistema.</li>
+                    </ul>
+                </div>
+            {% endif %}
+            {% if addSuccess == 'pass' %}
+                <div class="col alert-primary pt-3 pb-3">
+                    <h5>Se añadió un nuevo empleado al sistema.</h5>
+                </div>
+            {% endif %}
             <div class="card card-body">
-                <form>
+                <form action="{{ url_for('adminStaff') }}" method="post">
                     <div class="form-group">
-                        <label for="first-name">First Name</label>
-                        <input type="text" class="form-control" id="first-name" placeholder="First Name">
+                        <label for="first-name">Nombre</label>
+                        <input type="text" class="form-control" name="first_name" id="first-name" placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                        <label for="last-name">Last Name</label>
-                        <input type="text" class="form-control" id="last-name" placeholder="Last Name">
+                        <label for="last-name">Apellido</label>
+                        <input type="text" class="form-control" name="last_name" id="last-name" placeholder="Apellido">
                     </div>
                     <div class="form-group">
-                        <label for="eid">Employee ID (EID)</label>
-                        <input type="text" class="form-control" id="eid" placeholder="EID">
+                        <label for="eid">ID de Empleado (EID)</label>
+                        <input type="text" class="form-control" name="eid" id="eid" placeholder="EID">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email">
-                        <small class="text-muted">This will also be the employee username.</small>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                        <small class="text-muted">Esto será el nombre de usuario del empleado.</small>
                     </div>
                     <div class="form-group">
                         <label for="store">Store</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>Caguas</option>
-                            <option>Bayamon</option>
-                            <option>Guaynabo</option>
-                            <option>Río Piedras</option>
+                        <select id="inputState" name="store" class="form-control">
+                            <option value="Caguas" selected>Caguas</option>
+                            <option value="Bayamón">Bayamon</option>
+                            <option value="Guaynabo">Guaynabo</option>
+                            <option value="Río Piedras">Río Piedras</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="is-admin">Make an Administrator</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>No</option>
-                            <option>Yes</option>
+                        <label for="is-admin">Hacer administrador</label>
+                        <input type="hidden" name="_method" value="ADD">
+                        <select id="inputState" name="admin" class="form-control">
+                            <option value="False" selected>No</option>
+                            <option value="True">Si</option>
                         </select>
-                        <small class="text-muted">An administrator can add or delete staff, change staff roles, and edit
-                            tax configurations.
+                        <small class="text-muted">Un administrador puede añadir o borrar empleados, cambiar el rol y
+                            editar el porciento de impuestos (IVU).
                         </small>
                     </div>
-                    <button class="btn btn-primary">Add Employee</button>
+                    <button class="btn btn-primary">Añadir Empleado</button>
                 </form>
             </div>
         </div>
         <div class="col-md">
-            <h5 class="aag-border-bottom">Employee Search</h5>
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Enter an employee to search...">
-                <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button">Search</button>
+            <h5 class="aag-border-bottom">Buscar Empleado</h5>
+            <form action="{{ url_for('adminStaff') }}" method="post">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Busqueda de empleado...">
+                    <input type="hidden" name="_method" value="SEARCH">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button">Buscar</button>
                     </span>
-            </div>
-            <div class="form-check form-check-inline mt-2">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                       value="option1">
-                <label class="form-check-label" for="inlineRadio1">Employee ID (EID)</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                       value="option2">
-                <label class="form-check-label" for="inlineRadio2">Employee Name</label>
-            </div>
+                </div>
+                <div class="form-check form-check-inline mt-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                           value="option1">
+                    <label class="form-check-label" for="inlineRadio1">ID del Empleado (EID)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                           value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Nombre del Empleado</label>
+                </div>
+            </form>
             <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
                 <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDelete"
                         aria-expanded="false"
                         aria-controls="collapseDelete">
-                    Delete Employee
+                    Borrar Empleado
                 </button>
             </p>
             <div class="collapse mt-3 p-3 aag-bg-gray1" id="collapseDelete">
-                <h5 class="aag-border-bottom">Delete Employee</h5>
+                <h5 class="aag-border-bottom">Borrar Empleado</h5>
                 <div class="alert alert-danger" role="alert">
-                    <strong>Warning!</strong>
-                    <span>Using this form will permanently remove an employee from the system.</span>
+                    <strong>Advertencia!</strong>
+                    <span>Este formulario eliminará el empleado completamente del sistema.</span>
                 </div>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="EID of employee to remove...">
-                    <button class="btn btn-danger">Delete Employee</button>
-                </div>
+                <form action="{{ url_for('adminStaff') }}" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="EID del empleado a remover...">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-danger">Borrar Empleado</button>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="col-lg-12 mt-5">
-            <h5>Employees</h5>
+            <h5>Empleados</h5>
             <table class="table table-responsive-md table-striped">
                 <thead>
                 <tr>
                     <th scope="col">EID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
+                    <th scope="col">Nombre</th>
+                    {#<th scope="col">Apellido</th>#}
                     <th scope="col">Email</th>
-                    <th scope="col">Store</th>
-                    <th scope="col">Make Admin</th>
+                    <th scope="col">Tienda</th>
+                    <th scope="col">Administrador</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Javier</td>
-                    <td>Bardem</td>
-                    <td>jb@autoairgroup.net</td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option selected>Caguas</option>
-                            <option>Bayamon</option>
-                            <option>Guaynabo</option>
-                            <option>Río Piedras</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option selected>No</option>
-                            <option>Yes</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>María</td>
-                    <td>Lugo</td>
-                    <td>ml@autoairgroup.net</td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option>Caguas</option>
-                            <option selected>Bayamon</option>
-                            <option>Guaynabo</option>
-                            <option>Río Piedras</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option>No</option>
-                            <option selected>Yes</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">8</th>
-                    <td>John</td>
-                    <td>Smith</td>
-                    <td>js@autoairgroup.net</td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option>Caguas</option>
-                            <option>Bayamon</option>
-                            <option selected>Guaynabo</option>
-                            <option>Río Piedras</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option selected>No</option>
-                            <option>Yes</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>Elena</td>
-                    <td>Hernández</td>
-                    <td>eh@autoairgroup.net</td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option>Caguas</option>
-                            <option>Bayamon</option>
-                            <option>Guaynabo</option>
-                            <option selected>Río Piedras</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="inputState" class="form-control">
-                            <option selected>No</option>
-                            <option>Yes</option>
-                        </select>
-                    </td>
-                </tr>
+                {% for item in staff %}
+                    <tr>
+                        <th scope="row">{{ item['eid'] }}</th>
+                        <td>{{ item['staff_fname'] }} {{ item['staff_lname'] }}</td>
+                        <td>{{ item['staff_email'] }}</td>
+                        <td>{{ item['staff_store'] }}</td>
+                        {% if item['admin'] %}
+                            <td>Si</td>
+                        {% else %}
+                            <td>No</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
             <div class="mt-2">
-                <button class="btn btn-primary">Update Employee Roles</button>
+                <button class="btn btn-primary">Actualizar Roles de Empleados</button>
             </div>
         </div>
     </div>
