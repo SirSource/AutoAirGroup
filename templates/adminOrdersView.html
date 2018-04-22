@@ -1,0 +1,89 @@
+{% extends "adminlayout.html" %}
+{% block title %}Orden: {{ oid }}{% endblock %}
+{% block main %}
+    <!--Featured Section-->
+    <div class="row mt-3 mb-3">
+        <h3 class="font-weight-bold">
+            Orden: <a href="{{ url_for('adminOrders') }}">{{ oid }}</a>
+        </h3>
+    </div>
+    {% if order == None %}
+        <div class="row mt-3 bg-white p-4 aag-shadow">
+            <div class="col-md">
+                <h5 class="aag-border-bottom">Error:</h5>
+                La orden <a href="{{ url_for('adminOrders') }}">{{ oid }}</a> no existe o fue borrada!
+            </div>
+        </div>
+    {% else %}
+        <!--Dashboard Main Info Box-->
+        <div class="row mt-3 bg-white p-4 aag-shadow">
+            <div class="col-md-4">
+                <h5 class="aag-border-bottom">Información del Cliente</h5>
+                <strong>Nombre:</strong>
+                <div class="ml-3 p-3">
+                    {{ order['ufirst'] }} {{ order['ulast'] }}
+                </div>
+                <strong>Correo Electrónico:</strong>
+                <div class="ml-3 p-3">
+                    {{ order['uemail'] }}<br>
+                </div>
+                <strong>Teléfono:</strong>
+                <div class="ml-3 p-3">
+                    {{ order['uphone'] }}<br>
+                </div>
+                <strong>Dirección:</strong>
+                <div class="ml-3 p-3">
+                    {{ order['place'] }}<br>
+                    {{ order['street'] }}<br>
+                    {{ order['city'] }}, Puerto Rico {{ order['zipcode'] }}
+                </div>
+            </div>
+            <div class="col-md">
+                <h5 class="aag-border-bottom">Productos Ordenados ({{ order['date'] }})</h5>
+                <table class="table table-responsive-md table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio (unidad)</th>
+                        <th scope="col">Costo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in order['products'] %}
+                        <tr>
+                            <th scope="row">{{ item['pid'] }}</th>
+                            <td>{{ item['pname'] }}</td>
+                            <td>{{ item['qty'] }}</td>
+                            <td>${{ item['unit_price'] }}</td>
+                            <td>${{ item['unit_total'] }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Total:</th>
+                        <th>${{ order['total'] }}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>IVU:</th>
+                        <th>${{ order['total']*order['ivu'] }}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Gran Total:</th>
+                        <th>${{ order['total'] + order['total']*order['ivu']}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

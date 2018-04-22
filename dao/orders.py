@@ -13,11 +13,8 @@ class OrdersDao:
         return allOrders
 
     def getOrdersByOrderID(self, iod):
-        allOrders = []
-        orders = self.db
-        for doc in orders.find({"orderid": iod}):
-            allOrders.append(doc)
-        return allOrders
+        order = self.db.find_one({"orderid": iod})
+        return order
 
     def getOrdersByEmail(self, email):
         allOrders = []

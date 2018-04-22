@@ -43,12 +43,11 @@ class UsersDao:
         user = self.db.find_one({"user_phone": phone})
         return user
 
-    def insertUser(self, name, last, user, usertype, email, password, phone, city, place, street, zip):
+    def insertUser(self, name, last, usertype, email, password, phone, city, place, street, zip):
         """
         Insert a new user into the database.
         :param name: First name
         :param last: Last name
-        :param user: Username
         :param usertype: Type of user
         :param email: Email for user
         :param password: Password for user
@@ -70,7 +69,6 @@ class UsersDao:
         newUser = {
             "user_fname": name,
             "user_lname:": last,
-            "username:": user,
             "usertype:": usertype,
             "user_email": email,
             "user_password": password,
@@ -79,7 +77,7 @@ class UsersDao:
         }
         return self.db.insert_one(newUser).inserted_id
 
-    def updateUserAddress(self, username, city, place, street, zip):
+    def updateUserAddress(self, email, city, place, street, zip):
         # TODO: implement
         # Must be able to change the address of the user
         # who's username is provided as a parameter
@@ -100,14 +98,14 @@ class UsersDao:
         # Document the function
         return None
 
-    def updateUserEmail(self, username, email):
+    def updateUserEmail(self, email, newEmail):
         # TODO: implement
         # Update the email of the user who's
         # username is provided
         # Document the function
         return None
 
-    def updateUserPassword(self, username, password):
+    def updateUserPassword(self, email, password):
         # TODO: implement
         # Update the password of the user who's
         # username is provided

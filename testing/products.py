@@ -1,15 +1,16 @@
-from handler.products import ProductsHandler as p
-test = ["BMW","M3"]
-test1=["Honda","Civic"]
-dictionary = p().searchProductsByCar(test)
-for row in dictionary:
-    print(row)
-# dictionary = p().searchProductsByCar(test1)
-# print(dictionary)
+# from handler.orders import OrdersHandler as o
+#
+# orders = o().getAllOrders()
+# current = orders[0]
+#
+# productos = current['products']
+# cantidad = current['qty']
+# del current['products']
+# del current['qty']
+#
+# print(orders)
+# print(cantidad)
+# print(productos)
 
-
-from handler.tax import TaxHandler as t
-
-# tax = t().getTax()
-# fee = tax['fee']
-# print(fee)
+from dao.orders import OrdersDao as od
+print(od().getOrdersByOrderID(6))
