@@ -68,8 +68,8 @@ class UsersDao:
         #New user dictionary
         newUser = {
             "user_fname": name,
-            "user_lname:": last,
-            "usertype:": usertype,
+            "user_lname": last,
+            "usertype": usertype,
             "user_email": email,
             "user_password": password,
             "user_address": address,
@@ -77,40 +77,22 @@ class UsersDao:
         }
         return self.db.insert_one(newUser).inserted_id
 
-    def updateUserAddress(self, email, city, place, street, zip):
+    def updateUserAddress(self, email, address):
         # TODO: implement
         # Must be able to change the address of the user
         # who's username is provided as a parameter
         # return user ID
         # Document the function
-        address = {
-            "city": city,
-            "place": place,
-            "street": street,
-            "zipcode": zip
-        }
-        return None
+        return self.db.update({'user_email': email}, {'$set': {'user_address': address}})
 
-    def updateUserPhone(self, username, phone):
-        # TODO: implement
-        # Update the phone number of the user who's
-        # username is provided
-        # Document the function
-        return None
+    def updateUserPhone(self, email, phone):
+        return self.db.update({'user_email': email}, {'$set': {'user_phone': phone}})
 
     def updateUserEmail(self, email, newEmail):
-        # TODO: implement
-        # Update the email of the user who's
-        # username is provided
-        # Document the function
-        return None
+        return self.db.update({'user_email': email}, {'$set': {'user_email': newEmail}})
 
     def updateUserPassword(self, email, password):
-        # TODO: implement
-        # Update the password of the user who's
-        # username is provided
-        # Document the function
-        return None
+        return self.db.update({'user_email': email}, {'$set': {'user_password': password}})
 
     def deleteUserByEmail(self, email):
         """
