@@ -83,10 +83,10 @@ class UserHandler:
         else:
             return False
 
-    def updateUserPassword(self, email, password):
-        if self.validPassword(password):
-            if self.userExists(email):
-                UsersDao().updateUserPassword(email, password)
+    def updateUserPassword(self, email, password, newPassword):
+        if self.validPassword(newPassword) and self.userExists(email):
+            if self.userAuthenticate(email, password):
+                UsersDao().updateUserPassword(email, newPassword)
                 return True
             else:
                 return False

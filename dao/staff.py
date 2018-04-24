@@ -28,6 +28,10 @@ class StaffDao:
         staff = self.db.find_one({"staff_email": email})
         return staff
 
+    def getStaffPass(self, eid):
+        staff = self.getStaffByEid(eid)
+        return staff['user_password']
+
     def insertStaff(self, name, last, eid, isAdmin, email, password, store):
         newStaff = {
             "staff_fname": name,
@@ -46,13 +50,13 @@ class StaffDao:
     def updateStaffStore(self, eid, store):
         return self.db.update({'eid': eid}, {'$set': {'staff_store': store}})
 
-    def updateUserEmail(self, eid, email):
+    def updateStaffEmail(self, eid, email):
         return self.db.update({'eid': eid}, {'$set': {'staff_email': email}})
 
-    def updateUserPassword(self, eid, password):
-        return self.db.update({'eid': eid}, {'$set': {'staff_password': password}})
+    def updateStaffPassword(self, eid, newPassword):
+        return self.db.update({'eid': eid}, {'$set': {'staff_password': newPassword}})
 
-    def deleteUserByEmail(self, email):
+    def deleteStaffByEmail(self, email):
         return self.db.delete_many({"staff_email": email})
 
     def deleteStaffbyEid(self, eid):

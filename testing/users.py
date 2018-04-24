@@ -152,7 +152,7 @@ class UserTester:
         else:
             print(
                 'The password must be at least: 6 characters long, have 1 uppercase, 1 lowercase, and one special character ($, @, #)')
-    u().updateUserPassword(email, password)
+    u().updateUserPassword(email, oldPassword, password)
     user = u().getUserByEmail(email)
     printSingleUser(user)
 
