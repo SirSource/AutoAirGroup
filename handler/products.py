@@ -23,6 +23,11 @@ class ProductsHandler:
     # =========================================================#
 
     def getAllProducts(self):
+        """
+        Returns all the products available in the database
+        :return:
+        TESTED: YES: WORKS
+        """
         dao = ProductsDao()
         list = dao.getAllProducts()
         result_list = []
@@ -33,57 +38,74 @@ class ProductsHandler:
 
     # Returns the ID of the product by entering the name of the product
     # author: Luis Perez
+    #TESTED: YES; IT WORKS
     def getProductIDbyName(self, pname):
         dao = ProductsDao()
         list = dao.getProductIDbyName(pname)
         result_list = []
         for row in list:
-            result = self.product_id_dictionary(row)
+            result_list.append(row)
+        return result_list
+
+
+    def getProductInfoByProductName(self,pname):
+        """
+        Returns Information of product by searching its product name
+        :param pname:
+        :return:
+        TESTED: YES: IT WORKS
+        """
+        dao = ProductsDao()
+        list = dao.getProductByName(pname)
+        result_list = []
+        for row in list:
+            result = self.products_dictionary(row)
             result_list.append(result)
         return result_list
 
+
     # returns all the car make available in the db
     # author: Luis Perez
+    # TESTED: YES WORKS
     def getAllCarMake(self):
         dao = ProductsDao()
         list = dao.getCarMake()
         result_list = []
         for row in list:
-            result = self.product_carInfo_dictionary(row)
-            result_list.append(result)
+            result_list.append(row)
         return result_list
 
     # returns all the car model available in the db
     # author: Luis Perez
+    # TESTED: YES WORKS
     def getAllCarModel(self):
         dao = ProductsDao()
         list = dao.getCarModel()
         result_list = []
         for row in list:
-            result = self.product_carInfo_dictionary(row)
-            result_list.append(result)
+            result_list.append(row)
         return result_list
 
     # returns all the car year available in the db
     # author: Luis Perez
+    # TESTED: YES WORKS
     def getAllCarYear(self):
         dao = ProductsDao()
         list = dao.getCarYear()
         result_list = []
         for row in list:
-            result = self.product_carInfo_dictionary(row)
-            result_list.append(result)
+            result_list.append(row)
         return result_list
 
     # returns all the car motor available in the db
     # author: Luis Perez
+    #TESTED: YES WORKS
     def getAllCarMotor(self):
         dao = ProductsDao()
         list = dao.getCarMotor()
         result_list = []
         for row in list:
-            result = self.product_carInfo_dictionary(row)
-            result_list.append(result)
+            result_list.append(row)
         return result_list
 
     # Returns product info by car make, car model, car year, car motor
@@ -108,7 +130,6 @@ class ProductsHandler:
             cmake = args[0]
             cmodel = args[1]
             cyear = args[2]
-            print(cmake+" "+cmodel+" "+cyear)
             plist = dao.getProductByMakeModelYear(cmake,cmodel,cyear)
             result_list = []
             for row in plist:
@@ -136,6 +157,178 @@ class ProductsHandler:
                 result = self.products_dictionary(row)
                 result_list.append(result)
             return result_list
+
+    def getQuantityByIDAndLocation(self,pid,plocation):
+        """
+        Returns the quantity of the product by its id and location
+        author: Luis Perez
+        TESTED: YES WORKS
+        :param pid:
+        :param plocation:
+        :return:
+        """
+        dao = ProductsDao()
+
+        return dao.getQtyByIDandLocation(pid,plocation)
+
+
+    def getInfoForCheckout(self,pid):
+        """
+
+        :param pid:
+        :return:
+        TESTED: NO
+        """
+        dao = ProductsDao()
+        checkoutList = dao.getInfoForCheckout(pid)
+        result_list = []
+        for row in checkoutList:
+            result = self.products_dictionary(row)
+            result_list.append(result)
+        return result_list
+
+
+    def addProduct(self,image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty):
+        """
+         Inserts a new product to the database
+         author: Luis Perez
+         TESTED: NO
+          :param image: image of the product if any
+          :param cmake: car make
+          :param cmodel: car model
+          :param cyear: car year
+          :param cmotor: car motor
+          :param pid: product id
+          :param pcategory: product category
+          :param pname: product name
+          :param pdetails:  information about the product if any
+          :param plocation: in what store of AutoAirGroup is located
+          :param pprice: price of the product
+          :param pbrand: brand of the product
+          :param qty: quantity of the product in that specific location
+
+         """
+
+        dao = ProductsDao()
+
+        if dao.productExistByMany(cmake,cmodel,cyear,cmotor,pid,plocation):
+            return False
+        else:
+            dao.insertProduct(image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty)
+            return True
+
+
+    def updateProductQtyByLocation(self, pid, plocation, qty):
+        """
+
+        :param pid:
+        :param plocation:
+        :param qty:
+        :return:
+        TESTED: NO
+        """
+        dao = ProductsDao()
+        p = dao.productExistByIDAndLocation(pid,plocation)
+        try:
+            if p['pid'] == pid:
+                try:
+                    pass
+                except:
+                    pass
+        except:
+            pass
+
+    def updateProductQtyInEveryLocation(self,pid,qty):
+        """
+
+        :param pid:
+        :param qty:
+        :return:
+        TESTED: NO
+        """
+        dao = ProductsDao()
+        p = dao.productExistByID(pid)
+        try:
+            if p['pid'] == pid:
+                try:
+                    pass
+                except:
+                    pass
+        except:
+            pass
+
+    def updateProductImage(self,pid):
+        """
+
+        :param pid:
+        :return:
+        TESTED: NO
+        """
+        dao = ProductsDao()
+        p = dao.productExistByID(pid)
+        try:
+            if p['pid'] == pid:
+                try:
+                    pass
+                except:
+                    pass
+        except:
+            pass
+
+    def updateAllProductAttributes(self,image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty):
+        pass
+
+    def deleteProductByID(self,pid):
+        """
+        Deletes the product by its id. First it verifies that it exist
+
+        :param pid:
+        :return:
+        TESTED: YES
+        """
+        dao = ProductsDao()
+        p = dao.productExistByID(pid)
+        try:
+            if p['pid'] == pid:
+                try:
+                    dao.deleteProductByID(pid)
+                    return True
+                except:
+                    return False
+
+
+        except:
+            return False
+
+    def deleteProductByIDAndLocation(self,pid,plocation):
+        """
+
+        :param pid:
+        :param plocation:
+        :return:
+        TESTED: YES
+        """
+
+        dao = ProductsDao()
+        p =  dao.productExistByIDAndLocation(pid,plocation)
+        try:
+            if p['pid'] == pid and p['plocation']==plocation:
+
+                try:
+                    dao.deleteProductByIDAndLocation(pid,plocation)
+                    return True
+                except:
+                    return False
+        except:
+            return False
+
+
+
+
+
+
+
+
 
 
 
