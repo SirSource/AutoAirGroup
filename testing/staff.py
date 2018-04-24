@@ -35,29 +35,20 @@ class StaffTester:
     while (control):
         admin = input("Admin (y/n):")
         if admin == 'y' or admin == 'Y':
-            admin = True
+            admin = "True"
             control = False
         elif admin == 'n' or admin == 'N':
-            admin = False
+            admin = "False"
             control = False
         else:
             print('Only \'y\' (yes) or \'n\' (no)...')
-    password = None
-    control = True
-    # Verify password #
-    while (control):
-        password = input('Password:')
-        if s().validPassword(password):
-            control = False
-        else:
-            print(
-                'The password must be at least: 6 characters long, have 1 uppercase, 1 lowercase, and one special character ($, @, #)')
     staff = {
-        'staff_fname': first,
-        'staff_lname': last,
-        'staff_email': email,
-        'staff_store': store,
-        'staff_password': password
+        'first_name': first,
+        'last_name': last,
+        'eid': eid,
+        'email': email,
+        'store': store,
+        'admin':admin
     }
     s().insertStaff(staff)
     print(

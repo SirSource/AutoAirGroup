@@ -30,7 +30,7 @@ class StaffDao:
 
     def getStaffPass(self, eid):
         staff = self.getStaffByEid(eid)
-        return staff['user_password']
+        return staff['staff_password']
 
     def insertStaff(self, name, last, eid, isAdmin, email, password, store):
         newStaff = {

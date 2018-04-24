@@ -1,5 +1,7 @@
 from dao.staff import StaffDao
 from validate_email import validate_email
+import string
+from random import *
 
 
 class StaffHandler:
@@ -57,7 +59,7 @@ class StaffHandler:
             return False
 
     def updateStaffPassword(self, eid, password, newPassword):
-        if self.validPassword(newPassword) and self.staffExists():
+        if self.validPassword(newPassword) and self.staffExists(eid):
             if self.staffAuthenticate(eid, password):
                 StaffDao().updateStaffPassword(eid, newPassword)
                 return True
@@ -73,12 +75,13 @@ class StaffHandler:
         email = form['email']
         store = form['store']
         admin = self.stringToBool(form['admin'])
+        password = self.generatePassword()
         if fname == '' or lname == '' or eid == '' or email == '' or store == '' or admin == '':
             return False
-        elif self.staffExists(eid, email):
+        elif self.staffExists(eid):
             return False
         else:
-            StaffDao().insertStaff(fname, lname, eid, admin, email, "temporary", store)
+            StaffDao().insertStaff(fname, lname, eid, admin, email, password, store)
             return True
 
     def deleteStaff(self, eid):
@@ -138,4 +141,11 @@ class StaffHandler:
             return True
         else:
             return False
+
+    def generatePassword(self):
+        minlength = 8
+        maxlength = 12
+        chars = string.ascii_letters + string.punctuation + string.digits
+        password = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
+        return password
 # TODO add handler for other functions (getUserByUsername, getUserByEmail, etc.)
