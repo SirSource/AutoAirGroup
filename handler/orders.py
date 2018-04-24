@@ -1,5 +1,6 @@
 from dao.orders import OrdersDao
 
+
 class OrdersHandler:
 
     def order_dictionary(self, row):
@@ -19,32 +20,46 @@ class OrdersHandler:
         return result_list
 
     def getOrdersByOrderID(self, oid):
-        dao = OrdersDao()
-        item = dao.getOrdersByOrderID(oid)
-        if item == None:
+        if self.orderExists(oid):
+            dao = OrdersDao()
+            item = dao.getOrdersByOrderID(oid)
+            return self.order_dictionary(item)
+        else:
             return None
-        return self.order_dictionary(item)
 
     def getOrdersByEmail(self, email):
-        dao = OrdersDao()
-        item = dao.getOrdersByEmail(email)
-        if item == None:
+        if self.emailOrderExists(email):
+            dao = OrdersDao()
+            item = dao.getOrdersByEmail(email)
+            result_list = []
+            for row in item:
+                result = self.order_dictionary(row)
+                result_list.append(result)
+            return result_list
+        else:
             return None
-        return self.order_dictionary(item)
 
     def getOrdersByStatus(self, status):
         dao = OrdersDao()
         item = dao.getOrdersByStatus(status)
         if item == None:
-            return None
-        return self.order_dictionary(item)
+            return False
+        result_list = []
+        for row in item:
+            result = self.order_dictionary(row)
+            result_list.append(result)
+        return result_list
 
     def getOrdersShipped(self):
         dao = OrdersDao()
         item = dao.getOrdersShipped()
         if item == None:
-            return None
-        return self.order_dictionary(item)
+            return False
+        result_list = []
+        for row in item:
+            result = self.order_dictionary(row)
+            result_list.append(result)
+        return result_list
 
     def deleteOrderById(self, oid):
         if self.orderExists(oid):
@@ -60,7 +75,7 @@ class OrdersHandler:
         else:
             return False
 
-    #---Auxiliary Methods---#
+    # ---Auxiliary Methods---#
 
     def orderExists(self, oid):
         order = OrdersDao().getOrdersByOrderID(oid)

@@ -1,5 +1,6 @@
 from config.dbconfig import client
 
+
 class OrdersDao:
 
     def __init__(self):
@@ -17,24 +18,33 @@ class OrdersDao:
         return order
 
     def getOrdersByEmail(self, email):
-        allOrders = []
+        allOrders = None
+        tempList = []
         orders = self.db
         for doc in orders.find({"uemail": email}):
-            allOrders.append(doc)
+            tempList.append(doc)
+        if len(tempList) > 0:
+            allOrders = tempList
         return allOrders
 
     def getOrdersByStatus(self, status):
-        allOrders = []
+        allOrders = None
+        tempList = []
         orders = self.db
         for doc in orders.find({"payment_status": status}):
-            allOrders.append(doc)
+            tempList.append(doc)
+        if len(tempList) > 0:
+            allOrders = tempList
         return allOrders
 
     def getOrdersShipped(self):
-        allOrders = []
+        allOrders = None
+        tempList = []
         orders = self.db
         for doc in orders.find({"shipping": "shipped"}):
-            allOrders.append(doc)
+            tempList.append(doc)
+        if len(tempList) > 0:
+            allOrders = tempList
         return allOrders
 
     def deleteOrderById(self, oID):
@@ -43,4 +53,4 @@ class OrdersDao:
     def deleteOrderByUserEmail(self, email):
         return self.db.delete_many({"uemail": email})
 
-    #TODO: Add more functions for getters, inserts, and deletes
+    # TODO: Add more functions for getters, inserts, and deletes
