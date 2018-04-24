@@ -94,6 +94,10 @@ class UsersDao:
     def updateUserPassword(self, email, password):
         return self.db.update({'user_email': email}, {'$set': {'user_password': password}})
 
+    def getUserPass(self, email):
+        user = self.getUserByEmail(email)
+        return user['user_password']
+
     def deleteUserByEmail(self, email):
         """
         Delete a user by the provided email

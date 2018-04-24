@@ -59,7 +59,7 @@ class UserHandler:
                 "street": street,
                 "zipcode": zip
             }
-            UsersDao().updateUserAddress(address)
+            UsersDao().updateUserAddress(email, address)
         else:
             return False
 
@@ -74,7 +74,7 @@ class UserHandler:
             return False
 
     def updateUserEmail(self, email, newEmail):
-        if self.validEmail():
+        if self.validEmail(newEmail):
             if self.userExists(email):
                 UsersDao().updateUserEmail(email, newEmail)
                 return True
@@ -106,6 +106,14 @@ class UserHandler:
             return True
         else:
             return False
+
+    def userAuthenticate(self, email, password):
+        systemPass = UsersDao().getUserPass(email)
+        if systemPass == password:
+            return True
+        else:
+            return False
+
 
     # TODO add handler for other functions (getUserByUsername, getUserByEmail, etc.)
 
