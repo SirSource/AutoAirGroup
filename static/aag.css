@@ -18,6 +18,9 @@ body {
     border-width: 2px;
     border-color: #eeeeee;
 }
+.aag-bg-dark{
+    background-color: #343a40;
+}
 .aag-bg-blue1{
     background-color: #00a8e8;
 }
