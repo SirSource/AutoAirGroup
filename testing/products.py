@@ -127,7 +127,7 @@ for motor in carMotor:
 #                                           GET QUANTITY BY PRODUCT ID AND LOCATION
 ########################################################################################################################
 
-print('\n=====================================\nQUANTITY OF PRODUCT in the database\n=======================================\n')
+print('\n=====================================\nQUANTITY OF PRODUCT in the database\n=====================================\n')
 
 pid = '234DDDA'
 plocation = 'Guaynabo'
@@ -137,5 +137,55 @@ print("Product quantity of " + pid + " in "+ plocation + ": "+str(quantity['qty'
 
 ########################################################################################################################
 
+
+
+########################################################################################################################
+#                                           SEARCH PRODUCT BY CAR
+########################################################################################################################
+
+print('\n=====================================\nPRODUCT BY CAR in the database\n=====================================\n')
+
+pid = '234DDDA'
+
+cmake = 'VW'
+cmodel = 'Vanagon'
+cyear = 1986
+cmotor = 'VW1986'
+car =[cmake,cmodel,cyear,cmotor]
+
+products = p().searchProductsByCar(car)
+i =1
+for doc in products:
+    printProducts(doc,i)
+    i=i+1
+
+
+#Using only cmake cmodel, and cyear
+print("\nSEARCH PRODUCT BY CAR MAKE, CAR MODEL, AND CAR YEAR\n")
+cmake = 'BMW'
+cmodel = 'M3'
+cyear = 2018
+car =[cmake,cmodel,cyear]
+
+products = p().searchProductsByCar(car)
+i =1
+for doc in products:
+    printProducts(doc,i)
+    i=i+1
+
+#Using only cmake cmodel
+print("\nSEARCH PRODUCT BY CAR MAKE, CAR MODEL\n")
+cmake = 'Hyundai'
+cmodel = 'Tucson'
+car =[cmake,cmodel]
+
+products = p().searchProductsByCar(car)
+i =1
+for doc in products:
+    printProducts(doc,i)
+    i=i+1
+
+
+########################################################################################################################
 
 
