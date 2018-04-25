@@ -126,7 +126,7 @@ class UserHandler:
             return True
 
     def validPhone(self, phone):
-        if not phone.isdigit() or len(phone) < 10:
+        if not phone.isdigit() or len(phone) < 10 or len(phone) > 10:
             return False
         else:
             return True
