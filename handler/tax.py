@@ -1,26 +1,19 @@
 from dao.tax import TaxDao
+from utilities.valid import Valid as v
+
 
 class TaxHandler:
 
     def getTax(self):
         dao = TaxDao()
-        list = dao.getTax()
+        list = dao.getTaxs()
         fee = list['fee']
         return fee
 
     def setTax(self, form):
         tax = form[0]
         dao = TaxDao()
-        if not self.isFloat(tax):
+        if not v().isFloat(tax):
             return False
-        tax = float(tax)/100
+        tax = float(tax) / 100
         return dao.setTax(tax)
-
-    #---Validations---#
-
-    def isFloat(self, value):
-        try:
-            float(value)
-            return True
-        except ValueError:
-            return False

@@ -36,3 +36,10 @@ class Valid:
             return True
         else:
             return False
+
+    def isFloat(self, value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
