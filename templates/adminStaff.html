@@ -11,16 +11,15 @@
     <div class="row mt-3 bg-white p-4 aag-shadow">
         <div class="col-md">
             <h5 class="aag-border-bottom">Añadir Empleado</h5>
-            {% if addSuccess == 'fail' %}
+            {% if addSuccess == 'invalid_form' %}
                 <div class="col alert-danger pt-3 pb-3">
-                    <span><strong>Error:</strong> Hay campos vacios u ocurrió uno de los siguientes errores:</span>
-                    <ul>
-                        <li>EID ya existe en el sistema.</li>
-                        <li>Email ya existe en el sistema.</li>
-                    </ul>
+                    <span><strong>Error:</strong> No pueden haber campos vacíos.</span>
                 </div>
-            {% endif %}
-            {% if addSuccess == 'pass' %}
+            {% elif addSuccess == 'staff_exists' %}
+                <div class="col alert-danger pt-3 pb-3">
+                    <span><strong>Error:</strong> Ya hay un empleado con ese ID.</span>
+                </div>
+            {% elif addSuccess == 'staff_created' %}
                 <div class="col alert-primary pt-3 pb-3">
                     <h5>Se añadió un nuevo empleado al sistema.</h5>
                 </div>

@@ -20,53 +20,65 @@ class StaffHandler:
         return result_list
 
     def getStaffByEid(self, eid):
+        if eid == '':
+            return False, 'invalid_eid'
         dao = StaffDao()
         staff = dao.getStaffByEid(eid)
         if staff == None:
-            return False
+            return False, 'no_staff'
         else:
-            return staff
+            return staff, 'staff_exists'
 
     def getStaffByEmail(self, email):
+        if email == '':
+            return False, 'invalid_email'
         dao = StaffDao()
         staff = dao.getStaffByEmail(email)
         if staff == None:
-            return False
+            return False, 'no_staff'
         else:
-            return staff
+            return staff, 'staff_exists'
 
     def updateStaffAsAdmin(self, eid, admin):
+        if eid == '' or admin == '':
+            return False, 'invalid_form'
         if self.staffExists(eid):
             dao = StaffDao()
             dao.updateStaffAsAdmin(eid, admin)
-            return True
+            return True, 'updated_admin'
         else:
-            return False
+            return False, 'no_staff'
 
     def updateStaffStore(self, eid, store):
+        if eid == '' or store == '':
+            return False, 'invalid_form'
         if self.staffExists(eid):
             dao = StaffDao()
             dao.updateStaffStore(eid, store)
-            return True
+            return True, 'updated_store'
         else:
-            return False
+            return False, 'no_staff'
 
     def updateStaffEmail(self, eid, email):
+        if eid == '' or email == '':
+            return False, 'invalid_form'
         if self.staffExists(eid) and v().validEmail(email):
             StaffDao().updateStaffEmail(eid, email)
-            return True
+            return True, 'updated_email'
         else:
-            return False
+            return False, 'no_staff'
 
     def updateStaffPassword(self, eid, password, newPassword):
+        if password == '' or newPassword == '':
+            return False, 'invalid_form'
         if v().validPassword(newPassword) and self.staffExists(eid):
             if self.staffAuthenticate(eid, password):
                 StaffDao().updateStaffPassword(eid, newPassword)
-                return True
+                return True, 'updated_password'
             else:
-                return False
+                return False, 'invalid_password'
         else:
-            return False
+            return False, 'invalid_password'
 
     def insertStaff(self, form):
         fname = form['first_name']
@@ -77,19 +89,19 @@ class StaffHandler:
         admin = v().stringToBool(form['admin'])
         password = self.generatePassword()
         if fname == '' or lname == '' or eid == '' or email == '' or store == '' or admin == '':
-            return False
+            return False, 'invalid_form'
         elif self.staffExists(eid):
-            return False
+            return False, 'staff_exists'
         else:
             StaffDao().insertStaff(fname, lname, eid, admin, email, password, store)
-            return True
+            return True, 'staff_created'
 
     def deleteStaff(self, eid):
         if self.staffExists(eid):
             StaffDao().deleteStaffbyEid(eid)
-            return True
+            return True, 'staff_deleted'
         else:
-            return False
+            return False, 'delete_error'
 
     # --Auxilliary Functions-- #
 

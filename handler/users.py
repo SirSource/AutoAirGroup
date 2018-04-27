@@ -75,7 +75,7 @@ class UserHandler:
 
     def updateUserAddress(self, email, city, address1, address2, zip):
         if email == '' or city == '' or address1 == '' or address2 == '' or zip == '':
-            return False, 'invalid_address'
+            return False, 'invalid_form'
         if self.userExists(email):
             address = {
                 "city": city,
@@ -89,7 +89,7 @@ class UserHandler:
 
     def updateUserPhone(self, email, phone):
         if email == '' or phone == '':
-            return False, 'invalid_phone'
+            return False, 'invalid_form'
         if v().validPhone(phone):
             if self.userExists(email):
                 UsersDao().updateUserPhone(phone)
@@ -101,7 +101,7 @@ class UserHandler:
 
     def updateUserEmail(self, email, newEmail):
         if email == '' or newEmail == '':
-            return False, 'invalid_email'
+            return False, 'invalid_form'
         if v().validEmail(newEmail):
             if self.userExists(email):
                 UsersDao().updateUserEmail(email, newEmail)
@@ -114,7 +114,7 @@ class UserHandler:
 
     def updateUserPassword(self, email, password, newPassword):
         if email == '' or password == '' or newPassword == '':
-            return False, 'invalid_password'
+            return False, 'invalid_form'
         if v().validPassword(newPassword) and self.userExists(email):
             if self.userAuthenticate(email, password):
                 UsersDao().updateUserPassword(email, newPassword)

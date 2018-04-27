@@ -80,11 +80,11 @@ def adminStaff():
     if request.method == 'POST':
         method = request.form['_method']
         if method == 'ADD':
-            addSuccess = s().insertStaff(request.form)
-            if addSuccess:
-                return render_template('adminStaff.html', addSuccess='pass', staff=staff)
+            operation = s().insertStaff(request.form)
+            if operation[0]:
+                return render_template('adminStaff.html', addSuccess=operation[1], staff=staff)
             else:
-                return render_template('adminStaff.html', addSuccess='fail', staff=staff)
+                return render_template('adminStaff.html', addSuccess=operation[1], staff=staff)
         if method == 'SEARCH':
             None
         if method == 'DELETE':
