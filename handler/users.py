@@ -1,5 +1,5 @@
 from dao.users import UsersDao
-from validate_email import validate_email
+from utilities.valid import Valid as v
 
 
 class UserHandler:
@@ -64,7 +64,7 @@ class UserHandler:
             return False
 
     def updateUserPhone(self, email, phone):
-        if self.validPhone(phone):
+        if v().validPhone(phone):
             if self.userExists(email):
                 UsersDao().updateUserPhone(phone)
                 return True
@@ -74,7 +74,7 @@ class UserHandler:
             return False
 
     def updateUserEmail(self, email, newEmail):
-        if self.validEmail(newEmail):
+        if v().validEmail(newEmail):
             if self.userExists(email):
                 UsersDao().updateUserEmail(email, newEmail)
                 return True
@@ -84,7 +84,7 @@ class UserHandler:
             return False
 
     def updateUserPassword(self, email, password, newPassword):
-        if self.validPassword(newPassword) and self.userExists(email):
+        if v().validPassword(newPassword) and self.userExists(email):
             if self.userAuthenticate(email, password):
                 UsersDao().updateUserPassword(email, newPassword)
                 return True
@@ -125,31 +125,31 @@ class UserHandler:
         else:
             return True
 
-    def validPhone(self, phone):
-        if not phone.isdigit() or len(phone) < 10 or len(phone) > 10:
-            return False
-        else:
-            return True
-
-    def validEmail(self, email):
-        is_valid = validate_email(email)
-        if is_valid:
-            return True
-        else:
-            return False
-
-    def validPassword(self, password):
-        symbol = ['$', '@', '#']
-        if len(password) < 6:
-            return False
-        if len(password) > 15:
-            return False
-        if not any(char.isdigit() for char in password):
-            return False
-        if not any(char.isupper() for char in password):
-            return False
-        if not any(char.islower() for char in password):
-            return False
-        if not any(char in symbol for char in password):
-            return False
-        return True
+    # def validPhone(self, phone):
+    #     if not phone.isdigit() or len(phone) < 10 or len(phone) > 10:
+    #         return False
+    #     else:
+    #         return True
+    #
+    # def validEmail(self, email):
+    #     is_valid = validate_email(email)
+    #     if is_valid:
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def validPassword(self, password):
+    #     symbol = ['$', '@', '#']
+    #     if len(password) < 6:
+    #         return False
+    #     if len(password) > 15:
+    #         return False
+    #     if not any(char.isdigit() for char in password):
+    #         return False
+    #     if not any(char.isupper() for char in password):
+    #         return False
+    #     if not any(char.islower() for char in password):
+    #         return False
+    #     if not any(char in symbol for char in password):
+    #         return False
+    #     return True

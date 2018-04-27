@@ -78,11 +78,6 @@ class UsersDao:
         return self.db.insert_one(newUser).inserted_id
 
     def updateUserAddress(self, email, address):
-        # TODO: implement
-        # Must be able to change the address of the user
-        # who's username is provided as a parameter
-        # return user ID
-        # Document the function
         return self.db.update({'user_email': email}, {'$set': {'user_address': address}})
 
     def updateUserPhone(self, email, phone):

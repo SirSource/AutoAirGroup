@@ -1,4 +1,5 @@
 from handler.users import UserHandler as u
+from utilities.valid import Valid as v
 
 
 class UserTester:
@@ -32,11 +33,11 @@ class UserTester:
     # Validate email address #
     while (control):
         email = input('Email:')
-        if not u().validEmail(email):
+        if not v().validEmail(email):
             print('Invalid email address!')
-        if u().validEmail(email) and u().userExists(email):
+        if v().validEmail(email) and u().userExists(email):
             print('The email is valid, but a user already exists!')
-        elif u().validEmail(email) and not u().userExists(email):
+        elif v().validEmail(email) and not u().userExists(email):
             control = False
     # Collect details #
     first = input("First Name:")
@@ -45,7 +46,7 @@ class UserTester:
     control = True
     while (control):
         phone = input("Phone:")
-        if u().validPhone(phone):
+        if v().validPhone(phone):
             control = False
         else:
             print('The phone number is not valid!')
@@ -58,7 +59,7 @@ class UserTester:
     # Verify password #
     while (control):
         password = input('Password:')
-        if u().validPassword(password):
+        if v().validPassword(password):
             control = False
         else:
             print(
@@ -80,11 +81,11 @@ class UserTester:
     # Validate email address #
     while (control):
         email = input('Email:')
-        if not u().validEmail(email):
+        if not v().validEmail(email):
             print('Invalid email address!')
-        if u().validEmail(email) and not u().userExists(email):
+        if v().validEmail(email) and not u().userExists(email):
             print('The email is valid, but the user does not exist!')
-        elif u().validEmail(email) and u().userExists(email):
+        elif v().validEmail(email) and u().userExists(email):
             control = False
     address1 = input('Address Line 1:')
     address2 = input('Address Line 2:')
@@ -100,22 +101,22 @@ class UserTester:
     # Validate email address #
     while (control):
         email = input('Email:')
-        if not u().validEmail(email):
+        if not v().validEmail(email):
             print('Invalid email address!')
-        if u().validEmail(email) and not u().userExists(email):
+        if v().validEmail(email) and not u().userExists(email):
             print('The email is valid, but the user does not exist!')
-        elif u().validEmail(email) and u().userExists(email):
+        elif v().validEmail(email) and u().userExists(email):
             control = False
     control = True
     newEmail = None
     # Validate email address #
     while (control):
         newEmail = input('New Email:')
-        if not u().validEmail(email):
+        if not v().validEmail(email):
             print('Invalid email address!')
-        if u().validEmail(newEmail) and u().userExists(newEmail):
+        if v().validEmail(newEmail) and u().userExists(newEmail):
             print('The email is valid, but another user has that email!')
-        elif u().validEmail(newEmail) and not u().userExists(newEmail):
+        elif v().validEmail(newEmail) and not u().userExists(newEmail):
             control = False
     u().updateUserEmail(email, newEmail)
     user = u().getUserByEmail(newEmail)
@@ -128,11 +129,11 @@ class UserTester:
     # Validate email address #
     while (control):
         email = input('Email:')
-        if not u().validEmail(email):
+        if not v().validEmail(email):
             print('Invalid email address!')
-        if u().validEmail(email) and not u().userExists(email):
+        if v().validEmail(email) and not u().userExists(email):
             print('The email is valid, but the user does not exist!')
-        elif u().validEmail(email) and u().userExists(email):
+        elif v().validEmail(email) and u().userExists(email):
             control = False
     oldPassword = None
     control = True
@@ -147,7 +148,7 @@ class UserTester:
     # Verify password #
     while (control):
         password = input('Password:')
-        if u().validPassword(password):
+        if v().validPassword(password):
             control = False
         else:
             print(
@@ -160,11 +161,11 @@ class UserTester:
     control = True
     while (control):
         email = input('Email of user to delete:')
-        if not u().validEmail(email):
+        if not v().validEmail(email):
             print('Invalid email address!')
-        if u().validEmail(email) and not u().userExists(email):
+        if v().validEmail(email) and not u().userExists(email):
             print('The email is valid, but a user does not exist!')
-        elif u().validEmail(email) and u().userExists(email):
+        elif v().validEmail(email) and u().userExists(email):
             control = False
     u().deleteUserByEmail(email)
 
