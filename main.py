@@ -63,11 +63,15 @@ def adminProducts():
 
 @app.route('/admin/tax', methods=['GET', 'POST'])
 def adminTax():
-    value = True
-    if request.method == 'POST':
-        value = t().setTax(request.form.getlist('tax'))
     tax = t().getTax()
-    return render_template('adminTax.html', fee=tax, value=value)
+    message = None
+    if request.method == 'POST':
+        query = t().setTax(request.form.getlist('tax'))
+        value = query[0]
+        message = query[1]
+        if value:
+            tax = query[2]
+    return render_template('adminTax.html', fee=tax, message=message)
 
 
 @app.route('/admin/staff', methods=['GET', 'POST'])
@@ -87,19 +91,22 @@ def adminStaff():
             None
     return render_template('adminStaff.html', staff=staff)
 
-# === ERROR HANDLING === #
 
+# === ERROR HANDLING === #
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
 
 @app.errorhandler(403)
 def forbidden(e):
     return render_template('403.html'), 403
 
+
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

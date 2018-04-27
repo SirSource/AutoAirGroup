@@ -6,7 +6,7 @@ class TaxHandler:
 
     def getTax(self):
         dao = TaxDao()
-        list = dao.getTaxs()
+        list = dao.getTax()
         fee = list['fee']
         return fee
 
@@ -14,6 +14,8 @@ class TaxHandler:
         tax = form[0]
         dao = TaxDao()
         if not v().isFloat(tax):
-            return False
+            message = 'error'
+            return False, message, tax
         tax = float(tax) / 100
-        return dao.setTax(tax)
+        message = 'ok'
+        return dao.setTax(tax), message, self.getTax()

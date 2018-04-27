@@ -13,14 +13,20 @@
             <h5>Impuestos sobre ventas de todos los products</h5>
         </div>
         <div class="col-lg-12 mt-4">
-            <strong>Advertencia: </strong>Cambiar el impuesto tendrá un efecto sobre todas las . Make updates only if the local tax rate
+            <strong>Advertencia: </strong>Cambiar el impuesto tendrá un efecto sobre todas las . Make updates only if
+            the local tax rate
             has changed, otherwise you may owe the state sales tax!
         </div>
         <div class="col-md-6 mt-3 mx-auto">
-            {% if not value %}
+            {% if message == 'error' %}
                 <div class="alert alert-danger" role="alert">
                     <h5><strong>Error:</strong></h5>
                     <span>The tax field was empty or the value was not valid.</span>
+                </div>
+            {% elif message == 'ok' %}
+                <div class="alert alert-info" role="alert">
+                    <h5><strong>Success:</strong></h5>
+                    <span>The tax was successfully set to {{ fee*100 }}% ({{ fee }}) </span>
                 </div>
             {% endif %}
             <form action="{{ url_for('adminTax') }}" method="post">
