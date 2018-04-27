@@ -1,7 +1,7 @@
 from dao.staff import StaffDao
-from validate_email import validate_email
 import string
 from random import *
+from utilities.valid import Valid as v
 
 
 class StaffHandler:
@@ -52,14 +52,14 @@ class StaffHandler:
             return False
 
     def updateStaffEmail(self, eid, email):
-        if self.staffExists(eid) and self.validEmail(email):
+        if self.staffExists(eid) and v().validEmail(email):
             StaffDao().updateStaffEmail(eid, email)
             return True
         else:
             return False
 
     def updateStaffPassword(self, eid, password, newPassword):
-        if self.validPassword(newPassword) and self.staffExists(eid):
+        if v().validPassword(newPassword) and self.staffExists(eid):
             if self.staffAuthenticate(eid, password):
                 StaffDao().updateStaffPassword(eid, newPassword)
                 return True
@@ -105,35 +105,6 @@ class StaffHandler:
             return False
         else:
             return True
-
-    def validPhone(self, phone):
-        if not phone.isdigit() or len(phone) < 10:
-            return False
-        else:
-            return True
-
-    def validEmail(self, email):
-        is_valid = validate_email(email)
-        if is_valid:
-            return True
-        else:
-            return False
-
-    def validPassword(self, password):
-        symbol = ['$', '@', '#']
-        if len(password) < 6:
-            return False
-        if len(password) > 15:
-            return False
-        if not any(char.isdigit() for char in password):
-            return False
-        if not any(char.isupper() for char in password):
-            return False
-        if not any(char.islower() for char in password):
-            return False
-        if not any(char in symbol for char in password):
-            return False
-        return True
 
     def staffAuthenticate(self, eid, password):
         systemPass = StaffDao().getStaffPass(eid)
