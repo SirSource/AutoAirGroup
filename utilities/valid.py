@@ -30,3 +30,9 @@ class Valid:
         if not any(char in symbol for char in password):
             return False
         return True
+
+    def stringToBool(self, string):
+        if string == 'True':
+            return True
+        else:
+            return False

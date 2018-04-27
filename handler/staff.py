@@ -74,7 +74,7 @@ class StaffHandler:
         eid = form['eid']
         email = form['email']
         store = form['store']
-        admin = self.stringToBool(form['admin'])
+        admin = v().stringToBool(form['admin'])
         password = self.generatePassword()
         if fname == '' or lname == '' or eid == '' or email == '' or store == '' or admin == '':
             return False
@@ -92,11 +92,6 @@ class StaffHandler:
             return False
 
     # --Auxilliary Functions-- #
-    def stringToBool(self, string):
-        if string == 'True':
-            return True
-        else:
-            return False
 
     def staffExists(self, eid):
         dao = StaffDao()
