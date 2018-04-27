@@ -119,4 +119,3 @@ class StaffHandler:
         chars = string.ascii_letters + string.punctuation + string.digits
         password = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
         return password
-# TODO add handler for other functions (getUserByUsername, getUserByEmail, etc.)
