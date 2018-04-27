@@ -24,7 +24,7 @@ class UserHandler:
         dao = UsersDao()
         user = dao.getUserByUsername(username)
         if user == None:
-            return False
+            return False, 'no_user'
         else:
             return user
 
@@ -32,7 +32,7 @@ class UserHandler:
         dao = UsersDao()
         user = dao.getUserByEmail(email)
         if user == None:
-            return False
+            return False, 'no_user'
         else:
             return user
 
@@ -40,23 +40,45 @@ class UserHandler:
         dao = UsersDao()
         user = dao.getUserByPhone()
         if user == None:
-            return False
+            return False, 'no_user'
         else:
             return user
 
-    def insertUser(self, name, last, usertype, email, password, phone, city, place, street, zip):
-        if self.userExists(email):
-            return False
+    def insertUser(self, form):
+        name = form['first_name']
+        last = form['last_name']
+        usertype = form['user']
+        email = form['email']
+        password = form['password']
+        phone = form['phone']
+        city = ['city']
+        address1 = form['address1']
+        address2 = form['address2']
+        zip = form['zip']
+        if not v().validEmail(email):
+            return False, 'invalid_email'
+        elif self.userExists(email):
+            return False, 'user_exists'
+        elif not v().validPassword(password):
+            return False, 'invalid_password'
+        elif not v().validPhone(phone):
+            return False, 'invalid_phone'
+        elif city == '':
+            return False, 'invalid_city'
+        elif address1 == '':
+            return False, 'invalid_address'
+        elif zip == '':
+            return False, 'invalid_zip'
         else:
-            UsersDao().insertUser(name, last, usertype, email, password, phone, city, place, street, zip)
-            return True
+            UsersDao().insertUser(name, last, usertype, email, password, phone, city, address1, address2, zip)
+            return True, email
 
-    def updateUserAddress(self, email, city, place, street, zip):
+    def updateUserAddress(self, email, city, address1, address2, zip):
         if self.userExists(email):
             address = {
                 "city": city,
-                "place": place,
-                "street": street,
+                "address1": address1,
+                "address2": address2,
                 "zipcode": zip
             }
             UsersDao().updateUserAddress(email, address)
@@ -113,9 +135,6 @@ class UserHandler:
             return True
         else:
             return False
-
-
-    # TODO add handler for other functions (getUserByUsername, getUserByEmail, etc.)
 
     # ---Auxiliary Methods--- #
     def userExists(self, email):

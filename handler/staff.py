@@ -81,10 +81,7 @@ class StaffHandler:
         elif self.staffExists(eid):
             return False
         else:
-            try:
-                StaffDao().insertStaff(fname, lname, eid, admin, email, password, store)
-            except Error:
-                None
+            StaffDao().insertStaff(fname, lname, eid, admin, email, password, store)
             return True
 
     def deleteStaff(self, eid):

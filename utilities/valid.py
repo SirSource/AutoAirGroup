@@ -3,6 +3,7 @@ from validate_email import validate_email
 class Valid:
 
     def validPhone(self, phone):
+
         if not phone.isdigit() or len(phone) < 10 or len(phone) > 10:
             return False
         else:
