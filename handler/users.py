@@ -74,6 +74,8 @@ class UserHandler:
             return True, email
 
     def updateUserAddress(self, email, city, address1, address2, zip):
+        if email == '' or city == '' or address1 == '' or address2 == '' or zip == '':
+            return False, 'invalid_address'
         if self.userExists(email):
             address = {
                 "city": city,
@@ -83,51 +85,58 @@ class UserHandler:
             }
             UsersDao().updateUserAddress(email, address)
         else:
-            return False
+            return False, 'address_updated'
 
     def updateUserPhone(self, email, phone):
+        if email == '' or phone == '':
+            return False, 'invalid_phone'
         if v().validPhone(phone):
             if self.userExists(email):
                 UsersDao().updateUserPhone(phone)
-                return True
+                return True, 'updated_phone'
             else:
-                return False
+                return False, 'no_user'
         else:
-            return False
+            return False, 'invalid_phone'
 
     def updateUserEmail(self, email, newEmail):
+        if email == '' or newEmail == '':
+            return False, 'invalid_email'
         if v().validEmail(newEmail):
             if self.userExists(email):
                 UsersDao().updateUserEmail(email, newEmail)
-                return True
+                return True, 'updated_email'
             else:
-                return False
+                return False, 'no_user'
         else:
             return False
+            'invalid_email'
 
     def updateUserPassword(self, email, password, newPassword):
+        if email == '' or password == '' or newPassword == '':
+            return False, 'invalid_password'
         if v().validPassword(newPassword) and self.userExists(email):
             if self.userAuthenticate(email, password):
                 UsersDao().updateUserPassword(email, newPassword)
-                return True
+                return True, 'updated_password'
             else:
-                return False
+                return False, 'invalid_password'
         else:
-            return False
+            return False, 'invalid_password'
 
     def deleteUserByEmail(self, email):
         if self.userExists(email):
             UsersDao().deleteUserByEmail(email)
-            return True
+            return True, 'user_deleted'
         else:
-            return False
+            return False, 'delete_error'
 
     def deleteUserbyPhone(self, phone):
         if self.userExists(phone):
             UsersDao().deleteUserbyPhone(phone)
-            return True
+            return True, 'user_deleted'
         else:
-            return False
+            return False, 'delete_error'
 
     def userAuthenticate(self, email, password):
         systemPass = UsersDao().getUserPass(email)
