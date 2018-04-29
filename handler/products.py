@@ -230,8 +230,9 @@ class ProductsHandler:
         if dao.productExistByID(pid):
             return False, None, 'product_exists'
         else:
-            product = dao.insertProduct(image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails, plocation, pprice,
-                              pbrand, qty, pshipping, featured)
+            product = dao.insertProduct(image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails, plocation,
+                                        pprice,
+                                        pbrand, qty, pshipping, featured)
             return True, product, 'product_added'
 
     def updateProductQtyByLocation(self, pid, plocation, qty):

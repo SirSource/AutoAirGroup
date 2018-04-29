@@ -1,5 +1,4 @@
 from config.dbconfig import client
-from utilities.valid import Valid as v
 
 
 class ProductsDao:
@@ -333,5 +332,8 @@ class ProductsDao:
         :return:
         TESTED: YES
         """
-
         return self.db.delete_many({'pid': pid, 'plocation': plocation})
+
+    def countCategory(self, category):
+        count = self.db.count({"pcategory": category})
+        return count
