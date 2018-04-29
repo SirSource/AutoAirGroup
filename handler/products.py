@@ -1,5 +1,6 @@
 from dao.products import ProductsDao
 
+
 class ProductsHandler:
 
     def products_dictionary(self, row):
@@ -38,7 +39,7 @@ class ProductsHandler:
 
     # Returns the ID of the product by entering the name of the product
     # author: Luis Perez
-    #TESTED: YES; IT WORKS
+    # TESTED: YES; IT WORKS
     def getProductIDbyName(self, pname):
         dao = ProductsDao()
         list = dao.getProductIDbyName(pname)
@@ -47,8 +48,7 @@ class ProductsHandler:
             result_list.append(row)
         return result_list
 
-
-    def getProductInfoByProductName(self,pname):
+    def getProductInfoByProductName(self, pname):
         """
         Returns Information of product by searching its product name
         :param pname:
@@ -62,7 +62,6 @@ class ProductsHandler:
             result = self.products_dictionary(row)
             result_list.append(result)
         return result_list
-
 
     # returns all the car make available in the db
     # author: Luis Perez
@@ -99,7 +98,7 @@ class ProductsHandler:
 
     # returns all the car motor available in the db
     # author: Luis Perez
-    #TESTED: YES WORKS
+    # TESTED: YES WORKS
     def getAllCarMotor(self):
         dao = ProductsDao()
         list = dao.getCarMotor()
@@ -114,7 +113,7 @@ class ProductsHandler:
 
         dao = ProductsDao()
         # TESTED: YES; works
-        if (len(args)==4):
+        if (len(args) == 4):
             cmake = args[0]
             cmodel = args[1]
             cyear = args[2]
@@ -126,11 +125,11 @@ class ProductsHandler:
                 result_list.append(result)
             return result_list
         # TESTED: YES; works
-        elif len(args)==3:
+        elif len(args) == 3:
             cmake = args[0]
             cmodel = args[1]
             cyear = args[2]
-            plist = dao.getProductByMakeModelYear(cmake,cmodel,cyear)
+            plist = dao.getProductByMakeModelYear(cmake, cmodel, cyear)
             result_list = []
             for row in plist:
                 result = self.products_dictionary(row)
@@ -138,7 +137,7 @@ class ProductsHandler:
             return result_list
 
         # TESTED: YES; works
-        elif(len(args)==2):
+        elif (len(args) == 2):
             cmake = args[0]
             cmodel = args[1]
 
@@ -149,7 +148,7 @@ class ProductsHandler:
                 result_list.append(result)
             return result_list
         # TESTED: YES
-        elif(len(args)==1):
+        elif (len(args) == 1):
             cmake = args[0]
             plist = dao.getProductByCarMake(cmake)
             result_list = []
@@ -158,7 +157,7 @@ class ProductsHandler:
                 result_list.append(result)
             return result_list
 
-    def getQuantityByIDAndLocation(self,pid,plocation):
+    def getQuantityByIDAndLocation(self, pid, plocation):
         """
         Returns the quantity of the product by its id and location
         author: Luis Perez
@@ -169,10 +168,9 @@ class ProductsHandler:
         """
         dao = ProductsDao()
 
-        return dao.getQtyByIDandLocation(pid,plocation)
+        return dao.getQtyByIDandLocation(pid, plocation)
 
-
-    def getInfoForCheckout(self,pid):
+    def getInfoForCheckout(self, pid):
         """
 
         :param pid:
@@ -187,8 +185,7 @@ class ProductsHandler:
             result_list.append(result)
         return result_list
 
-
-    def addProduct(self,image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty):
+    def addProduct(self, image, form):
         """
          Inserts a new product to the database
          author: Luis Perez
@@ -208,15 +205,34 @@ class ProductsHandler:
           :param qty: quantity of the product in that specific location
 
          """
+        cmake = form['cmake']
+        cmodel = form['cmodel']
+        cyear = form['cyear']
+        cmotor = form['cmotor'].upper()
+        pid = form['pid'].upper()
+        pcategory = form['category']
+        pname = form['pname']
+        pdetails = form['description']
+        plocation = form['store']
+        pprice = form['pprice']
+        pbrand = form['pbrand']
+        pshipping = form['pshipping']
+        qty = form['qty']
+        featured = form['featured']
+
+        if cmake == '' or cmodel == '' or cyear == '' or cmotor == '' or pid == '' or pcategory == '' or pname == '' or pdetails == '' or plocation == '' or pprice == '' or pbrand == '' or qty == '' or pshipping == '' or featured == '':
+            return False, None, 'invalid_form'
+        if image == '':
+            image = 'not_available.png'
 
         dao = ProductsDao()
 
-        if dao.productExistByMany(cmake,cmodel,cyear,cmotor,pid,plocation):
-            return False
+        if dao.productExistByID(pid):
+            return False, None, 'product_exists'
         else:
-            dao.insertProduct(image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty)
-            return True
-
+            product = dao.insertProduct(image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails, plocation, pprice,
+                              pbrand, qty, pshipping, featured)
+            return True, product, 'product_added'
 
     def updateProductQtyByLocation(self, pid, plocation, qty):
         """
@@ -228,7 +244,7 @@ class ProductsHandler:
         TESTED: NO
         """
         dao = ProductsDao()
-        p = dao.productExistByIDAndLocation(pid,plocation)
+        p = dao.productExistByIDAndLocation(pid, plocation)
         try:
             if p['pid'] == pid:
                 try:
@@ -238,7 +254,7 @@ class ProductsHandler:
         except:
             pass
 
-    def updateProductQtyInEveryLocation(self,pid,qty):
+    def updateProductQtyInEveryLocation(self, pid, qty):
         """
 
         :param pid:
@@ -257,7 +273,7 @@ class ProductsHandler:
         except:
             pass
 
-    def updateProductImage(self,pid):
+    def updateProductImage(self, pid):
         """
 
         :param pid:
@@ -275,10 +291,11 @@ class ProductsHandler:
         except:
             pass
 
-    def updateAllProductAttributes(self,image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty):
+    def updateAllProductAttributes(self, image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails,
+                                   plocation, pprice, pbrand, qty):
         pass
 
-    def deleteProductByID(self,pid):
+    def deleteProductByID(self, pid):
         """
         Deletes the product by its id. First it verifies that it exist
 
@@ -300,7 +317,7 @@ class ProductsHandler:
         except:
             return False
 
-    def deleteProductByIDAndLocation(self,pid,plocation):
+    def deleteProductByIDAndLocation(self, pid, plocation):
         """
 
         :param pid:
@@ -310,28 +327,14 @@ class ProductsHandler:
         """
 
         dao = ProductsDao()
-        p =  dao.productExistByIDAndLocation(pid,plocation)
+        p = dao.productExistByIDAndLocation(pid, plocation)
         try:
-            if p['pid'] == pid and p['plocation']==plocation:
+            if p['pid'] == pid and p['plocation'] == plocation:
 
                 try:
-                    dao.deleteProductByIDAndLocation(pid,plocation)
+                    dao.deleteProductByIDAndLocation(pid, plocation)
                     return True
                 except:
                     return False
         except:
             return False
-
-
-
-
-
-
-
-
-
-
-
-
-
-

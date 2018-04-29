@@ -1,4 +1,7 @@
 from validate_email import validate_email
+import string
+from random import *
+
 
 class Valid:
 
@@ -51,3 +54,10 @@ class Valid:
 
     def toLower(self, string):
         return string.lower()
+
+    def generatePhotoName(self, extension):
+        minlength = 15
+        maxlength = 25
+        chars = string.ascii_letters + string.digits
+        name = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
+        return name + '.' + extension

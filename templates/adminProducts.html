@@ -64,10 +64,10 @@
                 <div class="col">
                     <div class="collapse multi-collapse" id="multiCollapseExample2">
                         <div class="card card-body">
-                            <form method="POST">
+                            <form enctype="multipart/form-data" method="POST">
                                 <div class="form-group">
                                     <label for="photo">Añadir una imágen</label>
-                                    <input type="file" class="form-control-file" id="photo">
+                                    <input type="file" name="file" class="form-control-file" id="photo">
                                 </div>
                                 <div class="form-group">
                                     <label for="product-name">ID para el producto</label>
@@ -81,39 +81,76 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="brand">Marca</label>
-                                    <input type="text" class="form-control" name="pbrand" id="brand" placeholder="Marca">
+                                    <input type="text" class="form-control" name="pbrand" id="brand"
+                                           placeholder="Marca">
                                 </div>
                                 <div class="form-group">
                                     <label for="price">Precio</label>
-                                    <input type="text" class="form-control" name="pprice" id="price" placeholder="Precio">
+                                    <input type="text" class="form-control" name="pprice" id="price"
+                                           placeholder="Precio">
                                 </div>
                                 <div class="form-group">
                                     <label for="shipping">Envío</label>
-                                    <input type="text" class="form-control" name="pshipping" id="shipping" placeholder="Costo de envío">
+                                    <input type="text" class="form-control" name="pshipping" id="shipping"
+                                           placeholder="Costo de envío">
                                 </div>
                                 <div class="form-group">
                                     <label for="qty">Cantidad</label>
                                     <input type="text" class="form-control" name="qty" id="qty" placeholder="Cantidad">
                                 </div>
                                 <div class="form-group">
+                                    <label for="store">Tienda</label>
+                                    <select id="inputState" name="store" class="form-control">
+                                        <option value="Caguas" selected="">Caguas</option>
+                                        <option value="Bayamón">Bayamon</option>
+                                        <option value="Guaynabo">Guaynabo</option>
+                                        <option value="Río Piedras">Río Piedras</option>
+                                    </select>
+                                </div>
+                                <!--DE AQUI-->
+                                <div class="form-group">
+                                    <label for="qty">Marca de vehículo</label>
+                                    <input type="text" class="form-control" name="cmake" id="cmake"
+                                           placeholder="Marca de vehículo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="qty">Modelo de vehículo</label>
+                                    <input type="text" class="form-control" name="cmodel" id="cmodel"
+                                           placeholder="Modelo de vehículo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="qty">Año del vehículo</label>
+                                    <input type="text" class="form-control" name="cyear" id="cyear"
+                                           placeholder="Año de vehículo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="qty">Motor</label>
+                                    <input type="text" class="form-control" name="cmotor" id="cmotor"
+                                           placeholder="Motor de vehículo">
+                                </div>
+                                <!--A AQUI-->
+                                <div class="form-group">
                                     <label for="category">Categoría</label>
-                                    <select id="inputState" class="form-control">
-                                        <option selected>Compressor</option>
-                                        <option>Condensor</option>
-                                        <option>Evaporator</option>
-                                        <option>Filter</option>
+                                    <select id="inputState" name="category" class="form-control">
+                                        <option value="Complressor" selected>Compressor</option>
+                                        <option value="Condensor">Condensor</option>
+                                        <option value="Evaporator">Evaporator</option>
+                                        <option value="Filter">Filter</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="active">Destacado</label>
-                                    <select id="inputState" class="form-control">
-                                        <option selected>No (Producto aparecerá sólo en el catálogo)</option>
-                                        <option>Sí (Producto aparecerá en página principal y en el catálogo)</option>
+                                    <select id="inputState" name="featured" class="form-control">
+                                        <option value="no" selected>No (Producto aparecerá sólo en el catálogo)</option>
+                                        <option value="yes">Sí (Producto aparecerá en página principal y en el
+                                            catálogo)
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Descripción</label>
-                                    <textarea class="form-control" id="description" rows="3"></textarea>
+                                    <textarea class="form-control" name="description" id="description"
+                                              rows="3"></textarea>
                                 </div>
                                 <input type="hidden" name="_method" value="ADD_PRODUCT">
                                 <button class="btn btn-primary">Añadir producto</button>

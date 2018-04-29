@@ -1,19 +1,18 @@
 from flask import Flask, request, redirect, url_for, render_template
 import os
 from werkzeug.utils import secure_filename
-
+from utilities.valid import Valid as v
 from handler.users import UserHandler as u
 from handler.products import ProductsHandler as p
 from handler.tax import TaxHandler as t
 from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 
-UPLOAD_FOLDER = '/static/img/products/'
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
-
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+UPLOAD_FOLDER = app.root_path + '/static/img/products/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 
 @app.route('/')
 def home():
@@ -80,9 +79,23 @@ def adminProducts():
     products = p().getAllProducts()
     if request.method == 'POST':
         method = request.form['_method']
+        print(request.form)
         if method == 'ADD_PRODUCT':
-            print(request.form)
-            print('a product will be added')
+            if 'file' not in request.files:
+                operation = p().addProduct('', request.form)
+                return redirect(request.url)
+            file = request.files['file']
+            if file.filename == '':
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                print(filename)
+                extension = filename.split('.')
+                image = v().generatePhotoName(extension[1])
+                print(image)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], image))
+                operation = p().addProduct(image, request.form)
+                #return redirect(url_for('uploaded_file', filename=filename))
     return render_template('adminProducts.html', products=products)
 
 

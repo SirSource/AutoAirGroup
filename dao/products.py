@@ -1,4 +1,5 @@
 from config.dbconfig import client
+from utilities.valid import Valid as v
 
 
 class ProductsDao:
@@ -46,7 +47,7 @@ class ProductsDao:
             p.append(doc)
         return p
 
-    #Returns the product ID based on product name
+    # Returns the product ID based on product name
     # author: Luis Perez
     # tested:YES
     def getProductIDbyName(self, pname):
@@ -88,7 +89,7 @@ class ProductsDao:
 
     # Returns all the car motors available in the db
     # author: Luis Perez
-    #TESTED:YES
+    # TESTED:YES
     def getCarMotor(self):
         products = self.db
         cm = []
@@ -117,7 +118,7 @@ class ProductsDao:
             p.append(doc)
         return p
 
-    #Returns the product information based on car make and model
+    # Returns the product information based on car make and model
     # author: Luis Perez
     # tested:YES
     def getProductByCarMakeModel(self, cmake, cmodel):
@@ -127,8 +128,7 @@ class ProductsDao:
             p.append(doc)
         return p
 
-
-    def getProductByCarYear(self,cyear):
+    def getProductByCarYear(self, cyear):
         """
          Returns the product information based on car year
          author: Luis Perez
@@ -138,11 +138,9 @@ class ProductsDao:
         """
         products = self.db
         p = []
-        for doc in products.find({'car.year':cyear}):
+        for doc in products.find({'car.year': cyear}):
             p.append(doc)
         return p
-
-
 
     def getProductByCarMake(self, cmake):
         """
@@ -164,11 +162,11 @@ class ProductsDao:
         :return: Returns the
         """
         checkout = []
-        for doc in self.db.find({'pid': pid}, {'pid': 1, 'pname': 1, 'pprice': 1,'_id':0}):
+        for doc in self.db.find({'pid': pid}, {'pid': 1, 'pname': 1, 'pprice': 1, '_id': 0}):
             checkout.append(doc)
         return checkout
 
-    def productExistByMany(self,cmake,cmodel,cyear,cmotor,pid,plocation):
+    def productExistByMany(self, cmake, cmodel, cyear, cmotor, pid, plocation):
         """
 
         :param pid:
@@ -177,17 +175,17 @@ class ProductsDao:
         :return:
         """
         products = self.db
-        p = products.findOne({'car.make': cmake,
-                                  'car.model': cmodel,
-                                  'car.year':cyear,
-                                  'car.motor':cmotor,
-                                  'pid':pid,
-                                  'plocation':plocation})
+        p = products.find_one({'car.make': cmake,
+                              'car.model': cmodel,
+                              'car.year': cyear,
+                              'car.motor': cmotor,
+                              'pid': pid,
+                              'plocation': plocation})
         return p
 
     def getQtyByIDandLocation(self, pid, plocation):
 
-        return self.db.find_one({'pid':pid,'plocation':plocation},{'qty':1,'_id':0})
+        return self.db.find_one({'pid': pid, 'plocation': plocation}, {'qty': 1, '_id': 0})
 
     def productExistByID(self, pid):
         """
@@ -200,7 +198,7 @@ class ProductsDao:
         p = products.find_one({'pid': pid})
         return p
 
-    def productExistByIDAndLocation(self, pid,plocation):
+    def productExistByIDAndLocation(self, pid, plocation):
         """
 
         :param pid:
@@ -208,19 +206,16 @@ class ProductsDao:
         TESTED: YES
         """
         products = self.db
-        p = products.find_one({'pid': pid,'plocation':plocation})
+        p = products.find_one({'pid': pid, 'plocation': plocation})
         return p
-
 
     #################################################################################################################
     #       INSERT PRODUCT
     #################################################################################################################
 
-
-
-    def insertProduct(self,image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty):
+    def insertProduct(self, image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails, plocation, pprice,
+                      pbrand, qty, pshipping, featured):
         """
-
          Inserts a new product to the database
          author: Luis Perez
          TESTED: NO
@@ -238,34 +233,34 @@ class ProductsDao:
           :param pprice: price of the product
           :param pbrand: brand of the product
           :param qty: quantity of the product in that specific location
-
          """
-        #car object
+        # car obect
         car = {
-            "make":cmake,
-            "model":cmodel,
-            "year":cyear,
-            "motor":cmotor
+            "make": cmake,
+            "model": cmodel,
+            "year": cyear,
+            "motor": cmotor
         }
 
         product = {
-            "image":image,
-            "car":car,
-            "pid":pid,
-            "pcategory":pcategory,
-            "pname":pname,
-            "pdetails":pdetails,
-            "plocation":plocation,
-            "pprice":pprice,
-            "pbrand":pbrand,
-            "qty":qty
+            "image": image,
+            "car": car,
+            "pid": pid,
+            "pcategory": pcategory,
+            "pname": pname,
+            "pdetails": pdetails,
+            "plocation": plocation,
+            "pprice": pprice,
+            "pbrand": pbrand,
+            "qty": qty,
+            "pshipping": pshipping,
+            "featured": featured
         }
         return self.db.insert_one(product).inserted_id
 
     ################################################################################
     #       UPDATE PRODUCT
     ################################################################################
-
 
     def updateProductQtyByLocation(self, pid, plocation, qty):
         """
@@ -276,9 +271,10 @@ class ProductsDao:
         :return:
         TESTED: NO
         """
-        return self.db.update({'pid': pid,'plocation':plocation}, {'$set': {'qty': qty}})
+        return self.db.update({'pid': pid, 'plocation': plocation}, {'$set': {'qty': qty}})
 
-    def updateProductById(self,image,cmake,cmodel,cyear,cmotor,pid,pcategory,pname,pdetails,plocation,pprice,pbrand,qty):
+    def updateProductById(self, image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails, plocation, pprice,
+                          pbrand, qty):
         """
         Updates the product by product ID
         author: Luis Perez
@@ -318,9 +314,9 @@ class ProductsDao:
             "qty": qty
         }
 
-        return self.db.update({'pid':pid},{'$set':{'product':product}})
+        return self.db.update({'pid': pid}, {'$set': {'product': product}})
 
-    def deleteProductByID(self,pid):
+    def deleteProductByID(self, pid):
         """
         Deletes the product by its id
         :param pid:
@@ -329,7 +325,7 @@ class ProductsDao:
         """
         return self.db.delete_many({"pid": pid})
 
-    def deleteProductByIDAndLocation(self,pid,plocation):
+    def deleteProductByIDAndLocation(self, pid, plocation):
         """
         Deletes the product in the specified location
         :param pid:
@@ -338,20 +334,4 @@ class ProductsDao:
         TESTED: YES
         """
 
-        return self.db.delete_many({'pid':pid,'plocation':plocation})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return self.db.delete_many({'pid': pid, 'plocation': plocation})
