@@ -11,17 +11,12 @@
     <div class="row mt-3 bg-white p-4 aag-shadow">
         <div class="col-md">
             <h5 class="aag-border-bottom">Resumen de Ordenes</h5>
-            <span>Completadas:
-                    <strong>({{ complete }})</strong>
-                </span>
-            <span>
-                    </br>Sin enviar:
-                    <strong>({{ unshipped }})</strong>
-                </span>
-            <span>
-                    </br>Canceladas:
-                    <strong>({{ canceled }})</strong>
-                </span>
+            <ul class="list-group">
+                <li class="list-group-item">Completadas: <strong>({{ complete }})</strong></li>
+                <li class="list-group-item">Pendientes: <strong>({{ pending }})</strong></li>
+                <li class="list-group-item">Sin Enviar: <strong>({{ unshipped }})</strong></li>
+                <li class="list-group-item">Canceladas: <strong>({{ canceled }})</strong></li>
+            </ul>
         </div>
         <div class="col-md">
             <h5 class="aag-border-bottom">Buscar Orden</h5>

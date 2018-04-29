@@ -119,6 +119,9 @@ class OrdersHandler:
     def countCompleteOrders(self):
         return OrdersDao().countCompleteOrders()
 
+    def countPendingOrders(self):
+        return OrdersDao().countPendingOrders()
+
     def countCanceledOrders(self):
         return OrdersDao().countCanceledOrders()
 

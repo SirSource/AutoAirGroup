@@ -1,11 +1,18 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, redirect, url_for, render_template
+import os
+from werkzeug.utils import secure_filename
+
 from handler.users import UserHandler as u
 from handler.products import ProductsHandler as p
 from handler.tax import TaxHandler as t
 from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 
+UPLOAD_FOLDER = '/static/img/products/'
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -44,9 +51,11 @@ def admin():
 def adminOrders():
     orders = o().getAllOrders()
     complete = o().countCompleteOrders()
+    pending = o().countPendingOrders()
     unshipped = o().countUnshippedOrders()
     canceled = o().countCanceledOrders()
-    return render_template('adminOrders.html', orders=orders, complete=complete, unshipped=unshipped, canceled=canceled)
+    return render_template('adminOrders.html', orders=orders, complete=complete, pending=pending, unshipped=unshipped,
+                           canceled=canceled)
 
 
 @app.route('/admin/orders/<string:oid>', methods=['GET', 'POST'])
@@ -66,9 +75,14 @@ def adminOrdersView(oid):
         return render_template('adminOrdersView.html', order=order, oid=oid)
 
 
-@app.route('/admin/products')
+@app.route('/admin/products', methods=['GET', 'POST'])
 def adminProducts():
     products = p().getAllProducts()
+    if request.method == 'POST':
+        method = request.form['_method']
+        if method == 'ADD_PRODUCT':
+            print(request.form)
+            print('a product will be added')
     return render_template('adminProducts.html', products=products)
 
 
@@ -141,6 +155,12 @@ def forbidden(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
+
+# Upload functions
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 if __name__ == '__main__':

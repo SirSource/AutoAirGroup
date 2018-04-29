@@ -63,6 +63,10 @@ class OrdersDao:
         count = self.db.count({"payment_status": 'complete'})
         return count
 
+    def countPendingOrders(self):
+        count = self.db.count({"payment_status": 'pending'})
+        return count
+
     def countCanceledOrders(self):
         count = self.db.count({"payment_status": 'canceled'})
         return count
