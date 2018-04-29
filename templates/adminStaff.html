@@ -69,24 +69,31 @@
         </div>
         <div class="col-md">
             <h5 class="aag-border-bottom">Buscar Empleado</h5>
+            {% if message=='invalid_eid' or message=='invalid_email' %}
+                <div class="col alert-danger pt-3 pb-3">
+                    <h5>Error: El campo está vacío o no se entró un dato válido.</h5>
+                </div>
+            {% elif message=='no_staff' %}
+                <div class="col alert-danger pt-3 pb-3">
+                    <h5>Error: No se encontró el empleado en el sistema.</h5>
+                </div>
+            {% endif %}
             <form action="{{ url_for('adminStaff') }}" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Busqueda de empleado...">
+                    <input type="text" class="form-control" name="eid" placeholder="Entre el ID del empleado a buscar">
                     <input type="hidden" name="_method" value="SEARCH">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button">Buscar</button>
-                    </span>
+                    <button class="btn btn-primary" type="submit">Buscar</button>
                 </div>
-                <div class="form-check form-check-inline mt-2">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                           value="option1">
-                    <label class="form-check-label" for="inlineRadio1">ID del Empleado (EID)</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                           value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Nombre del Empleado</label>
-                </div>
+                {#                <div class="form-check form-check-inline mt-2">#}
+                {#                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"#}
+                {#                           value="option1">#}
+                {#                    <label class="form-check-label" for="inlineRadio1">ID del Empleado (EID)</label>#}
+                {#                </div>#}
+                {#                <div class="form-check form-check-inline">#}
+                {#                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"#}
+                {#                           value="option2">#}
+                {#                    <label class="form-check-label" for="inlineRadio2">Nombre del Empleado</label>#}
+                {#                </div>#}
             </form>
             <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
                 <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDelete"
@@ -95,6 +102,15 @@
                     Borrar Empleado
                 </button>
             </p>
+            {% if deleteStatus=='delete_error' %}
+                <div class="col alert-danger pt-3 pb-3">
+                    <h5>Error: No se pudo borrar el empleado ya que no se encontró en el sistema.</h5>
+                </div>
+            {% elif deleteStatus=='staff_deleted' %}
+                <div class="col alert-info pt-3 pb-3">
+                    <h5>El empleado fue borrado con éxito.</h5>
+                </div>
+            {% endif %}
             <div class="collapse mt-3 p-3 aag-bg-gray1" id="collapseDelete">
                 <h5 class="aag-border-bottom">Borrar Empleado</h5>
                 <div class="alert alert-danger" role="alert">
@@ -103,7 +119,7 @@
                 </div>
                 <form action="{{ url_for('adminStaff') }}" method="post">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="EID del empleado a remover...">
+                        <input type="text" name="eid" class="form-control" placeholder="EID del empleado a remover...">
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="btn btn-danger">Borrar Empleado</button>
                     </div>
@@ -117,7 +133,6 @@
                 <tr>
                     <th scope="col">EID</th>
                     <th scope="col">Nombre</th>
-                    {#<th scope="col">Apellido</th>#}
                     <th scope="col">Email</th>
                     <th scope="col">Tienda</th>
                     <th scope="col">Administrador</th>
@@ -126,7 +141,7 @@
                 <tbody>
                 {% for item in staff %}
                     <tr>
-                        <th scope="row">{{ item['eid'] }}</th>
+                        <th scope="row"><a href="{{ url_for('adminStaff') }}/{{ item['eid'] }}">{{ item['eid'] }}</a></th>
                         <td>{{ item['staff_fname'] }} {{ item['staff_lname'] }}</td>
                         <td>{{ item['staff_email'] }}</td>
                         <td>{{ item['staff_store'] }}</td>
@@ -139,9 +154,6 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <div class="mt-2">
-                <button class="btn btn-primary">Actualizar Roles de Empleados</button>
-            </div>
         </div>
     </div>
 {% endblock %}

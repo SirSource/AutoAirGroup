@@ -81,15 +81,39 @@ def adminStaff():
         method = request.form['_method']
         if method == 'ADD':
             operation = s().insertStaff(request.form)
-            if operation[0]:
-                return render_template('adminStaff.html', addSuccess=operation[1], staff=staff)
-            else:
-                return render_template('adminStaff.html', addSuccess=operation[1], staff=staff)
+            return render_template('adminStaff.html', addSuccess=operation[1], staff=staff)
         if method == 'SEARCH':
-            None
+            operation = s().getStaffByEid(request.form)
+            status = operation[0]
+            result = operation[1]
+            message = operation[2]
+            if not status:
+                return render_template('adminStaff.html', message=message, staff=staff)
+            else:
+                return render_template('adminStaffEdit.html', staff=result)
         if method == 'DELETE':
-            None
+            operation = s().deleteStaff(request.form)
+            return render_template('adminStaff.html', deleteStatus=operation[1], staff=staff)
     return render_template('adminStaff.html', staff=staff)
+
+
+@app.route('/admin/staff/<string:eid>', methods=['GET', 'POST'])
+def adminStaffEdit(eid):
+    operation = s().getStaffByEidMain(eid)
+    staff = operation[1]
+    if request.method == 'POST':
+        method = request.form['_method']
+        if method == 'UPDATE_STORE':
+            newOperation = s().updateStaffStore(eid, request.form)
+            operation = s().getStaffByEidMain(eid)
+            staff = operation[1]
+            return render_template('adminStaffEdit.html', staff=staff)
+        elif method == 'UPDATE_ADMIN':
+            newOperation = s().updateStaffAsAdmin(eid, request.form)
+            operation = s().getStaffByEidMain(eid)
+            staff = operation[1]
+            return render_template('adminStaffEdit.html', staff=staff)
+    return render_template('adminStaffEdit.html', staff=staff)
 
 
 # === ERROR HANDLING === #

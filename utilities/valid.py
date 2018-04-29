@@ -33,7 +33,8 @@ class Valid:
         return True
 
     def stringToBool(self, string):
-        if string == 'True':
+        string = self.toLower(string)
+        if string == 'true':
             return True
         else:
             return False
@@ -44,3 +45,9 @@ class Valid:
             return True
         except ValueError:
             return False
+
+    def toUpper(self, string):
+        return string.upper()
+
+    def toLower(self, string):
+        return string.lower()
