@@ -49,13 +49,20 @@ def adminOrders():
     return render_template('adminOrders.html', orders=orders, complete=complete, unshipped=unshipped, canceled=canceled)
 
 
-@app.route('/admin/orders/<string:oid>')
+@app.route('/admin/orders/<string:oid>', methods=['GET', 'POST'])
 def adminOrdersView(oid):
     order = o().getOrdersByOrderID(oid)
+    if request.method == 'POST':
+        method = request.form['_method']
+        if method == 'UPDATE_STATUS':
+            o().updateOrderStatusForm(oid, request.form)
+            order = o().getOrdersByOrderID(oid)
+        elif method == 'UPDATE_SHIPPING':
+            o().updateOrderShippingForm(oid, request.form)
+            order = o().getOrdersByOrderID(oid)
     if order == None:
         return render_template('adminOrdersView.html', order=None, oid=oid)
     else:
-        print(order)
         return render_template('adminOrdersView.html', order=order, oid=oid)
 
 

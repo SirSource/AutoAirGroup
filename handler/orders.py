@@ -75,6 +75,31 @@ class OrdersHandler:
         else:
             return False
 
+    def updateOrderStatusForm(self, oid, form):
+        status = form['payment_status']
+        if status == 'pending':
+            OrdersDao().updateOrderStatusForm(oid, status)
+            return True, 'order_pending'
+        elif status == 'complete':
+            OrdersDao().updateOrderStatusForm(oid, status)
+            return True, 'order_complete'
+        elif status == 'canceled':
+            OrdersDao().updateOrderStatusForm(oid, status)
+            return True, 'order_canceled'
+        else:
+            return False, 'update_error'
+
+    def updateOrderShippingForm(self, oid, form):
+        status = form['shipping_status']
+        if status == 'shipped':
+            OrdersDao().updateOrderShippingForm(oid, status)
+            return True, 'order_shipped'
+        elif status == 'not_shipped':
+            OrdersDao().updateOrderShippingForm(oid, status)
+            return True, 'order_not_shipped'
+        else:
+            return False, 'update_error'
+
     # ---Auxiliary Methods---#
 
     def orderExists(self, oid):

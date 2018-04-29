@@ -47,6 +47,12 @@ class OrdersDao:
             allOrders = tempList
         return allOrders
 
+    def updateOrderStatusForm(self, oid, status):
+        return self.db.update({'orderid': oid}, {'$set': {'payment_status': status}})
+
+    def updateOrderShippingForm(self, oid, status):
+        return self.db.update({'orderid': oid}, {'$set': {'shipping': status}})
+
     def deleteOrderById(self, oID):
         return self.db.delete_many({"orderid": oID})
 

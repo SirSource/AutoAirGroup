@@ -79,10 +79,70 @@
                         <th></th>
                         <th></th>
                         <th>Gran Total:</th>
-                        <th>${{ order['total'] + order['total']*order['ivu']}}</th>
+                        <th>${{ order['total'] + order['total']*order['ivu'] }}</th>
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="col-md-12 mt-5">
+                <h5 class="aag-border-bottom">Pagos y Envíos</h5>
+                <div>
+                    {% if order['payment_status'] == 'complete' %}
+                        <span>Estatus de pago: <strong>COMPLETADO</strong></span>
+                    {% elif order['payment_status'] == 'pending' %}
+                        <span>Estatus de pago: <strong>PENDIENTE</strong></span>
+                    {% elif order['payment_status'] == 'canceled' %}
+                        <span>Estatus de pago: <strong>CANCELADO</strong></span>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if order['shipping'] == 'shipped' %}
+                        <span>Estatus de pago: <strong>ENVIADO</strong></span>
+                    {% elif order['shipping'] == 'not_shipped' %}
+                        <span>Estatus de pago: <strong>NO ENVIADO</strong></span>
+                    {% endif %}
+                </div>
+            </div>
+            <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsePayment"
+                        aria-expanded="false"
+                        aria-controls="collapsePayment">
+                    Cambiar estatus de la orden
+                </button>
+            </p>
+            <div class="col-md-4 collapse" id="collapsePayment">
+                <span>Aqui puedes modificar el estatus de la orden. Esto afectará la orden a través de todo el sistema.</span>
+                <form action="" method="POST">
+                    <div class="input-group">
+                        <select id="inputState" name="payment_status" class="form-control">
+                            <option value="pending" selected="">Pendiente</option>
+                            <option value="complete">Completado</option>
+                            <option value="canceled">Cancelado</option>
+                        </select>
+                        <input type="hidden" name="_method" value="UPDATE_STATUS">
+                        <button class="btn btn-primary">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+            <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseShipped"
+                        aria-expanded="false"
+                        aria-controls="collapseShipped">
+                    Marcar como enviado
+                </button>
+            </p>
+            <div class="col-md-4 collapse" id="collapseShipped">
+                <span>Si un paquete ya fue enviado, puedes cambiar el estado de envío utilizando el formulario. Esto afectara la orden a través de todo el sistema.</span>
+                <form action="" method="POST">
+                    <div class="input-group">
+                        <select id="inputState" name="shipping_status" class="form-control">
+                            <option value="shipped" selected="">Enviado</option>
+                            <option value="not_shipped">No enviado</option>
+                        </select>
+                        <input type="hidden" name="_method" value="UPDATE_SHIPPING">
+                        <button class="btn btn-primary">Actualizar</button>
+                    </div>
+                </form>
             </div>
         </div>
     {% endif %}
