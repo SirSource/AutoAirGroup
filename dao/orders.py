@@ -53,4 +53,14 @@ class OrdersDao:
     def deleteOrderByUserEmail(self, email):
         return self.db.delete_many({"uemail": email})
 
-    # TODO: Add more functions for getters, inserts, and deletes
+    def countCompleteOrders(self):
+        count = self.db.count({"payment_status": 'complete'})
+        return count
+
+    def countCanceledOrders(self):
+        count = self.db.count({"payment_status": 'canceled'})
+        return count
+
+    def countUnshippedOrders(self):
+        count = self.db.count({"shipping": 'not_shipped'})
+        return count

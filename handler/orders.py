@@ -90,3 +90,12 @@ class OrdersHandler:
             return False
         else:
             return True
+
+    def countCompleteOrders(self):
+        return OrdersDao().countCompleteOrders()
+
+    def countCanceledOrders(self):
+        return OrdersDao().countCanceledOrders()
+
+    def countUnshippedOrders(self):
+        return OrdersDao().countUnshippedOrders()

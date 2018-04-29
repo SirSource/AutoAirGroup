@@ -3,6 +3,8 @@ from handler.orders import OrdersHandler as o
 
 class OrdersTester:
 
+    print(o().countCompleteOrders())
+
     def printOrder(item):
         products = item['products']
         del item['products']

@@ -25,7 +25,7 @@
                 </div>
                 <strong>Correo Electrónico:</strong>
                 <div class="ml-3 p-3">
-                    {{ order['uemail'] }}<br>
+                    <a href="mailto:{{ order['uemail'] }}?Subject=Orden:{{ oid }}">{{ order['uemail'] }}</a><br>
                 </div>
                 <strong>Teléfono:</strong>
                 <div class="ml-3 p-3">
@@ -43,11 +43,11 @@
                 <table class="table table-responsive-md table-striped">
                     <thead>
                     <tr>
-                        <th scope="col">ID</th>
+                        <th scope="col">PID</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Precio (unidad)</th>
-                        <th scope="col">Costo</th>
+                        <th scope="col">Total</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,7 +64,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th>Total:</th>
+                        <th>Sub-total:</th>
                         <th>${{ order['total'] }}</th>
                     </tr>
                     <tr>

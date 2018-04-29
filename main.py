@@ -42,10 +42,14 @@ def admin():
 
 @app.route('/admin/orders')
 def adminOrders():
-    return render_template('adminOrders.html')
+    orders = o().getAllOrders()
+    complete = o().countCompleteOrders()
+    unshipped = o().countUnshippedOrders()
+    canceled = o().countCanceledOrders()
+    return render_template('adminOrders.html', orders=orders, complete=complete, unshipped=unshipped, canceled=canceled)
 
 
-@app.route('/admin/orders/<int:oid>')
+@app.route('/admin/orders/<string:oid>')
 def adminOrdersView(oid):
     order = o().getOrdersByOrderID(oid)
     if order == None:
