@@ -125,7 +125,7 @@ def adminStaff():
         method = request.form['_method']
         if method == 'ADD':
             operation = s().insertStaff(request.form)
-            return render_template('adminStaff.html', addSuccess=operation[1], staff=staff)
+            return render_template('adminStaff.html', addSuccess=operation[1], staff=s().getAllStaff())
         if method == 'SEARCH':
             operation = s().getStaffByEid(request.form)
             status = operation[0]
@@ -137,7 +137,7 @@ def adminStaff():
                 return render_template('adminStaffEdit.html', staff=result)
         if method == 'DELETE':
             operation = s().deleteStaff(request.form)
-            return render_template('adminStaff.html', deleteStatus=operation[1], staff=staff)
+            return render_template('adminStaff.html', deleteStatus=operation[1], staff=s().getAllStaff())
     return render_template('adminStaff.html', staff=staff)
 
 
