@@ -57,3 +57,9 @@ body {
     margin-right: auto;
     max-width: 50%;
 }
+.aag-product-pic{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 400px;
+}

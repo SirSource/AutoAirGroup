@@ -48,7 +48,9 @@
                                 <tbody>
                                 {% for item in products %}
                                     <tr>
-                                        <th scope="row">{{ item['pid'] }}</th>
+                                        <th scope="row"><a
+                                                href="{{ url_for('adminProducts') }}/{{ item['pid'] }}">{{ item['pid'] }}</a>
+                                        </th>
                                         <td>{{ item['pname'] }}</td>
                                         <td>${{ item['pprice'] }}</td>
                                         <td>{{ item['pbrand'] }}</td>
@@ -132,10 +134,14 @@
                                 <div class="form-group">
                                     <label for="category">Categoría</label>
                                     <select id="inputState" name="category" class="form-control">
-                                        <option value="Complressor" selected>Compressor</option>
-                                        <option value="Condensor">Condensor</option>
-                                        <option value="Evaporator">Evaporator</option>
-                                        <option value="Filter">Filter</option>
+                                        <option value="Compresores" selected>Compresores</option>
+                                        <option value="Evaporadores">Evaporadores</option>
+                                        <option value="Acumuladores">Acumuladores y secadores</option>
+                                        <option value="Dispositivos de expansión">Dispositivos de expansión</option>
+                                        <option value="Condensadores">Condensadores</option>
+                                        <option value="Conjuntos de manguera">Conjuntos de manguera</option>
+                                        <option value="Componentes eléctricos">Componentes eléctricos</option>
+                                        <option value="Poleas">Poleas</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

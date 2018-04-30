@@ -41,7 +41,7 @@
                 </div>
             </form>
         </div>
-         <!--Car year selection-->
+        <!--Car year selection-->
         <div class="col-md">
             <form>
                 <div class="form-group">
@@ -52,7 +52,7 @@
                 </div>
             </form>
         </div>
-         <!--Car year selection-->
+        <!--Car year selection-->
         <div class="col-md">
             <form>
                 <div class="form-group">
@@ -69,11 +69,14 @@
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Categoría de piezas</label>
                     <select class="form-control" id="exampleFormControlSelect1">
-                        <option>Compressor</option>
-                        <option>Condensor</option>
-                        <option>Evaporator</option>
-                        <option>Fan</option>
-                        <option>Filter</option>
+                        <option value="Compresores" selected>Compresores</option>
+                        <option value="Evaporadores">Evaporadores</option>
+                        <option value="Acumuladores">Acumuladores y secadores</option>
+                        <option value="Dispositivos de expansión">Dispositivos de expansión</option>
+                        <option value="Condensadores">Condensadores</option>
+                        <option value="Conjuntos de manguera">Conjuntos de manguera</option>
+                        <option value="Componentes eléctricos">Componentes eléctricos</option>
+                        <option value="Poleas">Poleas</option>
                     </select>
                 </div>
             </form>
@@ -93,12 +96,13 @@
         <div class="card-deck">
             <!--Card-->
             {% for item in products %}
-                <div class="card aag-min-width-card">
+                <div class="card aag-min-width-card mt-4">
                     <div class="card-header">
-                        {{ item['pname']}}
+                        {{ item['pname'] }}
                     </div>
                     <div class="card-body">
-                        <img class="aag-catalog-pic" src="{{ url_for('static', filename='img/products/' + item['image']) }}">
+                        <img class="aag-catalog-pic"
+                             src="{{ url_for('static', filename='img/products/' + item['image']) }}">
                         <p class="card-text">{{ item['pdetails'] }}</p>
                         <a href="#" class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
                     </div>

@@ -48,6 +48,11 @@ class ProductsHandler:
             result_list.append(row)
         return result_list
 
+    def getProductByID(self, pid):
+        if not self.productExistByID(pid):
+            return False, None, 'no_product'
+        return True, ProductsDao().getProductByID(pid), 'product_exists'
+
     def getProductInfoByProductName(self, pname):
         """
         Returns Information of product by searching its product name
@@ -320,7 +325,6 @@ class ProductsHandler:
 
     def deleteProductByIDAndLocation(self, pid, plocation):
         """
-
         :param pid:
         :param plocation:
         :return:
@@ -339,3 +343,10 @@ class ProductsHandler:
                     return False
         except:
             return False
+
+    #--Auxiliary Functions--#
+    def productExistByID(self, pid):
+        product = ProductsDao().productExistByID(pid)
+        if product == None:
+            return False
+        return True

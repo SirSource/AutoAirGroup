@@ -95,9 +95,15 @@ def adminProducts():
                 print(image)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], image))
                 operation = p().addProduct(image, request.form)
-                #return redirect(url_for('uploaded_file', filename=filename))
+                product = operation[1]
+                message = operation[2]
     return render_template('adminProducts.html', products=products)
 
+@app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
+def adminProductsView(pid):
+    operation = p().getProductByID(pid)
+    product = operation[1]
+    return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
 
 @app.route('/admin/tax', methods=['GET', 'POST'])
 def adminTax():
