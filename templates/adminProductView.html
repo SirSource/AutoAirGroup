@@ -8,7 +8,7 @@
         </h3>
     </div>
     <!--Dashboard Main Info Box-->
-    <div class="row mt-3 bg-white p-4 aag-shadow">
+    <div class="row mt-3 mb-5 bg-white p-4 aag-shadow">
         {% if productExist %}
             <div class="col-lg-12">
                 <h5 class="aag-border-bottom">Información del Producto</h5>
@@ -53,36 +53,37 @@
                         <div class="form-group">
                             <label for="product-name">ID para el producto</label>
                             <input type="text" class="form-control" name="pid" id="product-ID" value="{{ product['pid'] }}"
-                                   placeholder="PID">
+                                   placeholder="PID" readonly>
                         </div>
                         <div class="form-group">
                             <label for="product-name">Título / Nombre</label>
-                            <input type="text" class="form-control" name="pname" id="product-name"
+                            <input type="text" class="form-control" name="pname" id="product-name" value="{{ product['pname'] }}"
                                    placeholder="Título / Nombre">
                         </div>
                         <div class="form-group">
                             <label for="brand">Marca</label>
-                            <input type="text" class="form-control" name="pbrand" id="brand"
+                            <input type="text" class="form-control" name="pbrand" id="brand" value="{{ product['pbrand'] }}"
                                    placeholder="Marca">
                         </div>
                         <div class="form-group">
                             <label for="price">Precio</label>
-                            <input type="text" class="form-control" name="pprice" id="price"
+                            <input type="text" class="form-control" name="pprice" id="price" value="{{ product['pprice'] }}"
                                    placeholder="Precio">
                         </div>
                         <div class="form-group">
                             <label for="shipping">Envío</label>
-                            <input type="text" class="form-control" name="pshipping" id="shipping"
+                            <input type="text" class="form-control" name="pshipping" id="shipping" value="{{ product['pshipping'] }}"
                                    placeholder="Costo de envío">
                         </div>
                         <div class="form-group">
                             <label for="qty">Cantidad</label>
-                            <input type="text" class="form-control" name="qty" id="qty" placeholder="Cantidad">
+                            <input type="text" class="form-control" name="qty" id="qty" placeholder="Cantidad" value="{{ product['qty'] }}">
                         </div>
                         <div class="form-group">
                             <label for="store">Tienda</label>
                             <select id="inputState" name="store" class="form-control">
-                                <option value="Caguas" selected="">Caguas</option>
+                                <option value="{{ product['plocation'] }}">Actual: [{{ product['plocation'] }}]</option>
+                                <option value="Caguas">Caguas</option>
                                 <option value="Bayamón">Bayamon</option>
                                 <option value="Guaynabo">Guaynabo</option>
                                 <option value="Río Piedras">Río Piedras</option>
@@ -92,6 +93,7 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Año de vehículo</label>
                             <select class="form-control" name="cyear" id="year">
+                                <option value="{{ product['car']['year'] }}" selected>Actual: [{{ product['car']['year'] }}]</option>
                                 <option value="2019">2019</option>
                                 <option value="2018">2018</option>
                                 <option value="2017">2017</option>
@@ -147,25 +149,28 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Marca de vehículo</label>
                             <select class="form-control" name="cmake" id="formmake">
-                                <option selected="selected">-Marca-</option>
+                                <option value="{{ product['car']['make'] }}" selected>Actual: [{{ product['car']['make'] }}]</option>
+{#                                <option selected="selected">-Marca-</option>#}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Modelo de vehículo</label>
                             <select class="form-control" name="cmodel" id="formmodel">
-                                <option selected="selected">-Modelo-</option>
+                                <option value="{{ product['car']['model'] }}" selected>Actual: [{{ product['car']['model'] }}]</option>
+{#                                <option selected="selected">-Modelo-</option>#}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="qty">Motor</label>
                             <input type="text" class="form-control" name="cmotor" id="cmotor"
-                                   placeholder="Motor de vehículo">
+                                   placeholder="Motor de vehículo" value="{{ product['car']['motor'] }}">
                         </div>
                         <!--A AQUI-->
                         <div class="form-group">
                             <label for="category">Categoría</label>
                             <select id="inputState" name="category" class="form-control">
-                                <option value="Compresores" selected>Compresores</option>
+                                <option value="{{ product['pcategory'] }}">Actual: [{{ product['pcategory'] }}]</option>
+                                <option value="Compresores">Compresores</option>
                                 <option value="Evaporadores">Evaporadores</option>
                                 <option value="Acumuladores">Acumuladores y secadores</option>
                                 <option value="Dispositivos de expansión">Dispositivos de expansión</option>
@@ -186,11 +191,11 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Descripción</label>
-                            <textarea class="form-control" name="description" id="description"
+                            <textarea class="form-control" name="description" id="description" value="{{ product['pdetails'] }}"
                                       rows="3"></textarea>
                         </div>
                         <input type="hidden" name="_method" value="ADD_PRODUCT">
-                        <button class="btn btn-primary">Añadir producto</button>
+                        <button class="btn btn-primary">Actualizar producto</button>
                     </form>
                 </div>
             </div>

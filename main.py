@@ -76,7 +76,6 @@ def adminOrdersView(oid):
 
 @app.route('/admin/products', methods=['GET', 'POST'])
 def adminProducts():
-    products = p().getAllProducts()
     if request.method == 'POST':
         method = request.form['_method']
         print(request.form)
@@ -97,7 +96,7 @@ def adminProducts():
                 operation = p().addProduct(image, request.form)
                 product = operation[1]
                 message = operation[2]
-    return render_template('adminProducts.html', products=products)
+    return render_template('adminProducts.html', products=p().getAllProducts())
 
 @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
 def adminProductsView(pid):
