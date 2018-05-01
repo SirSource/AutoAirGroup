@@ -27,6 +27,16 @@ class OrdersDao:
             allOrders = tempList
         return allOrders
 
+    def getOrdersByPhone(self, phone):
+        allOrders = None
+        tempList = []
+        orders = self.db
+        for doc in orders.find({"uphone": phone}):
+            tempList.append(doc)
+        if len(tempList) > 0:
+            allOrders = tempList
+        return allOrders
+
     def getOrdersByStatus(self, status):
         allOrders = None
         tempList = []

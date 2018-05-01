@@ -137,10 +137,12 @@
                         {{ item['pname'] }}
                     </div>
                     <div class="card-body">
-                        <img class="aag-catalog-pic"
-                             src="{{ url_for('static', filename='img/products/' + item['image']) }}">
+                        <a href="product/{{ item['pid'] }}">
+                            <img class="aag-catalog-pic"
+                                 src="{{ url_for('static', filename='img/products/' + item['image']) }}">
+                        </a>
                         <p class="card-text">{{ item['pdetails'] }}</p>
-                        <a href="#" class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
+                        <a href="product/{{ item['pid'] }}" class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
                     </div>
                 </div>
             {% endfor %}

@@ -1,4 +1,5 @@
 from dao.orders import OrdersDao
+from utilities.valid import Valid as v
 
 
 class OrdersHandler:
@@ -28,38 +29,51 @@ class OrdersHandler:
             return None
 
     def getOrdersByEmail(self, email):
-        if self.emailOrderExists(email):
-            dao = OrdersDao()
-            item = dao.getOrdersByEmail(email)
-            result_list = []
-            for row in item:
-                result = self.order_dictionary(row)
-                result_list.append(result)
-            return result_list
-        else:
-            return None
+        dao = OrdersDao()
+        item = dao.getOrdersByEmail(email)
+        if item == None:
+            return False, None, 'no_orders'
+        result_list = []
+        for row in item:
+            result = self.order_dictionary(row)
+            result_list.append(result)
+        return True, result_list, 'orders_exist'
+
+    def getOrdersByPhone(self, form):
+        phone = form['orderQuery']
+        if not v().validPhone(phone):
+            return False, None, 'invalif_phone'
+        dao = OrdersDao()
+        item = dao.getOrdersByPhone(phone)
+        if item == None:
+            return False, None, 'no_orders'
+        result_list = []
+        for row in item:
+            result = self.order_dictionary(row)
+            result_list.append(result)
+        return True, result_list, 'orders_exist'
 
     def getOrdersByStatus(self, status):
         dao = OrdersDao()
         item = dao.getOrdersByStatus(status)
         if item == None:
-            return False
+            return False, None, 'no_orders'
         result_list = []
         for row in item:
             result = self.order_dictionary(row)
             result_list.append(result)
-        return result_list
+        return True, result_list, 'orders_exist'
 
     def getOrdersShipped(self):
         dao = OrdersDao()
         item = dao.getOrdersShipped()
         if item == None:
-            return False
+            return False, None, 'no_orders'
         result_list = []
         for row in item:
             result = self.order_dictionary(row)
             result_list.append(result)
-        return result_list
+        return True, result_list, 'orders_exist'
 
     def deleteOrderById(self, oid):
         if self.orderExists(oid):

@@ -14,6 +14,7 @@ UPLOAD_FOLDER = app.root_path + '/static/img/products/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -23,6 +24,16 @@ def home():
 def catalog():
     products = p().getAllProducts()
     return render_template('catalog.html', products=products)
+
+
+@app.route('/product/<string:pid>')
+def product(pid):
+    operation = p().getProductByID(pid)
+    result = operation[0]
+    value = operation[1][0]
+    print(value)
+    message = operation[2]
+    return render_template('product.html', product=value)
 
 
 @app.route('/about')
@@ -46,13 +57,22 @@ def admin():
     return render_template('admin.html')
 
 
-@app.route('/admin/orders')
+@app.route('/admin/orders', methods=['GET', 'POST'])
 def adminOrders():
     orders = o().getAllOrders()
     complete = o().countCompleteOrders()
     pending = o().countPendingOrders()
     unshipped = o().countUnshippedOrders()
     canceled = o().countCanceledOrders()
+    if request.method == 'POST':
+        method = request.form['_method']
+        if method == 'FIND_PHONE':
+            operation = o().getOrdersByPhone(request.form)
+            if operation[0]:
+                orders = operation[1]
+        elif method == 'OID':
+            oid = request.form.getlist('orderQuery')
+            return adminOrdersView(oid[0])
     return render_template('adminOrders.html', orders=orders, complete=complete, pending=pending, unshipped=unshipped,
                            canceled=canceled)
 
@@ -78,7 +98,6 @@ def adminOrdersView(oid):
 def adminProducts():
     if request.method == 'POST':
         method = request.form['_method']
-        print(request.form)
         if method == 'ADD_PRODUCT':
             if 'file' not in request.files:
                 operation = p().addProduct('', request.form)
@@ -88,21 +107,23 @@ def adminProducts():
                 return redirect(request.url)
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                print(filename)
                 extension = filename.split('.')
                 image = v().generatePhotoName(extension[1])
-                print(image)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], image))
                 operation = p().addProduct(image, request.form)
                 product = operation[1]
                 message = operation[2]
     return render_template('adminProducts.html', products=p().getAllProducts())
 
+
 @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
 def adminProductsView(pid):
     operation = p().getProductByID(pid)
     product = operation[1]
+    if not operation[0]:
+        return render_template('adminProductView.html', product=None)
     return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
+
 
 @app.route('/admin/tax', methods=['GET', 'POST'])
 def adminTax():

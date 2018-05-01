@@ -1,10 +1,20 @@
 {% extends "adminlayout.html" %}
-{% block title %}{{ product['pname'] }} [{{ product['pid'] }}]{% endblock %}
+{% block title %}
+    {% if productExists %}
+        {{ product['pname'] }} [{{ product['pid'] }}]
+    {% else %}
+        Producto no encontrado
+    {% endif %}
+{% endblock %}
 {% block main %}
     <!--Featured Section-->
     <div class="row mt-3 mb-3">
         <h3 class="font-weight-bold">
-            {{ product['pname'] }} [{{ product['pid'] }}]
+            {% if productExists %}
+                {{ product['pname'] }} [{{ product['pid'] }}]
+            {% else %}
+                Producto no encontrado
+            {% endif %}
         </h3>
     </div>
     <!--Dashboard Main Info Box-->
@@ -52,32 +62,38 @@
                         </div>
                         <div class="form-group">
                             <label for="product-name">ID para el producto</label>
-                            <input type="text" class="form-control" name="pid" id="product-ID" value="{{ product['pid'] }}"
+                            <input type="text" class="form-control" name="pid" id="product-ID"
+                                   value="{{ product['pid'] }}"
                                    placeholder="PID" readonly>
                         </div>
                         <div class="form-group">
                             <label for="product-name">Título / Nombre</label>
-                            <input type="text" class="form-control" name="pname" id="product-name" value="{{ product['pname'] }}"
+                            <input type="text" class="form-control" name="pname" id="product-name"
+                                   value="{{ product['pname'] }}"
                                    placeholder="Título / Nombre">
                         </div>
                         <div class="form-group">
                             <label for="brand">Marca</label>
-                            <input type="text" class="form-control" name="pbrand" id="brand" value="{{ product['pbrand'] }}"
+                            <input type="text" class="form-control" name="pbrand" id="brand"
+                                   value="{{ product['pbrand'] }}"
                                    placeholder="Marca">
                         </div>
                         <div class="form-group">
                             <label for="price">Precio</label>
-                            <input type="text" class="form-control" name="pprice" id="price" value="{{ product['pprice'] }}"
+                            <input type="text" class="form-control" name="pprice" id="price"
+                                   value="{{ product['pprice'] }}"
                                    placeholder="Precio">
                         </div>
                         <div class="form-group">
                             <label for="shipping">Envío</label>
-                            <input type="text" class="form-control" name="pshipping" id="shipping" value="{{ product['pshipping'] }}"
+                            <input type="text" class="form-control" name="pshipping" id="shipping"
+                                   value="{{ product['pshipping'] }}"
                                    placeholder="Costo de envío">
                         </div>
                         <div class="form-group">
                             <label for="qty">Cantidad</label>
-                            <input type="text" class="form-control" name="qty" id="qty" placeholder="Cantidad" value="{{ product['qty'] }}">
+                            <input type="text" class="form-control" name="qty" id="qty" placeholder="Cantidad"
+                                   value="{{ product['qty'] }}">
                         </div>
                         <div class="form-group">
                             <label for="store">Tienda</label>
@@ -93,7 +109,9 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Año de vehículo</label>
                             <select class="form-control" name="cyear" id="year">
-                                <option value="{{ product['car']['year'] }}" selected>Actual: [{{ product['car']['year'] }}]</option>
+                                <option value="{{ product['car']['year'] }}" selected>Actual:
+                                    [{{ product['car']['year'] }}]
+                                </option>
                                 <option value="2019">2019</option>
                                 <option value="2018">2018</option>
                                 <option value="2017">2017</option>
@@ -149,15 +167,19 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Marca de vehículo</label>
                             <select class="form-control" name="cmake" id="formmake">
-                                <option value="{{ product['car']['make'] }}" selected>Actual: [{{ product['car']['make'] }}]</option>
-{#                                <option selected="selected">-Marca-</option>#}
+                                <option value="{{ product['car']['make'] }}" selected>Actual:
+                                    [{{ product['car']['make'] }}]
+                                </option>
+                                {#                                <option selected="selected">-Marca-</option>#}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Modelo de vehículo</label>
                             <select class="form-control" name="cmodel" id="formmodel">
-                                <option value="{{ product['car']['model'] }}" selected>Actual: [{{ product['car']['model'] }}]</option>
-{#                                <option selected="selected">-Modelo-</option>#}
+                                <option value="{{ product['car']['model'] }}" selected>Actual:
+                                    [{{ product['car']['model'] }}]
+                                </option>
+                                {#                                <option selected="selected">-Modelo-</option>#}
                             </select>
                         </div>
                         <div class="form-group">
@@ -191,7 +213,8 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Descripción</label>
-                            <textarea class="form-control" name="description" id="description" value="{{ product['pdetails'] }}"
+                            <textarea class="form-control" name="description" id="description"
+                                      value="{{ product['pdetails'] }}"
                                       rows="3"></textarea>
                         </div>
                         <input type="hidden" name="_method" value="ADD_PRODUCT">
