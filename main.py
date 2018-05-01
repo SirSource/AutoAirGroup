@@ -40,14 +40,30 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/account')
+@app.route('/account', methods=['GET', 'POST'])
 def accounts():
-    return render_template('userSession.html')
+    if request.method == 'POST':
+        method = request.form['_method']
+        if method == 'LOG_IN':
+            None
+        elif method == 'CREATE_USER':
+            operation = u().insertUser(request.form)
+            condition = operation[0]
+            message = operation[1]
+            if not condition:
+                return render_template('userSession.html', message=message)
+            elif condition:
+                return user(message)
+    return render_template('userSession.html', message=None)
 
-@app.route('/account/user')
-def user():
+
+@app.route('/account/user/<string:email>')
+def user(email):
+    user = u().getUserByEmail(email)
+    print(user)
     orders = o().getAllOrders()
-    return render_template('userProfile.html', orders=orders)
+    return render_template('userProfile.html', orders=orders, user=user)
+
 
 @app.route('/cart')
 def cart():

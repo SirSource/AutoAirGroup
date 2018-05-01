@@ -20,8 +20,8 @@ class Valid:
             return False
 
     def validPassword(self, password):
-        symbol = ['$', '@', '#']
-        if len(password) < 6:
+        symbol = ['$', '@', '#', '%', '*', '?', '!']
+        if len(password) < 8:
             return False
         if len(password) > 15:
             return False

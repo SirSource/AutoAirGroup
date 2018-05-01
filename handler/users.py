@@ -48,30 +48,16 @@ class UserHandler:
         name = form['first_name']
         last = form['last_name']
         usertype = form['user']
-        email = form['email']
+        email = form['email'].lower()
         password = form['password']
-        phone = form['phone']
-        city = ['city']
-        address1 = form['address1']
-        address2 = form['address2']
-        zip = form['zip']
         if not v().validEmail(email):
             return False, 'invalid_email'
         elif self.userExists(email):
             return False, 'user_exists'
         elif not v().validPassword(password):
             return False, 'invalid_password'
-        elif not v().validPhone(phone):
-            return False, 'invalid_phone'
-        elif city == '':
-            return False, 'invalid_city'
-        elif address1 == '':
-            return False, 'invalid_address'
-        elif zip == '':
-            return False, 'invalid_zip'
-        else:
-            UsersDao().insertUser(name, last, usertype, email, password, phone, city, address1, address2, zip)
-            return True, email
+        UsersDao().insertUser(name, last, usertype, email, password)
+        return True, email
 
     def updateUserAddress(self, email, city, address1, address2, zip):
         if email == '' or city == '' or address1 == '' or address2 == '' or zip == '':
