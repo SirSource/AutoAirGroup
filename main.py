@@ -31,7 +31,6 @@ def product(pid):
     operation = p().getProductByID(pid)
     result = operation[0]
     value = operation[1][0]
-    print(value)
     message = operation[2]
     return render_template('product.html', product=value)
 
@@ -41,9 +40,18 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/accounts')
+@app.route('/account')
 def accounts():
     return render_template('userSession.html')
+
+@app.route('/account/user')
+def user():
+    orders = o().getAllOrders()
+    return render_template('userProfile.html', orders=orders)
+
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
 
 
 @app.route('/users')

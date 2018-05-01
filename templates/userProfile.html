@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %}User Name{% endblock %}
+{% block main %}
+    <!--Search Box Advanced-->
+    <div class="row mt-3 bg-white p-4 aag-shadow">
+        <div class="col-md-12 aag-border-bottom">
+            <h4>User Name</h4>
+        </div>
+        <!--Car year selection-->
+        <div class="col-md-2 list-group">
+            <a href="#" class="list-group-item list-group-item-action">Mis Compras</a>
+            <a href="#" class="list-group-item list-group-item-action">Editar Perfil</a>
+            <a href="#" class="list-group-item list-group-item-action active align-content-center"><strong>Cerrar Sesión</strong></a>
+        </div>
+        <div class="col-md pl-3">
+            <h5>Mis Compras</h5>
+            <table class="table table-responsive-md table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">No. de Orden</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Pago</th>
+                    <th scope="col">Estatus de envío</th>
+                    <th scope="col">Fecha</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in orders %}
+                    <tr>
+                        <th scope="row"><a
+                                href="{{ url_for('adminOrders') }}/{{ item['orderid'] }}">{{ item['orderid'] }}</a></th>
+                        <td>{{ item['total'] }}</td>
+                        {% if item['payment_status'] == 'complete' %}
+                            <td>Completado</td>
+                        {% elif item['payment_status'] == 'pending' %}
+                            <td>Pendiente</td>
+                        {% elif item['payment_status'] == 'canceled' %}
+                            <td>Cancelado</td>
+                        {% endif %}
+                        {% if item['shipping'] == 'shipped' %}
+                            <td>Enviado</td>
+                        {% elif item['shipping'] == 'not_shipped' %}
+                            <td>No enviado</td>
+                        {% endif %}
+                        <td>{{ item['date'] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
