@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
-{% block title %}My Account{% endblock %}
+{% block title %}Mi Cuenta{% endblock %}
 {% block main %}
     <!--User Session Box Box-->
     <div class="row mt-3 bg-white p-4 aag-shadow">
         <div class="col-lg-12 aag-border-bottom">
-            <h4>Access your account!</h4>
+            <h4>Iniciar Sesión</h4>
         </div>
         <div class="col-lg-6 mx-auto">
             {% if message == 'user_exists' %}
@@ -14,6 +14,10 @@
             {% elif message == 'invalid_email' %}
                 <div class="alert alert-danger" role="alert">
                     <strong>Error:</strong> Se utilizaron incorrectos o hay algún campo vacío.
+                </div>
+            {% elif message == 'login_fail' %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error:</strong> El email o la constraseña no son validos.
                 </div>
             {% elif message == 'invalid_password' %}
                 <div class="alert alert-danger" role="alert">
@@ -28,16 +32,16 @@
             {% endif %}
             <form action="{{ url_for('accounts') }}" method="POST">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Correo electrónico">
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                    <a href="#">Recover Lost Password</a>
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña">
+                    <a href="#">Recuperar contraseña</a>
                 </div>
                 <input type="hidden" name="_method" value="LOG_IN">
-                <button class="btn btn-primary">Sign In</button>
+                <button class="btn btn-primary">Iniciar Sesión</button>
             </form>
         </div>
         <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
@@ -45,39 +49,39 @@
             <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample"
                     aria-expanded="false"
                     aria-controls="collapseExample">
-                Create new Account!
+                Crear una cuenta nueva
             </button>
         </p>
         <div class="collapse col-md-6 mx-auto" id="collapseExample">
-            <h5>Register Below!</h5>
+            <h5>Complete el formulario para registrarse</h5>
             <div class="card card-body">
                 <form action="{{ url_for('accounts') }}" method="POST">
                     <div class="form-group">
-                        <label for="first-name">First Name</label>
+                        <label for="first-name">Nombre</label>
                         <input type="text" class="form-control" id="first-name" name="first_name"
-                               placeholder="First Name">
+                               placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                        <label for="last-name">Last Name</label>
-                        <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Last Name">
+                        <label for="last-name">Apellido</label>
+                        <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Apellido">
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                        <small class="text-muted">This will also be your username.</small>
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               placeholder="Correo electrónico">
+                        <small class="text-muted">El correo electrónico servirá como su nombre de usuario.</small>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password">Contraseña</label>
                         <input type="password" class="form-control" id="password" name="password"
-                               placeholder="Password">
-                        <small class="text-muted">Minimum of 8 characters. At least: 1 uppercase, 1 number, and 1
-                            special character (@, #, $, %,
-                            *, ?, !)
+                               placeholder="Contraseña">
+                        <small class="text-muted">Mínimo de 8 caracteres. Al menos: 1 letra mayúscula, 1 número, y 1
+                            caracter especial (@, #, $, %, *, ?, !)
                         </small>
                     </div>
                     <input type="hidden" name="_method" value="CREATE_USER">
                     <input type="hidden" name="user" value="customer">
-                    <button class="btn btn-primary">Register</button>
+                    <button class="btn btn-primary">Completar registro</button>
                 </form>
             </div>
         </div>

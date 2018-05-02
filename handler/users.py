@@ -124,12 +124,14 @@ class UserHandler:
         else:
             return False, 'delete_error'
 
-    def userAuthenticate(self, email, password):
+    def userAuthenticate(self, form):
+        email = form['email'].lower()
+        password = form['password']
         systemPass = UsersDao().getUserPass(email)
         if systemPass == password:
-            return True
+            return True, email, 'login_success'
         else:
-            return False
+            return False, None, 'login_fail'
 
     # ---Auxiliary Methods--- #
     def userExists(self, email):

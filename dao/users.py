@@ -91,6 +91,8 @@ class UsersDao:
 
     def getUserPass(self, email):
         user = self.getUserByEmail(email)
+        if user == None:
+            return None
         return user['user_password']
 
     def deleteUserByEmail(self, email):

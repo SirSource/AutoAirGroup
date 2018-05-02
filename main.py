@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, session
 import os
 from werkzeug.utils import secure_filename
 from utilities.valid import Valid as v
@@ -9,7 +9,7 @@ from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 
 app = Flask(__name__)
-
+app.secret_key = 'a random aag control string'
 UPLOAD_FOLDER = app.root_path + '/static/img/products/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
@@ -42,10 +42,15 @@ def about():
 
 @app.route('/account', methods=['GET', 'POST'])
 def accounts():
+    message = None
     if request.method == 'POST':
         method = request.form['_method']
         if method == 'LOG_IN':
-            None
+            operation = u().userAuthenticate(request.form)
+            message = operation[2]
+            if operation[0]:
+                session['email'] = operation[1]
+                return user(operation[1])
         elif method == 'CREATE_USER':
             operation = u().insertUser(request.form)
             condition = operation[0]
@@ -53,16 +58,25 @@ def accounts():
             if not condition:
                 return render_template('userSession.html', message=message)
             elif condition:
+                session['email'] = message
                 return user(message)
-    return render_template('userSession.html', message=None)
+    return render_template('userSession.html', message=message)
 
 
 @app.route('/account/user/<string:email>')
 def user(email):
-    user = u().getUserByEmail(email)
-    print(user)
-    orders = o().getAllOrders()
-    return render_template('userProfile.html', orders=orders, user=user)
+    if 'email' not in session:
+        return redirect(url_for('accounts'))
+    elif not session['email'] == email:
+        email = session['email']
+        user = u().getUserByEmail(email)
+        orders = o().getAllOrders()
+        return render_template('userProfile.html', orders=orders, user=user)
+
+@app.route("/logout")
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('home'))
 
 
 @app.route('/cart')
