@@ -50,7 +50,7 @@ def accounts():
             message = operation[2]
             if operation[0]:
                 session['email'] = operation[1]
-                return user(operation[1])
+                return redirect(url_for('user', email = operation[1]))
         elif method == 'CREATE_USER':
             operation = u().insertUser(request.form)
             condition = operation[0]
@@ -59,7 +59,7 @@ def accounts():
                 return render_template('userSession.html', message=message)
             elif condition:
                 session['email'] = message
-                return user(message)
+                return render_template(url_for('user') + "/" + str(message))
     return render_template('userSession.html', message=message)
 
 
@@ -69,9 +69,10 @@ def user(email):
         return redirect(url_for('accounts'))
     elif not session['email'] == email:
         email = session['email']
-        user = u().getUserByEmail(email)
-        orders = o().getAllOrders()
-        return render_template('userProfile.html', orders=orders, user=user)
+    user = u().getUserByEmail(email)
+    orders = o().getAllOrders()
+    return render_template('userProfile.html', orders=orders, user=user)
+
 
 @app.route("/logout")
 def logout():
