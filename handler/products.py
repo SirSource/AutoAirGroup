@@ -53,6 +53,10 @@ class ProductsHandler:
             return False, None, 'no_product'
         return True, ProductsDao().getProductByID(pid), 'product_exists'
 
+    def getProductQty(self, pid):
+        qty = ProductsDao().getProductQty(pid)
+        print(qty)
+
     def getProductInfoByProductName(self, pname):
         """
         Returns Information of product by searching its product name
@@ -227,8 +231,19 @@ class ProductsHandler:
 
         if cmake == '' or cmodel == '' or cyear == '' or cmotor == '' or pid == '' or pcategory == '' or pname == '' or pdetails == '' or plocation == '' or pprice == '' or pbrand == '' or qty == '' or pshipping == '' or featured == '':
             return False, None, 'invalid_form'
+        if not qty.isdigit():
+            return False, None, 'invalid_form'
+
+        qty = int(qty)
+
+        try:
+            pprice = float(pprice)
+            pshipping = float(pshipping)
+        except:
+            return False, None, 'invalid_form'
+
         if image == '':
-            image = 'not_available.png'
+            image = 'no_photo.png'
 
         dao = ProductsDao()
 

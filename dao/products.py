@@ -337,3 +337,8 @@ class ProductsDao:
     def countCategory(self, category):
         count = self.db.count({"pcategory": category})
         return count
+
+    def getProductQty(self, pid):
+        product = self.db.find_one({"pid": pid})
+        qty = product['qty']
+        return qty
