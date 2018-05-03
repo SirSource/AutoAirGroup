@@ -57,6 +57,9 @@ class OrdersDao:
             allOrders = tempList
         return allOrders
 
+    def createOrder(self):
+        None
+
     def updateOrderStatusForm(self, oid, status):
         return self.db.update({'orderid': oid}, {'$set': {'payment_status': status}})
 
