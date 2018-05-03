@@ -42,6 +42,8 @@ def about():
 
 @app.route('/account', methods=['GET', 'POST'])
 def accounts():
+    if 'email' in session:
+        return redirect(url_for('user', email=session['email']))
     message = None
     if request.method == 'POST':
         method = request.form['_method']
@@ -59,7 +61,7 @@ def accounts():
                 return render_template('userSession.html', message=message)
             elif condition:
                 session['email'] = message
-                return render_template(url_for('user') + "/" + str(message))
+                return redirect(url_for('user', email=message))
     return render_template('userSession.html', message=message)
 
 
@@ -70,7 +72,12 @@ def user(email):
     elif not session['email'] == email:
         email = session['email']
     user = u().getUserByEmail(email)
-    orders = o().getAllOrders()
+    operation = o().getOrdersByEmail(email)
+    if not operation[0]:
+        orders = operation[2]
+    else:
+        orders = operation[1]
+    print(orders)
     return render_template('userProfile.html', orders=orders, user=user)
 
 
@@ -93,8 +100,13 @@ def getAllUsers():
 # ---ADMIN PAGES---#
 @app.route('/admin')
 def admin():
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
     return render_template('admin.html')
 
+@app.route('/admin/login')
+def adminLogin():
+    return render_template('adminLogin.html')
 
 @app.route('/admin/orders', methods=['GET', 'POST'])
 def adminOrders():
