@@ -101,13 +101,16 @@ def getAllUsers():
 def admin():
     if 'eid' not in session:
         return redirect(url_for('adminLogin'))
-    return render_template('admin.html')
+    operation = s().staffIsAdmin(session['eid'])
+    return render_template('admin.html', staffStatus=operation[1])
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def adminLogin():
     session.pop('email', None)
     if 'eid' in session:
+        adminOp = s().staffIsAdmin(session['eid'])
+        print(adminOp)
         return redirect(url_for('admin'))
     if request.method == 'POST':
         operation = s().staffAuthenticate(request.form)
@@ -116,12 +119,23 @@ def adminLogin():
         message = operation[2]
         if result:
             session['eid'] = eid
+            adminOp = s().staffIsAdmin(session['eid'])
+            print('here')
+            print(adminOp)
             return redirect(url_for('admin'))
     return render_template('adminLogin.html')
 
 
+@app.route('/admin/endsession')
+def staffEndSession():
+    session.pop('eid', None)
+    return redirect(url_for('admin'))
+
+
 @app.route('/admin/orders', methods=['GET', 'POST'])
 def adminOrders():
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
     orders = o().getAllOrders()
     complete = o().countCompleteOrders()
     pending = o().countPendingOrders()
@@ -136,12 +150,16 @@ def adminOrders():
         elif method == 'OID':
             oid = request.form.getlist('orderQuery')
             return adminOrdersView(oid[0])
+    staffStatus = s().staffIsAdmin(session['eid'])[1]
     return render_template('adminOrders.html', orders=orders, complete=complete, pending=pending, unshipped=unshipped,
-                           canceled=canceled)
+                           canceled=canceled, staffStatus=staffStatus)
 
 
 @app.route('/admin/orders/<string:oid>', methods=['GET', 'POST'])
 def adminOrdersView(oid):
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
+    staffStatus = s().staffIsAdmin(session['eid'])[1]
     order = o().getOrdersByOrderID(oid)
     if request.method == 'POST':
         method = request.form['_method']
@@ -152,13 +170,18 @@ def adminOrdersView(oid):
             o().updateOrderShippingForm(oid, request.form)
             order = o().getOrdersByOrderID(oid)
     if order == None:
-        return render_template('adminOrdersView.html', order=None, oid=oid)
+        return render_template('adminOrdersView.html', order=None, oid=oid, staffStatus=staffStatus)
     else:
-        return render_template('adminOrdersView.html', order=order, oid=oid)
+        return render_template('adminOrdersView.html', order=order, oid=oid, staffStatus=staffStatus)
 
 
 @app.route('/admin/products', methods=['GET', 'POST'])
 def adminProducts():
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
+    staffStatus = s().staffIsAdmin(session['eid'])[0]
+    if not staffStatus:
+        return redirect(url_for('admin'))
     if request.method == 'POST':
         method = request.form['_method']
         if method == 'ADD_PRODUCT':
@@ -181,6 +204,11 @@ def adminProducts():
 
 @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
 def adminProductsView(pid):
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
+    staffStatus = s().staffIsAdmin(session['eid'])[0]
+    if not staffStatus:
+        return redirect(url_for('admin'))
     operation = p().getProductByID(pid)
     product = operation[1]
     if not operation[0]:
@@ -190,6 +218,11 @@ def adminProductsView(pid):
 
 @app.route('/admin/tax', methods=['GET', 'POST'])
 def adminTax():
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
+    staffStatus = s().staffIsAdmin(session['eid'])[0]
+    if not staffStatus:
+        return redirect(url_for('admin'))
     tax = t().getTax()
     message = None
     if request.method == 'POST':
@@ -203,6 +236,11 @@ def adminTax():
 
 @app.route('/admin/staff', methods=['GET', 'POST'])
 def adminStaff():
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
+    staffStatus = s().staffIsAdmin(session['eid'])[0]
+    if not staffStatus:
+        return redirect(url_for('admin'))
     staff = s().getAllStaff()
     if request.method == 'POST':
         method = request.form['_method']
@@ -226,6 +264,11 @@ def adminStaff():
 
 @app.route('/admin/staff/<string:eid>', methods=['GET', 'POST'])
 def adminStaffEdit(eid):
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
+    staffStatus = s().staffIsAdmin(session['eid'])[0]
+    if not staffStatus:
+        return redirect(url_for('admin'))
     operation = s().getStaffByEidMain(eid)
     staff = operation[1]
     if request.method == 'POST':

@@ -146,3 +146,12 @@ class StaffHandler:
         chars = string.ascii_letters + string.punctuation + string.digits
         password = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
         return password
+
+    def staffIsAdmin(self, eid):
+        admin = StaffDao().staffIsAdmin(eid)
+        if admin == None:
+            return False, 'no_staff'
+        elif admin == True:
+            return True, 'is_admin'
+        else:
+            return False, 'not_admin'

@@ -32,6 +32,11 @@ class StaffDao:
         staff = self.getStaffByEid(eid)
         return staff['staff_password']
 
+    def staffIsAdmin(self, eid):
+        staff = self.getStaffByEid(eid)
+        admin = staff['admin']
+        return admin
+
     def insertStaff(self, name, last, eid, isAdmin, email, password, store):
         newStaff = {
             "staff_fname": name,

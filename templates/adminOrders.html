@@ -1,4 +1,8 @@
-{% extends "adminlayout.html" %}
+{% if staffStatus == 'not_admin' %}
+    {% extends "stafflayout.html" %}
+{% else %}
+    {% extends "adminlayout.html" %}
+{% endif %}
 {% block title %}Orders{% endblock %}
 {% block main %}
     <!--Featured Section-->
@@ -12,10 +16,14 @@
         <div class="col-md">
             <h5 class="aag-border-bottom">Resumen de Ordenes</h5>
             <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">Completadas: <span class="badge badge-secondary badge-pill"><strong>{{ complete }}</strong></span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Pendientes: <span class="badge badge-secondary badge-pill"><strong>{{ pending }}</strong></span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Sin Enviar: <span class="badge badge-secondary badge-pill"><strong>{{ unshipped }}</strong></span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Canceladas: <span class="badge badge-secondary badge-pill"><strong>{{ canceled }}</strong></span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">Completadas:
+                    <span><strong>{{ complete }}</strong></span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">Pendientes:
+                    <span><strong>{{ pending }}</strong></span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">Sin Enviar:
+                    <span><strong>{{ unshipped }}</strong></span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">Canceladas:
+                    <span><strong>{{ canceled }}</strong></span></li>
             </ul>
         </div>
         <div class="col-md">

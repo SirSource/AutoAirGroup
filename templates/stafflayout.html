@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='aag.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>{% block title %}{% endblock %} - AAG Admin</title>
+</head>
+
+<body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<!-- Javascript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='carPicker.js') }}"></script>
+
+<div id="header" class="container-fluid">
+    <!--Subheader-->
+    <div class="row bg-white aag-border-bottom1">
+        <div class="col-md-4 pt-2 pb-2">
+            <img src="{{ url_for('static', filename='img/logo.png') }}">
+        </div>
+        <div class="col-md-4 pt-2 pb-2"></div>
+        <div class="col-md-4 pt-2 pb-2">
+            <!--Search Box Input Group-->
+            <div class="input-group w-75 mx-auto mt-3 mb-3">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button">Go!</button>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <!--Navigation bar-->
+    <div class="row bg-white pt-2 pb-2 aag-shadow">
+        <nav class="col-md navbar navbar-expand-md navbar-light">
+            <!--Hamburger Menu Button-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navigation Menu Items -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin') }}">Panel Administrativo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('adminOrders') }}">Ver Ordenes</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--Right Side of Nav-->
+        <span class="col-md-3 mt-2">
+                <!--Sign Out link-->
+                <a href="{{ url_for('staffEndSession') }}" class="btn btn-primary">Sign Out</a>
+            </span>
+    </div>
+</div>
+<!--Main Content Area-->
+<div id="main" class="container">
+    {% block main %}{% endblock %}
+</div>
+</body>
+
+</html>

@@ -1,4 +1,8 @@
-{% extends "adminlayout.html" %}
+{% if staffStatus == 'not_admin' %}
+    {% extends "stafflayout.html" %}
+{% else %}
+    {% extends "adminlayout.html" %}
+{% endif %}
 {% block title %}Orden: {{ oid }}{% endblock %}
 {% block main %}
     <!--Featured Section-->
