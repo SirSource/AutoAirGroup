@@ -52,7 +52,7 @@ def accounts():
             message = operation[2]
             if operation[0]:
                 session['email'] = operation[1]
-                return redirect(url_for('user', email = operation[1]))
+                return redirect(url_for('user', email=operation[1]))
         elif method == 'CREATE_USER':
             operation = u().insertUser(request.form)
             condition = operation[0]
@@ -77,7 +77,6 @@ def user(email):
         orders = operation[2]
     else:
         orders = operation[1]
-    print(orders)
     return render_template('userProfile.html', orders=orders, user=user)
 
 
@@ -104,9 +103,22 @@ def admin():
         return redirect(url_for('adminLogin'))
     return render_template('admin.html')
 
-@app.route('/admin/login')
+
+@app.route('/admin/login', methods=['GET', 'POST'])
 def adminLogin():
+    session.pop('email', None)
+    if 'eid' in session:
+        return redirect(url_for('admin'))
+    if request.method == 'POST':
+        operation = s().staffAuthenticate(request.form)
+        result = operation[0]
+        eid = operation[1]
+        message = operation[2]
+        if result:
+            session['eid'] = eid
+            return redirect(url_for('admin'))
     return render_template('adminLogin.html')
+
 
 @app.route('/admin/orders', methods=['GET', 'POST'])
 def adminOrders():

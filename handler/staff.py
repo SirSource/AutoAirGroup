@@ -129,12 +129,16 @@ class StaffHandler:
         else:
             return True
 
-    def staffAuthenticate(self, eid, password):
+    def staffAuthenticate(self, form):
+        eid = form['eid'].lower()
+        password = form['password']
+        if eid == '' or password == '':
+            return False, None, 'invalid_form'
         systemPass = StaffDao().getStaffPass(eid)
         if systemPass == password:
-            return True
+            return True, eid, 'staff_auth'
         else:
-            return False
+            return False, None, 'staff_auth_failed'
 
     def generatePassword(self):
         minlength = 8
