@@ -9,7 +9,7 @@ from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 
 app = Flask(__name__)
-app.secret_key = 'a random aag control string'
+app.secret_key = 'PGaxILENXyNhKV3meAMa'
 UPLOAD_FOLDER = app.root_path + '/static/img/products/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
@@ -129,7 +129,6 @@ def adminLogin():
     session.pop('email', None)
     if 'eid' in session:
         adminOp = s().staffIsAdmin(session['eid'])
-        print(adminOp)
         return redirect(url_for('admin'))
     if request.method == 'POST':
         operation = s().staffAuthenticate(request.form)
@@ -139,8 +138,6 @@ def adminLogin():
         if result:
             session['eid'] = eid
             adminOp = s().staffIsAdmin(session['eid'])
-            print('here')
-            print(adminOp)
             return redirect(url_for('admin'))
     return render_template('adminLogin.html')
 
@@ -155,6 +152,7 @@ def staffEndSession():
 def adminOrders():
     if 'eid' not in session:
         return redirect(url_for('adminLogin'))
+    message=None
     orders = o().getAllOrders()
     complete = o().countCompleteOrders()
     pending = o().countPendingOrders()
@@ -164,6 +162,8 @@ def adminOrders():
         method = request.form['_method']
         if method == 'FIND_PHONE':
             operation = o().getOrdersByPhone(request.form)
+            message = operation[2]
+            print(operation[2])
             if operation[0]:
                 orders = operation[1]
         elif method == 'OID':
@@ -171,7 +171,7 @@ def adminOrders():
             return adminOrdersView(oid[0])
     staffStatus = s().staffIsAdmin(session['eid'])[1]
     return render_template('adminOrders.html', orders=orders, complete=complete, pending=pending, unshipped=unshipped,
-                           canceled=canceled, staffStatus=staffStatus)
+                           canceled=canceled, searchMessage=message, staffStatus=staffStatus)
 
 
 @app.route('/admin/orders/<string:oid>', methods=['GET', 'POST'])

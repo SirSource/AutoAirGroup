@@ -42,7 +42,7 @@ class OrdersHandler:
     def getOrdersByPhone(self, form):
         phone = form['orderQuery']
         if not v().validPhone(phone):
-            return False, None, 'invalif_phone'
+            return False, None, 'invalid_phone'
         dao = OrdersDao()
         item = dao.getOrdersByPhone(phone)
         if item == None:

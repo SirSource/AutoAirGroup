@@ -28,6 +28,11 @@
         </div>
         <div class="col-md">
             <h5 class="aag-border-bottom">Buscar Orden</h5>
+            {% if searchMessage == 'invalid_phone' %}
+                <div class="alert alert-danger" role="alert">
+                    No se encontraron ordenes con ese teléfono o el campo está vacío.
+                </div>
+            {% endif %}
             <div class="input-group">
                 <form action="{{ url_for('adminOrders') }}" method="POST">
                     <div>

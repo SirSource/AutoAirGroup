@@ -1,6 +1,12 @@
 from handler.products import ProductsHandler as p
 
-print(p().getProductQty('CN30024PFC'))
+from config.dbconfig import client
+
+#search
+collection = client.AutoAirGroupdb.products
+search_this_string = "Compresores"
+collection.create_index([('pbrand', 'text'),('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
+print(collection.find({"$text": {"$search": search_this_string}}).count())
 
 # deleteTest =['234DDDD','Guaynabo']
 # print(p().deleteProductByIDAndLocation(deleteTest[0],deleteTest[1]))
@@ -139,7 +145,6 @@ print(p().getProductQty('CN30024PFC'))
 ########################################################################################################################
 
 
-
 ########################################################################################################################
 #                                           SEARCH PRODUCT BY CAR
 ########################################################################################################################
@@ -188,5 +193,3 @@ print(p().getProductQty('CN30024PFC'))
 
 
 ########################################################################################################################
-
-
