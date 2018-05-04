@@ -91,6 +91,26 @@ def cart():
     return render_template('cart.html')
 
 
+@app.route('/cart/add', methods=['GET', 'POST'])
+def cartAdd():
+    print(len(session['cart']))
+    if request.method == 'POST':
+        product = request.form['_cartPid']
+        qty = request.form['qty']
+        print(str(product) + " " + str(qty))
+        if 'cart' in session:
+            if not any(product in d for d in session['cart']):
+                session['cart'].append({product: qty})
+            elif any(product in d for d in session['cart']):
+                for d in session['cart']:
+                    d.update((k, qty) for k, v in d.items() if k == product)
+        else:
+            session['cart'] = [{product: qty}]
+        print(session['cart'])
+    session.modified = True
+    return redirect(request.referrer)
+
+
 @app.route('/users')
 def getAllUsers():
     return u().getAllUsers()

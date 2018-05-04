@@ -23,10 +23,63 @@
                     <table class="table table-borderless">
                         <tbody>
                         <tr>
-                            <td><h1><strong><i>${{ product['pprice'] }}</i></strong></h1><h5>+ ${{ product['pshipping'] }} de envío</h5></td>
+                            <td><h1><strong><i>${{ product['pprice'] }}</i></strong></h1><h5>+
+                                ${{ product['pshipping'] }} de envío</h5></td>
                             <td>
-                                <button class="btn btn-primary" type="submit"><h5><strong>+ Carrito</strong></h5>
-                                </button>
+                                {% if product['qty'] == 1 %}
+                                    <h5>¡Sólo queda uno!</h5>
+                                {% endif %}
+                                {% if product['qty'] < 1 %}
+                                    <button class="btn btn-secondary" type="submit">NO DISPONIBLE</button>
+                                {% else %}
+{#                                    <form action="{{ url_for('cartAdd') }}" method="POST">#}
+                                    {#                                        <input type="hidden" name="_cartPid" value="{{ product['pid'] }}">#}
+                                    {#                                        <select name="qty">#}
+                                    {#                                            {% for i in range(product['qty']) %}#}
+                                    {#                                                <option value="{{ i+1 }}">{{ i+1 }}</option>#}
+                                    {#                                            {% endfor %}#}
+                                    {#                                            <option value="0">0</option>#}
+                                    {#                                        </select>#}
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#exampleModal">Comprar
+                                        </button>
+{#                                    </form>#}
+                                {% endif %}
+                                <!--MODAL DE CARRITO-->
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Añadir al carrito</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ url_for('cartAdd') }}" method="POST">
+                                                    <input type="hidden" name="_cartPid" value="{{ product['pid'] }}">
+                                                    <select name="qty">
+                                                        {% for i in range(product['qty']) %}
+                                                            <option value="{{ i+1 }}">{{ i+1 }}</option>
+                                                        {% endfor %}
+                                                        <option value="0">0</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-primary">Añadir al Carrito
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Cerrar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--FIN MODAL DE CARRITO-->
                             </td>
                         </tr>
                         </tbody>
