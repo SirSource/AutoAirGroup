@@ -1,7 +1,7 @@
 {% if staffStatus == 'not_admin' %}
     {% extends "stafflayout.html" %}
 {% else %}
-    {% extends "adminlayout.html" %}
+    {% extends "adminLayout.html" %}
 {% endif %}
 {% block title %}Orden: {{ oid }}{% endblock %}
 {% block main %}

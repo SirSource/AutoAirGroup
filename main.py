@@ -148,11 +148,22 @@ def staffEndSession():
     return redirect(url_for('admin'))
 
 
+@app.route('/admin/staff/account/')
+def staffProfile():
+    if 'eid' not in session:
+        return redirect(url_for('adminLogin'))
+    eid = session['eid']
+    admin = s().staffIsAdmin(session['eid'])[0]
+    staff = s().getStaffByEidMain(eid)[1]
+    print(staff)
+    return render_template('staffProfile.html', admin=admin, staff=staff)
+
+
 @app.route('/admin/orders', methods=['GET', 'POST'])
 def adminOrders():
     if 'eid' not in session:
         return redirect(url_for('adminLogin'))
-    message=None
+    message = None
     orders = o().getAllOrders()
     complete = o().countCompleteOrders()
     pending = o().countPendingOrders()
