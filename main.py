@@ -93,7 +93,6 @@ def cart():
 
 @app.route('/cart/add', methods=['GET', 'POST'])
 def cartAdd():
-    print(len(session['cart']))
     if request.method == 'POST':
         product = request.form['_cartPid']
         qty = request.form['qty']
