@@ -6,6 +6,8 @@
         Producto no encontrado
     {% endif %}
 {% endblock %}
+<!--Car Pciker Module-->
+<script src="{{ url_for('static', filename='carPicker.js') }}"></script>
 {% block main %}
     <!--Featured Section-->
     <div class="row mt-3 mb-3">
@@ -70,30 +72,30 @@
                             <label for="product-name">Título / Nombre</label>
                             <input type="text" class="form-control" name="pname" id="product-name"
                                    value="{{ product['pname'] }}"
-                                   placeholder="Título / Nombre">
+                                   placeholder="Título / Nombre" oninvalid="this.setCustomValidity('El producto debe tener un nombre o título.')" oninput="setCustomValidity('')" required>
                         </div>
                         <div class="form-group">
                             <label for="brand">Marca</label>
                             <input type="text" class="form-control" name="pbrand" id="brand"
                                    value="{{ product['pbrand'] }}"
-                                   placeholder="Marca">
+                                   placeholder="Marca" oninvalid="this.setCustomValidity('El producto debe tener un valor para la marca.')" oninput="setCustomValidity('')" required>
                         </div>
                         <div class="form-group">
                             <label for="price">Precio</label>
-                            <input type="text" class="form-control" name="pprice" id="price"
+                            <input type="number" min="0.00" step="0.01" class="form-control" name="pprice" id="price"
                                    value="{{ product['pprice'] }}"
-                                   placeholder="Precio">
+                                   placeholder="Precio" oninvalid="this.setCustomValidity('Entre un precio para el producto.')" oninput="setCustomValidity('')" required>
                         </div>
                         <div class="form-group">
                             <label for="shipping">Envío</label>
-                            <input type="text" class="form-control" name="pshipping" id="shipping"
+                            <input type="number" min="0.00" step="0.01" class="form-control" name="pshipping" id="shipping"
                                    value="{{ product['pshipping'] }}"
-                                   placeholder="Costo de envío">
+                                   placeholder="Costo de envío" oninvalid="this.setCustomValidity('Entre el valor para el manejo y envío del producto.')" oninput="setCustomValidity('')" required>
                         </div>
                         <div class="form-group">
                             <label for="qty">Cantidad</label>
-                            <input type="text" class="form-control" name="qty" id="qty" placeholder="Cantidad"
-                                   value="{{ product['qty'] }}">
+                            <input type="number" min="0" class="form-control" name="qty" id="qty" placeholder="Cantidad"
+                                   value="{{ product['qty'] }}" oninvalid="this.setCustomValidity('Entre la cantidad disponible para vender.')" oninput="setCustomValidity('')" required>
                         </div>
                         <div class="form-group">
                             <label for="store">Tienda</label>
@@ -108,7 +110,7 @@
                         <!--DE AQUI-->
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Año de vehículo</label>
-                            <select class="form-control" name="cyear" id="year">
+                            <select class="form-control" name="cyear" id="year" oninvalid="this.setCustomValidity('Especifíque el año del vehículo.')" oninput="setCustomValidity('')" required>
                                 <option value="{{ product['car']['year'] }}" selected>Actual:
                                     [{{ product['car']['year'] }}]
                                 </option>
@@ -166,7 +168,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Marca de vehículo</label>
-                            <select class="form-control" name="cmake" id="formmake">
+                            <select class="form-control" name="cmake" id="formmake" oninvalid="this.setCustomValidity('Especifique la marca del vehículo.')" oninput="setCustomValidity('')" required>
                                 <option value="{{ product['car']['make'] }}" selected>Actual:
                                     [{{ product['car']['make'] }}]
                                 </option>
@@ -175,7 +177,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Modelo de vehículo</label>
-                            <select class="form-control" name="cmodel" id="formmodel">
+                            <select class="form-control" name="cmodel" id="formmodel" oninvalid="this.setCustomValidity('Especifique el modelo del vehículo.')" oninput="setCustomValidity('')" required>
                                 <option value="{{ product['car']['model'] }}" selected>Actual:
                                     [{{ product['car']['model'] }}]
                                 </option>
@@ -190,7 +192,7 @@
                         <!--A AQUI-->
                         <div class="form-group">
                             <label for="category">Categoría</label>
-                            <select id="inputState" name="category" class="form-control">
+                            <select id="inputState" name="category" class="form-control" oninvalid="this.setCustomValidity('Escoja una categoría para el producto.')" oninput="setCustomValidity('')" required>
                                 <option value="{{ product['pcategory'] }}">Actual: [{{ product['pcategory'] }}]</option>
                                 <option value="Compresores">Compresores</option>
                                 <option value="Evaporadores">Evaporadores</option>
@@ -213,9 +215,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Descripción</label>
-                            <textarea class="form-control" name="description" id="description"
-                                      value="{{ product['pdetails'] }}"
-                                      rows="3"></textarea>
+                            <textarea class="form-control" name="description" id="description" rows="3" oninvalid="this.setCustomValidity('Describa brevemente el producto.')" oninput="setCustomValidity('')" required>{{ product['pdetails'] }}</textarea>
                         </div>
                         <input type="hidden" name="_method" value="ADD_PRODUCT">
                         <button class="btn btn-primary">Actualizar producto</button>

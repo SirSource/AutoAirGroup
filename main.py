@@ -148,15 +148,22 @@ def staffEndSession():
     return redirect(url_for('admin'))
 
 
-@app.route('/admin/staff/account/')
+@app.route('/admin/staff/account/', methods=['GET', 'POST'])
 def staffProfile():
+    message = None
     if 'eid' not in session:
         return redirect(url_for('adminLogin'))
+    if request.method == 'POST':
+        method = request.form['_method']
+        if method == 'UPDATE_PASS':
+            eid = request.form['eid']
+            operation = s().updateStaffPassword(eid, request.form['oldPass'], request.form['newPass'])
+            message = operation[1]
+            print(message)
     eid = session['eid']
     admin = s().staffIsAdmin(session['eid'])[0]
     staff = s().getStaffByEidMain(eid)[1]
-    print(staff)
-    return render_template('staffProfile.html', admin=admin, staff=staff)
+    return render_template('staffProfile.html', admin=admin, staff=staff, updateStatus=message)
 
 
 @app.route('/admin/orders', methods=['GET', 'POST'])

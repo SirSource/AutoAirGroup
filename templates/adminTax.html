@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label for="tax-rate">Impuesto (%)</label>
                     <input type="text" class="form-control" name="tax" id="tax-rate"
-                           placeholder="Impuesto actual: {{ fee*100 }}%">
+                           placeholder="Impuesto actual: {{ fee*100 }}%" oninvalid="this.setCustomValidity('El impuesto no puede estar vacío, entre 0 para remover el impuesto.')" oninput="setCustomValidity('')" required>
                     <span></span>
                 </div>
                 <div class="form-group">

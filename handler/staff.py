@@ -85,13 +85,14 @@ class StaffHandler:
         if password == '' or newPassword == '':
             return False, 'invalid_form'
         if v().validPassword(newPassword) and self.staffExists(eid):
-            if self.staffAuthenticate(eid, password):
+            bool = self.staffAuthenticateChange(eid, password)[0]
+            if bool:
                 StaffDao().updateStaffPassword(eid, newPassword)
                 return True, 'updated_password'
             else:
                 return False, 'invalid_password'
         else:
-            return False, 'invalid_password'
+            return False, 'invalid_new_password'
 
     def insertStaff(self, form):
         fname = form['first_name']
@@ -128,6 +129,15 @@ class StaffHandler:
             return False
         else:
             return True
+
+    def staffAuthenticateChange(self, eid, password):
+        if eid == '' or password == '':
+            return False, None, 'invalid_form'
+        systemPass = StaffDao().getStaffPass(eid)
+        if systemPass == password:
+            return True, eid, 'staff_auth'
+        else:
+            return False, None, 'staff_auth_failed'
 
     def staffAuthenticate(self, form):
         eid = form['eid'].lower()

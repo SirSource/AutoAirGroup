@@ -33,25 +33,32 @@
             <form action="{{ url_for('accounts') }}" method="POST">
                 <div class="form-group">
                     <label for="email">Correo electrónico</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Correo electrónico">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Correo electrónico"
+                           oninvalid="this.setCustomValidity('Entre el correo electrónico asociado a su cuenta.')"
+                           oninput="setCustomValidity('')" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña"
+                           oninvalid="this.setCustomValidity('Entre su contraseña.')" oninput="setCustomValidity('')"
+                           required>
                     <a href="#">Recuperar contraseña</a>
                 </div>
                 <input type="hidden" name="_method" value="LOG_IN">
                 <button class="btn btn-primary">Iniciar Sesión</button>
             </form>
         </div>
-        <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
+        <div class="col-lg-12 mt-4 aag-border-bottom text-center">
+            Si no tiene una cuenta con Auto Air Group, puedes registrarte utilizando el botón de abajo.
+        </div>
+        <div class="text-center col-12 mt-3 pb-3">
 
-            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample"
-                    aria-expanded="false"
-                    aria-controls="collapseExample">
+            <span class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample"
+                  aria-expanded="false"
+                  aria-controls="collapseExample">
                 Crear una cuenta nueva
-            </button>
-        </p>
+            </span>
+        </div>
         <div class="collapse col-md-6 mx-auto" id="collapseExample">
             <h5>Complete el formulario para registrarse</h5>
             <div class="card card-body">
@@ -59,23 +66,31 @@
                     <div class="form-group">
                         <label for="first-name">Nombre</label>
                         <input type="text" class="form-control" id="first-name" name="first_name"
-                               placeholder="Nombre">
+                               placeholder="Nombre" oninvalid="this.setCustomValidity('Entre su nombre.')"
+                               oninput="setCustomValidity('')" required>
                     </div>
                     <div class="form-group">
                         <label for="last-name">Apellido</label>
-                        <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Apellido">
+                        <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Apellido"
+                               oninvalid="this.setCustomValidity('Entre su apellido.')" oninput="setCustomValidity('')"
+                               required>
                     </div>
                     <div class="form-group">
                         <label for="email">Correo electrónico</label>
                         <input type="email" class="form-control" id="email" name="email"
-                               placeholder="Correo electrónico">
+                               placeholder="Correo electrónico"
+                               oninvalid="this.setCustomValidity('Entre su correo electrónico.')"
+                               oninput="setCustomValidity('')" required>
                         <small class="text-muted">El correo electrónico servirá como su nombre de usuario.</small>
                     </div>
                     <div class="form-group">
                         <label for="password">Contraseña</label>
                         <input type="password" class="form-control" id="password" name="password"
-                               placeholder="Contraseña">
-                        <small class="text-muted">Mínimo de 8 caracteres. Al menos: 1 letra mayúscula, 1 número, y 1
+                               placeholder="Contraseña"
+                               oninvalid="this.setCustomValidity('Entre una constraseña con al menos: 1 letra mayúscula, 1 número, y 1 caracter especial (@, #, $, %, *, ?, !).')"
+                               oninput="setCustomValidity('')" required>
+                        <small class="text-muted">Mínimo de 8 caracteres y un máximo de 15. Al menos: 1 letra mayúscula,
+                            1 número, y 1
                             caracter especial (@, #, $, %, *, ?, !)
                         </small>
                     </div>

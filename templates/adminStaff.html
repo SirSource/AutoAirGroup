@@ -28,19 +28,19 @@
                 <form action="{{ url_for('adminStaff') }}" method="post">
                     <div class="form-group">
                         <label for="first-name">Nombre</label>
-                        <input type="text" class="form-control" name="first_name" id="first-name" placeholder="Nombre">
+                        <input type="text" class="form-control" name="first_name" id="first-name" placeholder="Nombre" oninvalid="this.setCustomValidity('Entre el nombre del empleado.')" oninput="setCustomValidity('')" required>
                     </div>
                     <div class="form-group">
                         <label for="last-name">Apellido</label>
-                        <input type="text" class="form-control" name="last_name" id="last-name" placeholder="Apellido">
+                        <input type="text" class="form-control" name="last_name" id="last-name" placeholder="Apellido" oninvalid="this.setCustomValidity('Entre el apellido del empleado')" oninput="setCustomValidity('')" required>
                     </div>
                     <div class="form-group">
                         <label for="eid">ID de Empleado (EID)</label>
-                        <input type="text" class="form-control" name="eid" id="eid" placeholder="EID">
+                        <input type="text" class="form-control" name="eid" id="eid" placeholder="EID" oninvalid="this.setCustomValidity('Entre un EID para el empleado.')" oninput="setCustomValidity('')" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" oninvalid="this.setCustomValidity('Entre un correo electrónico para el empleado.')" oninput="setCustomValidity('')" required>
                         <small class="text-muted">Esto será el nombre de usuario del empleado.</small>
                     </div>
                     <div class="form-group">
@@ -95,7 +95,8 @@
                 {#                    <label class="form-check-label" for="inlineRadio2">Nombre del Empleado</label>#}
                 {#                </div>#}
             </form>
-            <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
+        <p class="col-12 mt-5">Utiliza el botón de abajo para proceder a remover un empleado del sistema. Puede remover empleados regulares y administradores.</p>
+            <p class="justify-content-center col-12 mt-1 pb-3 aag-border-bottom">
                 <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDelete"
                         aria-expanded="false"
                         aria-controls="collapseDelete">
@@ -119,7 +120,7 @@
                 </div>
                 <form action="{{ url_for('adminStaff') }}" method="post">
                     <div class="input-group">
-                        <input type="text" name="eid" class="form-control" placeholder="EID del empleado a remover...">
+                        <input type="text" name="eid" class="form-control" placeholder="EID del empleado a remover..." oninvalid="this.setCustomValidity('El EID del empleado no puede estar vacío.')" oninput="setCustomValidity('')" required>
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="btn btn-danger">Borrar Empleado</button>
                     </div>
