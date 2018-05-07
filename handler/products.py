@@ -54,8 +54,11 @@ class ProductsHandler:
         return True, ProductsDao().getProductByID(pid), 'product_exists'
 
     def getProductQty(self, pid):
-        qty = ProductsDao().getProductQty(pid)
-        print(qty)
+        try:
+            qty = ProductsDao().getProductQty(pid)
+            return (qty)
+        except:
+            return 0
 
     def getProductInfoByProductName(self, pname):
         """
@@ -359,7 +362,7 @@ class ProductsHandler:
         except:
             return False
 
-    #--Auxiliary Functions--#
+    # --Auxiliary Functions--#
     def productExistByID(self, pid):
         product = ProductsDao().productExistByID(pid)
         if product == None:

@@ -1,4 +1,6 @@
+import datetime
 from dao.orders import OrdersDao
+from handler.products import ProductsHandler as p
 from utilities.valid import Valid as v
 
 
@@ -113,6 +115,26 @@ class OrdersHandler:
             return True, 'order_not_shipped'
         else:
             return False, 'update_error'
+
+    def createOrderfromCart(self, cart):
+        products = []
+        shipping = 0
+        # TODO: Check quantities, make sure valid. Place PID of quantity that failed in a list.
+        for item in cart:
+            pid = list(item.keys())[0]
+            query = p().getProductByID(pid)[1][0]
+            newProduct = {
+                'pid': pid,
+                'pname': query['pname'],
+                'plocation': query['plocation'],
+                'qty': item[pid],
+                'unit_price': query['pprice'],
+                'unit_total': query['pprice'] * int(item[pid])
+            }
+            products.append(newProduct)
+            shipping = shipping + query['pshipping']
+        date = datetime.datetime.now()
+
 
     # ---Auxiliary Methods---#
 
