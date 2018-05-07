@@ -1,5 +1,10 @@
 from flask import Flask, request, redirect, url_for, render_template, session
 import os
+import stripe
+import sendgrid
+from sendgrid.helpers.mail import *
+from twilio.rest import Client
+
 from werkzeug.utils import secure_filename
 from utilities.valid import Valid as v
 from handler.users import UserHandler as u
@@ -13,6 +18,13 @@ app.secret_key = 'PGaxILENXyNhKV3meAMa'
 UPLOAD_FOLDER = app.root_path + '/static/img/products/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
+
+# === Stripe Stuff Const ====== #
+
+pub_key = 'pk_test'
+secret_key = 'sk_test'
+
+stripe.api_key = secret_key
 
 
 @app.route('/')
@@ -314,6 +326,68 @@ def adminStaffEdit(eid):
             staff = operation[1]
             return render_template('adminStaffEdit.html', staff=staff)
     return render_template('adminStaffEdit.html', staff=staff)
+
+
+# ====== Stripe Testing ====== #
+'''
+pub_key = 'pk_test_D3JW1FlVygvBQIz2uDJlPHix'
+secret_key = 'sk_test_L1gq9DkWasFWF93WONLDWhUw'
+
+stripe.api_key = secret_key
+
+@app.route('/')
+def index():
+    return render_template('stripeTest.html', pub_key=pub_key)
+
+
+@app.route('/pay', methods=['POST'])
+def pay():
+    
+    customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
+
+    charge = stripe.Charge.create(
+        customer=customer.id,
+        amount=1000,  # Esta cantidad es representada en centavos!!! 100 = $1.00 por ejemplo. #
+        currency='usd',
+        description='The Product'
+    )
+
+    return redirect(url_for('thanks'))  # Redirigir a la pagina de gracias por su compra #
+
+
+'''
+
+
+
+# ======= ENVIAR EMAIL =========== #
+'''    #No perder el apikey !!!!
+sg = sendgrid.SendGridAPIClient(apikey='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')
+from_email = Email("gustavodev@live.com")  #Email de origen
+to_email = Email("gustavo.marrero1@upr.edu")   # El destinatario
+subject = "Auto Air Group Order Details"
+content = Content("text/plain", "Your order number is...")
+mail = Mail(from_email, subject, to_email, content)
+response = sg.client.mail.send.post(request_body=mail.get())
+print(response.status_code)
+print(response.body)
+print(response.headers)
+'''
+
+
+# ========= Enviar text message ===========  #
+
+'''
+# Numero de telefono oficial para este proposito es 1-787-339-2761
+account_sid = "ACa56dd8dd118c74980d7b95f8c85edf5b"
+auth_token = "2da401b6b6bf56f4ea14cc54df92f007"
+client = Client(account_sid, auth_token)
+client.messages.create(
+  to="+17879488935",  # Destinatario 
+  from_="+17873392761",
+  body="Luisro Podemos enviar textos. Jajajaja -Gus")  # Contenido del mensaje 
+  # media_url="https://climacons.herokuapp.com/clear.png")  # esto es para multimedia message
+
+'''
 
 
 # === ERROR HANDLING === #
