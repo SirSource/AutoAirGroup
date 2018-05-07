@@ -5,6 +5,29 @@
 {% endif %}
 {% block title %}Dashboard{% endblock %}
 {% block main %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Load google charts
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Estatus', 'Cantidad de compras'],
+                ['Completadas', {{ complete  }}],
+                ['Pendientes', {{ pending }}],
+                ['Canceladas', {{ canceled }}]
+            ]);
+
+            // Optional; add a title and set the width and height of the chart
+            var options = {'width': 450, 'height': 300};
+
+            // Display the chart inside the <div> element with id="piechart"
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+    </script>
     <!--Featured Section-->
     <div class="row mt-3 mb-3">
         <h3 class="font-weight-bold">
@@ -67,8 +90,8 @@
             </table>
         </div>
         <div class="col-md mt-5">
-            <h5 class="aag-border-bottom">Sales Overview</h5>
-            <span>Graph Showing Sales.</span>
+            <h5 class="aag-border-bottom">Estadísticas de compras</h5>
+            <div id="piechart"></div>
         </div>
         <div class="col-md mt-5">
             <h5 class="aag-border-bottom">Other Information</h5>

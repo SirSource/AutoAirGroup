@@ -61,12 +61,13 @@
                                             <div class="modal-body">
                                                 <form action="{{ url_for('cartAdd') }}" method="POST">
                                                     <input type="hidden" name="_cartPid" value="{{ product['pid'] }}">
-                                                    <select name="qty">
-                                                        {% for i in range(product['qty']) %}
-                                                            <option value="{{ i+1 }}">{{ i+1 }}</option>
-                                                        {% endfor %}
-                                                        <option value="0">0</option>
-                                                    </select>
+                                                    <input type="number" min="0" max="{{ product['qty'] }}" step="1" name="qty" value="1">
+{#                                                    <select name="qty">#}
+{#                                                        {% for i in range(product['qty']) %}#}
+{#                                                            <option value="{{ i+1 }}">{{ i+1 }}</option>#}
+{#                                                        {% endfor %}#}
+{#                                                        <option value="0">0</option>#}
+{#                                                    </select>#}
                                                     <button type="submit" class="btn btn-primary">Añadir al Carrito
                                                     </button>
                                                 </form>

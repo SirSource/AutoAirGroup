@@ -1,5 +1,6 @@
 from config.dbconfig import client
 
+
 class UsersDao:
 
     def __init__(self):
@@ -58,7 +59,7 @@ class UsersDao:
         :param zip: Zip for user
         :return: User ID
         """
-        #User address dictionary
+        # User address dictionary
         # address = {
         #     "city": city,
         #     "place": place,
@@ -78,18 +79,47 @@ class UsersDao:
         return self.db.insert_one(newUser).inserted_id
 
     def updateUserAddress(self, email, address):
+        """
+        Updates the address of the user in the system.
+        :param email: Email of the user to update.
+        :param address: The new address dictionary for the user.
+        :return: Mongodb ObjectID.
+        """
         return self.db.update({'user_email': email}, {'$set': {'user_address': address}})
 
     def updateUserPhone(self, email, phone):
+        """
+        Updates the phone number of the user.
+        :param email: Email of the user to update.
+        :param phone: New phone number for the user.
+        :return: Mongodb ObjectID.
+        """
         return self.db.update({'user_email': email}, {'$set': {'user_phone': phone}})
 
     def updateUserEmail(self, email, newEmail):
+        """
+        Updates the email address number of the user.
+        :param email: Email of the user to update.
+        :param newEmail: New email for the user.
+        :return: Mongodb ObjectID.
+        """
         return self.db.update({'user_email': email}, {'$set': {'user_email': newEmail}})
 
     def updateUserPassword(self, email, password):
+        """
+        Updates the password of the user.
+        :param email: Email of the user to update.
+        :param password: The new password for the user.
+        :return: Mongodb ObjectID.
+        """
         return self.db.update({'user_email': email}, {'$set': {'user_password': password}})
 
     def getUserPass(self, email):
+        """
+        Retrieve the password for the user.
+        :param email: Email of the user.
+        :return: The user's password.
+        """
         user = self.getUserByEmail(email)
         if user == None:
             return None

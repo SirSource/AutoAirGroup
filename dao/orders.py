@@ -8,17 +8,31 @@ class OrdersDao:
         self.db = client.AutoAirGroupdb.orders
 
     def getAllOrders(self):
+        """
+        Retrieve all orders from the database.
+        :return: a list of all orders
+        """
         allOrders = []
         orders = self.db
         for doc in orders.find():
             allOrders.append(doc)
         return allOrders
 
-    def getOrdersByOrderID(self, iod):
-        order = self.db.find_one({"orderid": iod})
+    def getOrdersByOrderID(self, oid):
+        """
+        Retrieve orders with a specific order id.
+        :param oid: The id for the order to retrieve
+        :return: the order that matches the id.
+        """
+        order = self.db.find_one({"orderid": oid})
         return order
 
     def getOrdersByEmail(self, email):
+        """
+        Retrieve all orders that match a customer's email address
+        :param email: The email of the customer to search for.
+        :return: All orders from the customer with matching email.
+        """
         allOrders = None
         tempList = []
         orders = self.db
@@ -29,6 +43,11 @@ class OrdersDao:
         return allOrders
 
     def getOrdersByPhone(self, phone):
+        """
+        Retrieve all orders by matching phone numbers.
+        :param phone: The phone number of the customer.
+        :return: All orders that have the same matching phone number
+        """
         allOrders = None
         tempList = []
         orders = self.db
@@ -39,6 +58,11 @@ class OrdersDao:
         return allOrders
 
     def getOrdersByStatus(self, status):
+        """
+        Retrieve all orders that match a given status.
+        :param status: The current status of the order.
+        :return: A list of all orders that match that status.
+        """
         allOrders = None
         tempList = []
         orders = self.db
@@ -49,6 +73,10 @@ class OrdersDao:
         return allOrders
 
     def getOrdersShipped(self):
+        """
+        Retrieve all orders that have shipped.
+        :return: All orders that have a shipping status og 'shipped'
+        """
         allOrders = None
         tempList = []
         orders = self.db
@@ -62,40 +90,87 @@ class OrdersDao:
         None
 
     def updateOrderStatusForm(self, oid, status):
+        """
+        Finds a specific order and updates its status.
+        :param oid: The id of the order to update.
+        :param status: The new status (provided from the form, passed to the handler.)
+        :return: Database objectid.
+        """
         return self.db.update({'orderid': oid}, {'$set': {'payment_status': status}})
 
     def updateOrderShippingForm(self, oid, status):
+        """
+        Finds a specific order and updates its shipping status.
+        :param oid: The id of the order to update.
+        :param status: The new shipping status (provided from the form, passed to the handler.)
+        :return: Database objectid.
+        """
         return self.db.update({'orderid': oid}, {'$set': {'shipping': status}})
 
-    def deleteOrderById(self, oID):
-        return self.db.delete_many({"orderid": oID})
+    def deleteOrderById(self, oid):
+        """
+        Remove an order from the database using the ID.
+        :param oid: The ID of the order to remove.
+        :return: Database objectid.
+        """
+        return self.db.delete_many({"orderid": oid})
 
     def deleteOrderByUserEmail(self, email):
+        """
+        Remove an order from the database using the ID.
+        :param email: The email of the order to remove.
+        :return: Database objectid.
+        """
         return self.db.delete_many({"uemail": email})
 
     def countCompleteOrders(self):
+        """
+        Returns the number of orders that are complete.
+        :return: An integer representing the number of complete orders.
+        """
         count = self.db.count({"payment_status": 'complete'})
         return count
 
     def countPendingOrders(self):
+        """
+        Returns the number of orders that are pending.
+        :return: An integer representing the number of pending orders.
+        """
         count = self.db.count({"payment_status": 'pending'})
         return count
 
     def countCanceledOrders(self):
+        """
+        Returns the number of orders that are canceled.
+        :return: An integer representing the number of canceled orders.
+        """
         count = self.db.count({"payment_status": 'canceled'})
         return count
 
     def countUnshippedOrders(self):
+        """
+        Returns the number of orders that are not shipped yet.
+        :return: An integer representing the number of unshipped orders.
+        """
         count = self.db.count({"shipping": 'not_shipped'})
         return count
 
     def getOrderSequenceNumber(self):
+        """
+        Retrieved from the database the last order number used in order to continue the sequence.
+        :return: The last order number used.
+        """
         db = client.AutoAirGroupdb.orders_sequence_number
         collection = db.find_one({"_id": ObjectId('5af085fd5b156909a2160b50')})
         sequence = collection['current_oid']
         return sequence
 
     def updateOrderSequenceNumber(self, newSequence):
+        """
+        Updates the last order number used.
+        :param newSequence: The newly generated order number.
+        :return: True if operation successful, False otherwise.
+        """
         try:
             db = client.AutoAirGroupdb.orders_sequence_number
             db.update({"_id": ObjectId('5af085fd5b156909a2160b50')}, {'$set': {'current_oid': newSequence}})

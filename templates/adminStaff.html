@@ -80,7 +80,7 @@
             {% endif %}
             <form action="{{ url_for('adminStaff') }}" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="eid" placeholder="Entre el ID del empleado a buscar">
+                    <input type="text" class="form-control" name="eid" placeholder="Entre el ID del empleado a buscar" oninvalid="this.setCustomValidity('Se requiere el id del empleado para poder realizar una busqueda.')" oninput="setCustomValidity('')" required>
                     <input type="hidden" name="_method" value="SEARCH">
                     <button class="btn btn-primary" type="submit">Buscar</button>
                 </div>

@@ -121,7 +121,11 @@ def admin():
     if 'eid' not in session:
         return redirect(url_for('adminLogin'))
     operation = s().staffIsAdmin(session['eid'])
-    return render_template('admin.html', staffStatus=operation[1])
+    complete = o().countCompleteOrders()
+    pending = o().countPendingOrders()
+    unshipped = o().countUnshippedOrders()
+    canceled = o().countCanceledOrders()
+    return render_template('admin.html', complete=complete, pending=pending, unshipped=unshipped, canceled=canceled, staffStatus=operation[1])
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])
