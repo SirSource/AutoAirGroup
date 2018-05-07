@@ -133,8 +133,16 @@ class OrdersHandler:
             }
             products.append(newProduct)
             shipping = shipping + query['pshipping']
+        oid = self.generateOrderNumber()
         date = datetime.datetime.now()
 
+
+
+    def generateOrderNumber(self):
+        sequence = OrdersDao().getOrderSequenceNumber()
+        sequence = sequence + 1
+        OrdersDao().updateOrderSequenceNumber(sequence)
+        return sequence
 
     # ---Auxiliary Methods---#
 
