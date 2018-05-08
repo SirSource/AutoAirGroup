@@ -87,7 +87,7 @@ class StaffHandler:
         if v().validPassword(newPassword) and self.staffExists(eid):
             bool = self.staffAuthenticateChange(eid, password)[0]
             if bool:
-                StaffDao().updateStaffPassword(eid, newPassword)
+                StaffDao().updateStaffPassword(eid, v().encrypt(newPassword))
                 return True, 'updated_password'
             else:
                 return False, 'invalid_password'
@@ -107,7 +107,7 @@ class StaffHandler:
         elif self.staffExists(eid):
             return False, 'staff_exists'
         else:
-            StaffDao().insertStaff(fname, lname, eid, admin, email, password, store)
+            StaffDao().insertStaff(fname, lname, eid, admin, email, v().encrypt(password), store)
             return True, 'staff_created'
 
     def deleteStaff(self, form):
@@ -134,7 +134,7 @@ class StaffHandler:
         if eid == '' or password == '':
             return False, None, 'invalid_form'
         systemPass = StaffDao().getStaffPass(eid)
-        if systemPass == password:
+        if v().decrypt(password, systemPass):
             return True, eid, 'staff_auth'
         else:
             return False, None, 'staff_auth_failed'
@@ -145,7 +145,7 @@ class StaffHandler:
         if eid == '' or password == '':
             return False, None, 'invalid_form'
         systemPass = StaffDao().getStaffPass(eid)
-        if systemPass == password:
+        if v().decrypt(password, systemPass):
             return True, eid, 'staff_auth'
         else:
             return False, None, 'staff_auth_failed'

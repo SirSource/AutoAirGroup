@@ -1,6 +1,7 @@
 from validate_email import validate_email
 import string
 from random import *
+from passlib.hash import sha256_crypt
 
 
 class Valid:
@@ -61,3 +62,9 @@ class Valid:
         chars = string.ascii_letters + string.digits
         name = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
         return name + '.' + extension
+
+    def encrypt(self, password):
+        return sha256_crypt.encrypt(password)
+
+    def decrypt(self, testing, password):
+        return sha256_crypt.verify(testing, password)

@@ -56,7 +56,7 @@ class UserHandler:
             return False, 'user_exists'
         elif not v().validPassword(password):
             return False, 'invalid_password'
-        UsersDao().insertUser(name, last, usertype, email, password)
+        UsersDao().insertUser(name, last, usertype, email, v().encrypt(password))
         return True, email
 
     def updateUserAddress(self, email, city, address1, address2, zip):
@@ -102,8 +102,8 @@ class UserHandler:
         if email == '' or password == '' or newPassword == '':
             return False, 'invalid_form'
         if v().validPassword(newPassword) and self.userExists(email):
-            if self.userAuthenticate(email, password):
-                UsersDao().updateUserPassword(email, newPassword)
+            if self.userAuthenticate(form={'email': email, 'password': password}):
+                UsersDao().updateUserPassword(email, v().encrypt(newPassword))
                 return True, 'updated_password'
             else:
                 return False, 'invalid_password'
@@ -128,7 +128,7 @@ class UserHandler:
         email = form['email'].lower()
         password = form['password']
         systemPass = UsersDao().getUserPass(email)
-        if systemPass == password:
+        if v().decrypt(password, systemPass):
             return True, email, 'login_success'
         else:
             return False, None, 'login_fail'
