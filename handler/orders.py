@@ -2,6 +2,8 @@ import datetime
 from dao.orders import OrdersDao
 from handler.products import ProductsHandler as p
 from utilities.valid import Valid as v
+from bson.decimal128 import Decimal128
+from handler.tax import TaxHandler as t
 
 
 class OrdersHandler:
@@ -118,6 +120,32 @@ class OrdersHandler:
 
     def createOrderfromCart(self, cart):
         products = []
+        shipping = Decimal128('0')
+        ivu = Decimal128(str(t().getTax()))
+        total = Decimal128('0')
+        for item in cart:
+            pid = list(item.keys())[0]
+            query = p().getProductByID(pid)[1][0]
+            pprice = query['pprice']
+            pshipping = query['pshipping']
+            qty = Decimal128(item[pid])
+            newProduct = {
+                'pid': pid,
+                'pname': query['pname'],
+                'plocation': query['plocation'],
+                'qty': item[pid],
+                'unit_price': pprice,
+                'unit_total': Decimal128(pprice.to_decimal() * qty.to_decimal())
+            }
+            products.append(newProduct)
+            total = Decimal128(total.to_decimal() + (pprice.to_decimal() * qty.to_decimal()))
+            shipping = Decimal128(shipping.to_decimal() + query['pshipping'].to_decimal())
+        taxed = Decimal128(ivu.to_decimal() * total.to_decimal())
+        grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal())
+        return True, products, total, shipping, taxed, grandTotal, 'cart_exists'
+
+    def cartToDisplay(self, cart):
+        products = []
         shipping = 0
         # TODO: Check quantities, make sure valid. Place PID of quantity that failed in a list.
         for item in cart:
@@ -136,8 +164,7 @@ class OrdersHandler:
             shipping = shipping + query['pshipping']
         oid = self.generateOrderNumber()
         date = datetime.datetime.now()
-
-
+        return True, products, shipping, 'cart_exists'
 
     def generateOrderNumber(self):
         sequence = OrdersDao().getOrderSequenceNumber()

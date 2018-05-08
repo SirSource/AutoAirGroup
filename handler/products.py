@@ -1,5 +1,5 @@
 from dao.products import ProductsDao
-
+from bson.decimal128 import Decimal128
 
 class ProductsHandler:
 
@@ -160,10 +160,9 @@ class ProductsHandler:
         cyear = args['cyear']
         pcategory = args['pcategory']
 
-
         dao = ProductsDao()
         # TESTED: YES; works
-        if not( cmake == "None" or cmodel == "None" or cyear == "None" or pcategory =="None" ):
+        if not (cmake == "None" or cmodel == "None" or cyear == "None" or pcategory == "None"):
             print("IF")
             plist = dao.getProductsByCar(cmake, cmodel, cyear, pcategory)
             result_list = []
@@ -178,8 +177,6 @@ class ProductsHandler:
             print(plist)
             return plist
 
-
-
     def getGenericSearch(self, args):
         """
 
@@ -187,7 +184,8 @@ class ProductsHandler:
         :return:
         """
         dao = ProductsDao()
-        string = str(args['cmake'] )+ " " + str(args['cmodel']) + " " + str(args['cyear']) + " " + str(args['pcategory'])
+        string = str(args['cmake']) + " " + str(args['cmodel']) + " " + str(args['cyear']) + " " + str(
+            args['pcategory'])
         print(string)
         plist = dao.getGenericSearch(string)
         result_list = []
@@ -195,10 +193,6 @@ class ProductsHandler:
             result = self.products_dictionary(row)
             result_list.append(result)
         return result_list
-
-
-
-
 
     def addProduct(self, image, form):
         """
@@ -243,8 +237,8 @@ class ProductsHandler:
         qty = int(qty)
 
         try:
-            pprice = float(pprice)
-            pshipping = float(pshipping)
+            pprice = Decimal128(pprice)
+            pshipping = Decimal128(pshipping)
         except:
             return False, None, 'invalid_form'
 

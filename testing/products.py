@@ -2,14 +2,15 @@ from handler.products import ProductsHandler as p
 
 from config.dbconfig import client
 
-#search
+# search
 
-#print(p().getProductQty('EV93x678PFC'))
+# print(p().getProductQty('EV93x678PFC'))
 
 collection = client.AutoAirGroupdb.products
 search_this_string = 'RDX'
-collection.create_index([('pbrand', 'text'),('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text'), ({'car.model':'text'})])
-find = collection.find({"$text": {"$search": search_this_string}},{"_id":0})
+# collection.create_index([('pbrand', 'text'),('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text'), ({'car.model':'text'})])
+collection.create_index({'car.year': 'text', 'pname': 'text'})
+find = collection.find({"$text": {"$search": search_this_string}}, {"_id": 0})
 
 for doc in find:
     print(doc)

@@ -1,12 +1,21 @@
 from handler.orders import OrdersHandler as o
 from dao.orders import OrdersDao as od
-
+from decimal import Decimal
+from bson.decimal128 import Decimal128
 class OrdersTester:
 
 
     cart = [{'CN30024PFC': '3'}, {'FI1173C': '2'}]
 #
-    o().createOrderfromCart(cart)
+    #o().createOrderfromCart(cart)
+
+    x = Decimal128('220.85')
+    y = Decimal128('12.99')
+    w = Decimal128('3')
+    # y = 4
+    # x = x*y
+    z = Decimal128(x.to_decimal() + y.to_decimal() * w.to_decimal())
+    print(z)
 
     # sequence = od().getOrderSequenceNumber()
     # sequence = sequence + 1
