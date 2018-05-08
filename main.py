@@ -20,9 +20,11 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/catalog')
+@app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
     products = p().getAllProducts()
+    if request.method == 'POST':
+        products = p().searchProductsByCar(request.form)
     return render_template('catalog.html', products=products)
 
 
@@ -91,6 +93,11 @@ def cart():
     return render_template('cart.html')
 
 
+@app.route('/checkout')
+def checkout():
+    return render_template('checkout.html')
+
+
 @app.route('/cart/add', methods=['GET', 'POST'])
 def cartAdd():
     if request.method == 'POST':
@@ -125,7 +132,8 @@ def admin():
     pending = o().countPendingOrders()
     unshipped = o().countUnshippedOrders()
     canceled = o().countCanceledOrders()
-    return render_template('admin.html', complete=complete, pending=pending, unshipped=unshipped, canceled=canceled, staffStatus=operation[1])
+    return render_template('admin.html', complete=complete, pending=pending, unshipped=unshipped, canceled=canceled,
+                           staffStatus=operation[1])
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])

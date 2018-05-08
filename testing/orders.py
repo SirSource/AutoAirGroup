@@ -4,13 +4,13 @@ from dao.orders import OrdersDao as od
 class OrdersTester:
 
 
-# cart = [{'EV939678PFC': '2'}, {'CN30024PFC': '4'}, {'FI1173C': '10'}]
+    cart = [{'CN30024PFC': '3'}, {'FI1173C': '2'}]
 #
-# o().createOrderfromCart(cart)
+    o().createOrderfromCart(cart)
 
-    sequence = od().getOrderSequenceNumber()
-    sequence = sequence + 1
-    od().updateOrderSequenceNumber(sequence)
+    # sequence = od().getOrderSequenceNumber()
+    # sequence = sequence + 1
+    # od().updateOrderSequenceNumber(sequence)
 
 # print(o().countCompleteOrders())
 # order = o().getOrdersByPhone("7875555555")

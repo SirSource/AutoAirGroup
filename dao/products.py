@@ -100,10 +100,11 @@ class ProductsDao:
     # car year, and car motor
     # author: Luis Perez
     # tested:YES
-    def getProductsByCar(self, cmake, cmodel, cyear, cmotor):
+    def getProductsByCar(self, cmake, cmodel, cyear, pcategory):
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'car.motor': cmotor}):
+        for doc in products.find(
+                {'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'pcategory': pcategory}):
             p.append(doc)
         return p
 
@@ -175,11 +176,11 @@ class ProductsDao:
         """
         products = self.db
         p = products.find_one({'car.make': cmake,
-                              'car.model': cmodel,
-                              'car.year': cyear,
-                              'car.motor': cmotor,
-                              'pid': pid,
-                              'plocation': plocation})
+                               'car.model': cmodel,
+                               'car.year': cyear,
+                               'car.motor': cmotor,
+                               'pid': pid,
+                               'plocation': plocation})
         return p
 
     def getQtyByIDandLocation(self, pid, plocation):
@@ -342,3 +343,11 @@ class ProductsDao:
         product = self.db.find_one({"pid": pid})
         qty = product['qty']
         return qty
+
+    def getGenericSearch(self, args):
+
+        products = self.db.create_index(
+            [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
+
+        find = products.find({"$text": {"$search": args}}, {"_id": 0})
+        return find

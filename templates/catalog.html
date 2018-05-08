@@ -10,10 +10,11 @@
         </div>
         <!--Car year selection-->
         <div class="col-md">
-            <form>
-                <div class="form-group">
+            <form action="{{ url_for('catalog') }}" method="POST">
+                <div class="col-md-3 float-left form-group">
                     <label for="exampleFormControlSelect1">Año de vehículo</label>
-                    <select class="form-control" name="year" id="year">
+                    <select class="form-control" name="cyear" id="year">
+                        <option value = "None"  selected="selected">-Año-</option>
                         <option value="2019">2019</option>
                         <option value="2018">2018</option>
                         <option value="2017">2017</option>
@@ -66,48 +67,29 @@
                         <option value="1970">1970</option>
                     </select>
                 </div>
-            </form>
-        </div>
-        <!--Car Make-->
-        <div class="col-md">
-            <form>
-                <div class="form-group">
+
+                <!--Car Make-->
+                <div class="col-md-3 float-left form-group">
                     <label for="exampleFormControlSelect1">Marca de vehículo</label>
-                    <select class="form-control" name="make" id="formmake">
-                        <option selected="selected">-Marca-</option>
+                    <select class="form-control" name="cmake" id="formmake">
+                        <option value = "None" selected="selected">-Marca-</option>
                     </select>
                 </div>
-            </form>
-        </div>
-        <!--Car year selection-->
-        <div class="col-md">
-            <form>
-                <div class="form-group">
+
+                <!--Car year selection-->
+                <div class="col-md-3 float-left form-group">
                     <label for="exampleFormControlSelect1">Modelo de vehículo</label>
-                    <select class="form-control" name="model" id="formmodel">
-                        <option selected="selected">-Modelo-</option>
+                    <select class="form-control" name="cmodel" id="formmodel">
+                        <option value = "None"  selected="selected">-Modelo-</option>
                     </select>
                 </div>
-            </form>
-        </div>
-        <!--Car year selection-->
-        <div class="col-md">
-            <form>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Motor</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option value="2018">-Seleccione Motor-</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-        <!--Part Cat selection-->
-        <div class="col-md">
-            <form>
-                <div class="form-group">
+
+                <!--Part Cat selection-->
+                <div class="col-md-3 float-left form-group">
                     <label for="exampleFormControlSelect1">Categoría de piezas</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option value="Compresores" selected>Compresores</option>
+                    <select class="form-control" name="pcategory" id="exampleFormControlSelect1">
+                        <option value="None" selected>-Categoría-</option>
+                        <option value="Compresores">Compresores</option>
                         <option value="Evaporadores">Evaporadores</option>
                         <option value="Acumuladores">Acumuladores y secadores</option>
                         <option value="Dispositivos de expansión">Dispositivos de expansión</option>
@@ -117,10 +99,10 @@
                         <option value="Poleas">Poleas</option>
                     </select>
                 </div>
+                <div class="col-md-2 float-right form-group mr-3">
+                    <button class="btn btn-primary" id="advancedsearch">Realizar Búsqueda</button>
+                </div>
             </form>
-        </div>
-        <div class="col-md-12">
-            <button class="btn btn-primary float-right">Realizar Búsqueda</button>
         </div>
     </div>
     <!--Products Section-->
@@ -144,7 +126,8 @@
                                  src="{{ url_for('static', filename='img/products/' + item['image']) }}">
                         </a>
                         <p class="card-text">{{ item['pdetails'] }}</p>
-                        <a href="product/{{ item['pid'] }}" class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
+                        <a href="product/{{ item['pid'] }}"
+                           class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
                     </div>
                 </div>
             {% endfor %}

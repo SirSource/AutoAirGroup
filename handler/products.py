@@ -119,56 +119,6 @@ class ProductsHandler:
             result_list.append(row)
         return result_list
 
-    # Returns product info by car make, car model, car year, car motor
-    # author: Luis Perez
-    def searchProductsByCar(self, args):
-
-        dao = ProductsDao()
-        # TESTED: YES; works
-        if (len(args) == 4):
-            cmake = args[0]
-            cmodel = args[1]
-            cyear = args[2]
-            cmotor = args[3]
-            plist = dao.getProductsByCar(cmake, cmodel, cyear, cmotor)
-            result_list = []
-            for row in plist:
-                result = self.products_dictionary(row)
-                result_list.append(result)
-            return result_list
-        # TESTED: YES; works
-        elif len(args) == 3:
-            cmake = args[0]
-            cmodel = args[1]
-            cyear = args[2]
-            plist = dao.getProductByMakeModelYear(cmake, cmodel, cyear)
-            result_list = []
-            for row in plist:
-                result = self.products_dictionary(row)
-                result_list.append(result)
-            return result_list
-
-        # TESTED: YES; works
-        elif (len(args) == 2):
-            cmake = args[0]
-            cmodel = args[1]
-
-            plist = dao.getProductByCarMakeModel(cmake, cmodel)
-            result_list = []
-            for row in plist:
-                result = self.products_dictionary(row)
-                result_list.append(result)
-            return result_list
-        # TESTED: YES
-        elif (len(args) == 1):
-            cmake = args[0]
-            plist = dao.getProductByCarMake(cmake)
-            result_list = []
-            for row in plist:
-                result = self.products_dictionary(row)
-                result_list.append(result)
-            return result_list
-
     def getQuantityByIDAndLocation(self, pid, plocation):
         """
         Returns the quantity of the product by its id and location
@@ -196,6 +146,59 @@ class ProductsHandler:
             result = self.products_dictionary(row)
             result_list.append(result)
         return result_list
+
+    # Returns product info by car make, car model, car year, car motor
+    # author: Luis Perez
+    def searchProductsByCar(self, args):
+        """
+
+        :param args:
+        :return:
+        """
+        cmake = args['cmake']
+        cmodel = args['cmodel']
+        cyear = args['cyear']
+        pcategory = args['pcategory']
+
+
+        dao = ProductsDao()
+        # TESTED: YES; works
+        if not( cmake == "None" or cmodel == "None" or cyear == "None" or pcategory =="None" ):
+            print("IF")
+            plist = dao.getProductsByCar(cmake, cmodel, cyear, pcategory)
+            result_list = []
+            for row in plist:
+                result = self.products_dictionary(row)
+                result_list.append(result)
+            return result_list
+        # TESTED: YES; works
+        else:
+            print("Entre")
+            plist = self.getGenericSearch(args)
+            print(plist)
+            return plist
+
+
+
+    def getGenericSearch(self, args):
+        """
+
+        :param args:
+        :return:
+        """
+        dao = ProductsDao()
+        string = str(args['cmake'] )+ " " + str(args['cmodel']) + " " + str(args['cyear']) + " " + str(args['pcategory'])
+        print(string)
+        plist = dao.getGenericSearch(string)
+        result_list = []
+        for row in plist:
+            result = self.products_dictionary(row)
+            result_list.append(result)
+        return result_list
+
+
+
+
 
     def addProduct(self, image, form):
         """

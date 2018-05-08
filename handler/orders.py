@@ -131,6 +131,7 @@ class OrdersHandler:
                 'unit_price': query['pprice'],
                 'unit_total': query['pprice'] * int(item[pid])
             }
+            print(newProduct)
             products.append(newProduct)
             shipping = shipping + query['pshipping']
         oid = self.generateOrderNumber()
