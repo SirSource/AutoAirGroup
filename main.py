@@ -26,10 +26,10 @@ def catalog():
     if request.method == 'POST':
         products = p().searchProductsByCar(request.form)
         condition = products[0]
-        if condition:
-            return render_template('catalog.html', products=products[1])
-        else:
-            return render_template('catalog.html', products=products[1])
+        print(products)
+        if len(products[1]) == 0:
+            products = 'no_products'
+            return render_template('catalog.html', products=products)
     return render_template('catalog.html', products=products)
 
 
