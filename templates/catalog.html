@@ -113,25 +113,29 @@
     </div>
     <!--Deck of Cards-->
     <div class="row mb-4">
-        <div class="card-deck">
-            <!--Card-->
-            {% for item in products %}
-                <div class="card aag-min-width-card mt-4 aag-shadow">
-                    <div class="card-header">
-                        {{ item['pname'] }}
+        {% if not products == None %}
+            <div class="card-deck">
+                <!--Card-->
+                {% for item in products %}
+                    <div class="card aag-min-width-card mt-4 aag-shadow">
+                        <div class="card-header">
+                            {{ item['pname'] }}
+                        </div>
+                        <div class="card-body">
+                            <a href="product/{{ item['pid'] }}">
+                                <img class="aag-catalog-pic"
+                                     src="{{ url_for('static', filename='img/products/' + item['image']) }}">
+                            </a>
+                            <p class="card-text">{{ item['pdetails'] }}</p>
+                            <a href="product/{{ item['pid'] }}"
+                               class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <a href="product/{{ item['pid'] }}">
-                            <img class="aag-catalog-pic"
-                                 src="{{ url_for('static', filename='img/products/' + item['image']) }}">
-                        </a>
-                        <p class="card-text">{{ item['pdetails'] }}</p>
-                        <a href="product/{{ item['pid'] }}"
-                           class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
+        {% else: %}
+            <h3>No se encontraron productos</h3>
+        {% endif %}
     </div>
     <!--Additional Info Box-->
     <div class="row mt-3 bg-white p-4 aag-shadow">
