@@ -98,7 +98,7 @@ def checkout():
     if 'cart' not in session:
         return redirect('catalog')
     operation = o().createOrderfromCart(session['cart'])
-    return render_template('checkout.html', products=operation[1], total=operation[2], shipping=operation[3], taxed=operation[4], grandTotal=operation[5])
+    return render_template('checkout.html', products=operation[1], total=operation[2], shipping=operation[3], taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
 
 
 @app.route('/cart/add', methods=['GET', 'POST'])

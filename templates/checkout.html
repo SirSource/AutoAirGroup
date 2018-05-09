@@ -5,7 +5,7 @@
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Mi carrito</span>
-                <span class="badge badge-secondary badge-pill">3</span>
+                <span class="badge badge-secondary badge-pill">{{ allQty }}</span>
             </h4>
             <ul class="list-group mb-3">
                 {% for items in products %}
@@ -19,8 +19,18 @@
                     </li>
                 {% endfor %}
             </ul>
-            <div>IVU: {{ taxed }}</div>
-            <div>Subtotal: </div>
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center text-muted">Subtotal:
+                        <span><strong>${{ total }}</strong></span></li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center text-muted">IVU:
+                        <span><strong>${{ taxed }}</strong></span></li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center text-muted">Envío:
+                        <span><strong>${{ shipping }}</strong></span></li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center text-muted"><strong>Total:</strong>
+                        <span><strong>${{ grandTotal }}</strong></span></li>
+                </ul>
+            </div>
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Dirección</h4>
@@ -28,81 +38,135 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">Nombre</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                        <div class="invalid-feedback">
-                            Valid first name is required.
-                        </div>
+                        <input type="text" class="form-control" id="firstName" placeholder="" value=""
+                               oninvalid="this.setCustomValidity('Entre su nombre.')"
+                               oninput="setCustomValidity('')" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="lastName">Last name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                        <div class="invalid-feedback">
-                            Valid last name is required.
-                        </div>
+                        <label for="lastName">Apellido</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="" value=""
+                               oninvalid="this.setCustomValidity('Entre su apellido.')"
+                               oninput="setCustomValidity('')" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="username">Username</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">@</span>
-                        </div>
-                        <input type="text" class="form-control" id="username" placeholder="Username" required>
-                        <div class="invalid-feedback" style="width: 100%;">
-                            Your username is required.
-                        </div>
-                    </div>
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                           oninvalid="this.setCustomValidity('Entre su correo electrónico.')"
+                           oninput="setCustomValidity('')" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                    <div class="invalid-feedback">
-                        Please enter a valid email address for shipping updates.
-                    </div>
+                    <label for="address">Dirección</label>
+                    <input type="text" class="form-control" id="address" placeholder="1234 Main St"
+                           oninvalid="this.setCustomValidity('Entre su dirección.')"
+                           oninput="setCustomValidity('')" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                    <div class="invalid-feedback">
-                        Please enter your shipping address.
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                    <label for="address2">Dirección 2 <span class="text-muted">(Optional)</span></label>
                     <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
                 </div>
 
                 <div class="row">
                     <div class="col-md-5 mb-3">
-                        <label for="country">Country</label>
-                        <select class="custom-select d-block w-100" id="country" required>
-                            <option value="">Choose...</option>
-                            <option>United States</option>
+                        <label for="country">País</label>
+                        <select class="custom-select d-block w-100" id="country" readonly>
+                            <option value="Puerto Rico">Puerto Rico</option>
                         </select>
-                        <div class="invalid-feedback">
-                            Please select a valid country.
-                        </div>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="state">State</label>
-                        <select class="custom-select d-block w-100" id="state" required>
+                        <label for="state">Ciudad</label>
+                        <select class="custom-select d-block w-100" id="state"
+                                oninvalid="this.setCustomValidity('Seleccione su municipio.')"
+                                oninput="setCustomValidity('')" required>
                             <option value="">Choose...</option>
-                            <option>California</option>
+                            <option value="Adjuntas">Adjuntas</option>
+                            <option value="Aguada">Aguada</option>
+                            <option value="Aguadilla">Aguadilla</option>
+                            <option value="Aguas Buena">Aguas Buenas</option>
+                            <option value="Aibonito">Aibonito</option>
+                            <option value="Añasco">Añasco</option>
+                            <option value="Arecibo">Arecibo</option>
+                            <option value="Arroyo">Arroyo</option>
+                            <option value="Barceloneta">Barceloneta</option>
+                            <option value="Barranquitas">Barranquitas</option>
+                            <option value="Bayamón">Bayamón</option>
+                            <option value="Cabo Rojo">Cabo Rojo</option>
+                            <option value="Caguas">Caguas</option>
+                            <option value="Camuy">Camuy</option>
+                            <option value="Canóvanas">Canóvanas</option>
+                            <option value="Carolina">Carolina</option>
+                            <option value="Cataño">Cataño</option>
+                            <option value="Cayey">Cayey</option>
+                            <option value="Ceiba">Ceiba</option>
+                            <option value="Ciales">Ciales</option>
+                            <option value="Cidra">Cidra</option>
+                            <option value="Coamo">Coamo</option>
+                            <option value="Comerío">Comerío</option>
+                            <option value="Corozal">Corozal</option>
+                            <option value="Culebra">Culebra</option>
+                            <option value="Dorado">Dorado</option>
+                            <option value="Fajardo">Fajardo</option>
+                            <option value="Florida">Florida</option>
+                            <option value="Guánica">Guánica</option>
+                            <option value="Guayama">Guayama</option>
+                            <option value="Guayanilla">Guayanilla</option>
+                            <option value="Guaynabo">Guaynabo</option>
+                            <option value="Gurabo">Gurabo</option>
+                            <option value="Hatillo">Hatillo</option>
+                            <option value="Hormigueros">Hormigueros</option>
+                            <option value="Humacao">Humacao</option>
+                            <option value="Isabela">Isabela</option>
+                            <option value="Jayuya">Jayuya</option>
+                            <option value="Juana">Juana Díaz</option>
+                            <option value="Juncos">Juncos</option>
+                            <option value="Lajas">Lajas</option>
+                            <option value="Lares">Lares</option>
+                            <option value="Las Marías">Las Marías</option>
+                            <option value="Las Piedras">Las Piedras</option>
+                            <option value="Loíza">Loíza</option>
+                            <option value="Luquillo">Luquillo</option>
+                            <option value="Manatí">Manatí</option>
+                            <option value="Maricao">Maricao</option>
+                            <option value="Maunabo">Maunabo</option>
+                            <option value="Mayagüez">Mayagüez</option>
+                            <option value="Moca">Moca</option>
+                            <option value="Morovis">Morovis</option>
+                            <option value="Naguabo">Naguabo</option>
+                            <option value="Naranjito">Naranjito</option>
+                            <option value="Orocovis">Orocovis</option>
+                            <option value="Patillas">Patillas</option>
+                            <option value="Peñuelas">Peñuelas</option>
+                            <option value="Ponce">Ponce</option>
+                            <option value="Quebradillas">Quebradillas</option>
+                            <option value="Rincón">Rincón</option>
+                            <option value="Río Grande">Río Grande</option>
+                            <option value="Sabana Grande">Sabana Grande</option>
+                            <option value="Salinas">Salinas</option>
+                            <option value="San Germán">San Germán</option>
+                            <option value="San Juan">San Juan</option>
+                            <option value="San Lorenzo">San Lorenzo</option>
+                            <option value="San Sebastián">San Sebastián</option>
+                            <option value="Santa Isabel">Santa Isabel</option>
+                            <option value="Toa Alta">Toa Alta</option>
+                            <option value="Toa Baja">Toa Baja</option>
+                            <option value="Trujillo Alto">Trujillo Alto</option>
+                            <option value="Utuado">Utuado</option>
+                            <option value="Vega Alta">Vega Alta</option>
+                            <option value="Vega Baja">Vega Baja</option>
+                            <option value="Vieques">Vieques</option>
+                            <option value="Villalba">Villalba</option>
+                            <option value="Yabucoa">Yabucoa</option>
+                            <option value="Yauco">Yauco</option>
                         </select>
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label for="zip">Zip</label>
-                        <input type="text" class="form-control" id="zip" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Zip code required.
-                        </div>
+                        <label for="zip">Zipcode</label>
+                        <input type="text" class="form-control" id="zip" placeholder=""
+                               oninvalid="this.setCustomValidity('Entre su código postal.')"
+                               oninput="setCustomValidity('')" required>
                     </div>
                 </div>
                 <hr class="mb-4">
