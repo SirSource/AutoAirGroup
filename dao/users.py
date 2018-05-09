@@ -44,7 +44,7 @@ class UsersDao:
         user = self.db.find_one({"user_phone": phone})
         return user
 
-    def insertUser(self, name, last, usertype, email, password):
+    def insertUser(self, name, last, usertype, email, address, password):
         """
         Insert a new user into the database.
         :param name: First name
@@ -59,22 +59,13 @@ class UsersDao:
         :param zip: Zip for user
         :return: User ID
         """
-        # User address dictionary
-        # address = {
-        #     "city": city,
-        #     "place": place,
-        #     "street": street,
-        #     "zipcode": zip
-        # }
-        # New user dictionary
         newUser = {
             "user_fname": name,
             "user_lname": last,
             "usertype": usertype,
             "user_email": email,
+            "user_address": address,
             "user_password": password,
-            # "user_address": address,
-            # "user_phone": phone
         }
         return self.db.insert_one(newUser).inserted_id
 

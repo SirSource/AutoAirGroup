@@ -50,13 +50,19 @@ class UserHandler:
         usertype = form['user']
         email = form['email'].lower()
         password = form['password']
+        address = {
+            "city": "",
+            "address1": "",
+            "address2": "",
+            "zipcode": ""
+        }
         if not v().validEmail(email):
             return False, 'invalid_email'
         elif self.userExists(email):
             return False, 'user_exists'
         elif not v().validPassword(password):
             return False, 'invalid_password'
-        UsersDao().insertUser(name, last, usertype, email, v().encrypt(password))
+        UsersDao().insertUser(name, last, usertype, email, address, v().encrypt(password))
         return True, email
 
     def updateUserAddress(self, email, city, address1, address2, zip):

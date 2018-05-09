@@ -149,27 +149,40 @@ class OrdersHandler:
         grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
         return True, products, total, shipping, taxed, grandTotal, allQty, 'cart_exists'
 
-    def cartToDisplay(self, cart):
+    def createOrderForProcessing(self, cart):
         products = []
-        shipping = 0
-        # TODO: Check quantities, make sure valid. Place PID of quantity that failed in a list.
+        shipping = Decimal128('0')
+        ivu = Decimal128(str(t().getTax()))
+        total = Decimal128('0')
+        allQty = Decimal128('0')
+        # remove items with zero quantity:
+        cart = self.purgeEmptyItemFromCart(cart)
         for item in cart:
             pid = list(item.keys())[0]
+            qty = Decimal128(item[pid])
             query = p().getProductByID(pid)[1][0]
+            pprice = query['pprice']
+            pshipping = query['pshipping']
+            allQty = Decimal128(allQty.to_decimal() + qty.to_decimal())
             newProduct = {
                 'pid': pid,
                 'pname': query['pname'],
                 'plocation': query['plocation'],
                 'qty': item[pid],
-                'unit_price': query['pprice'],
-                'unit_total': query['pprice'] * int(item[pid])
+                'unit_price': pprice,
+                'unit_total': Decimal128(pprice.to_decimal() * qty.to_decimal())
             }
-            print(newProduct)
             products.append(newProduct)
-            shipping = shipping + query['pshipping']
-        oid = self.generateOrderNumber()
-        date = datetime.datetime.now()
-        return True, products, shipping, 'cart_exists'
+            total = Decimal128(total.to_decimal() + (pprice.to_decimal() * qty.to_decimal()))
+            shipping = Decimal128(shipping.to_decimal() + query['pshipping'].to_decimal())
+        roundedTax = round(ivu.to_decimal() * total.to_decimal(), 2)
+        taxed = Decimal128(roundedTax)
+        grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
+
+        newOrder = {
+
+        }
+        return True, products, total, shipping, taxed, grandTotal, allQty, 'cart_exists'
 
     def generateOrderNumber(self):
         sequence = OrdersDao().getOrderSequenceNumber()

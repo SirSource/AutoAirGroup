@@ -86,8 +86,65 @@ class OrdersDao:
             allOrders = tempList
         return allOrders
 
-    def createOrder(self):
-        None
+    def insertOrder(self, orderid, ufirst, ulast, city, place, street, zipcode, uemail, uphone, total, ivu,
+                    payment_status, shipping, date, products):
+        """
+
+        :param orderid:
+        :param ufirst:
+        :param ulast:
+        :param city:
+        :param place:
+        :param street:
+        :param zipcode:
+        :param uemail:
+        :param uphone:
+        :param total:
+        :param ivu:
+        :param payment_status:
+        :param shipping:
+        :param date:
+        :param products:
+        :return:
+        """
+        try:
+            address = {
+                "city": city,
+                "place": place,
+                "street": street,
+                "zipcode": zipcode
+            }
+            product = []
+            order = {
+                'orderid': orderid,
+                'ufirst': ufirst,
+                'ulast': ulast,
+                'uemail': uemail,
+                'uphone': uphone,
+                'address': address,
+                'total': total,
+                'payment_status': payment_status,
+                'shipping': shipping,
+                'date': date,
+                'products': product
+            }
+            self.db.insert_one(order).inserted_id
+
+            for p in products:
+                self.db.update({'orderid': orderid}, {'$push': {'products': {
+                    'pid': p[0],
+                    'pname': p[1],
+                    'plocation': p[2],
+                    'qty': p[3],
+                    'unit_price': p[4],
+                    'unit_total': p[5]
+
+                }}})
+                # prod().updateProductQtyByIDFromOrder(p[0],p[2],p[3])
+
+            return True
+        except:
+            return False
 
     def updateOrderStatusForm(self, oid, status):
         """

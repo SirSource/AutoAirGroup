@@ -1,6 +1,7 @@
 from dao.products import ProductsDao
 from bson.decimal128 import Decimal128
 
+
 class ProductsHandler:
 
     def products_dictionary(self, row):
@@ -147,8 +148,9 @@ class ProductsHandler:
             result_list.append(result)
         return result_list
 
-    # Returns product info by car make, car model, car year, car motor
-    # author: Luis Perez
+        # Returns product info by car make, car model, car year, car motor
+        # author: Luis Perez
+
     def searchProductsByCar(self, args):
         """
 
@@ -163,19 +165,66 @@ class ProductsHandler:
         dao = ProductsDao()
         # TESTED: YES; works
         if not (cmake == "None" or cmodel == "None" or cyear == "None" or pcategory == "None"):
-            print("IF")
-            plist = dao.getProductsByCar(cmake, cmodel, cyear, pcategory)
-            result_list = []
-            for row in plist:
-                result = self.products_dictionary(row)
-                result_list.append(result)
-            return result_list
+            try:
+                plist = dao.getProductsByCar(cmake, cmodel, cyear, pcategory)
+                result_list = []
+                for row in plist:
+                    result = self.products_dictionary(row)
+                    result_list.append(result)
+                return True, result_list, 'search_successful'
+            except:
+                return False, None, 'product_not_found'
         # TESTED: YES; works
-        else:
-            print("Entre")
-            plist = self.getGenericSearch(args)
-            print(plist)
-            return plist
+
+        # If user only enters year it will select all product from the car year
+        elif cmake == 'None' and cmodel == 'None' and pcategory == 'None' and (not cyear == 'None'):
+            try:
+                plist = dao.getProductByCarYear(cyear)
+                result_list = []
+                for row in plist:
+                    result = self.products_dictionary(row)
+                    result_list.append(result)
+                return True, result_list, 'search_successful'
+            except:
+                return False, None, 'product_not_found'
+
+        # If user only enters product category
+        elif cmake == "None" and cmodel == "None" and cyear == "None" and not pcategory == "None":
+            try:
+                plist = dao.getAllProductsByCategory(pcategory)
+                result_list = []
+                for row in plist:
+                    result = self.products_dictionary(row)
+                    result_list.append(result)
+
+                return True, result_list, 'search_successful'
+
+            except:
+                return False, None, "product_not_found"
+
+        # If user only enters car make and car model
+        elif pcategory == "None" and cyear == "None" and not cmake == "None" and not cmodel == "None":
+            try:
+                plist = dao.getProductByCarMakeModel(cmake, cmodel)
+                result_list = []
+                for row in plist:
+                    result = self.products_dictionary(row)
+                    result_list.append(result)
+                return True, result_list, 'search_successful'
+            except:
+                return False, None, 'product_not_found'
+
+            # If user only enters car make and car model and car year
+        elif pcategory == "None" and not cyear == "None" and not cmake == "None" and not cmodel == "None":
+            try:
+                plist = dao.getProductByMakeModelYear(cmake, cmodel, cyear)
+                result_list = []
+                for row in plist:
+                    result = self.products_dictionary(row)
+                    result_list.append(result)
+                return True, result_list, 'search_successful'
+            except:
+                return False, None, "product_not_found"
 
     def getGenericSearch(self, args):
         """
@@ -186,6 +235,7 @@ class ProductsHandler:
         dao = ProductsDao()
         string = str(args['cmake']) + " " + str(args['cmodel']) + " " + str(args['cyear']) + " " + str(
             args['pcategory'])
+        print(len(args))
         print(string)
         plist = dao.getGenericSearch(string)
         result_list = []

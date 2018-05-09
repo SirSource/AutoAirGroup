@@ -25,6 +25,11 @@ def catalog():
     products = p().getAllProducts()
     if request.method == 'POST':
         products = p().searchProductsByCar(request.form)
+        condition = products[0]
+        if condition:
+            return render_template('catalog.html', products=products[1])
+        else:
+            return render_template('catalog.html', products=products[1])
     return render_template('catalog.html', products=products)
 
 
@@ -95,10 +100,14 @@ def cart():
 
 @app.route('/checkout')
 def checkout():
+    user = None
     if 'cart' not in session:
         return redirect('catalog')
+    if 'email' in session:
+        user = u().getUserByEmail(session['email'])
     operation = o().createOrderfromCart(session['cart'])
-    return render_template('checkout.html', products=operation[1], total=operation[2], shipping=operation[3], taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
+    return render_template('checkout.html', user=user, products=operation[1], total=operation[2], shipping=operation[3],
+                           taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
 
 
 @app.route('/cart/add', methods=['GET', 'POST'])
