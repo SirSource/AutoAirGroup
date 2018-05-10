@@ -57,7 +57,7 @@
                     </button>
                 </p>
                 <div class="collapse" id="collapseStore">
-                    <form enctype="multipart/form-data" method="POST">
+                    <form enctype="multipart/form-data" action="{{url_for('adminProductsView')}}" method="POST">
                         <div class="form-group">
                             <label for="photo">Añadir una imágen</label>
                             <input type="file" name="file" class="form-control-file" id="photo">
@@ -217,7 +217,6 @@
                             <label for="description">Descripción</label>
                             <textarea class="form-control" name="description" id="description" rows="3" oninvalid="this.setCustomValidity('Describa brevemente el producto.')" oninput="setCustomValidity('')" required>{{ product['pdetails'] }}</textarea>
                         </div>
-                        <input type="hidden" name="_method" value="ADD_PRODUCT">
                         <button class="btn btn-primary">Actualizar producto</button>
                     </form>
                 </div>

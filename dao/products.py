@@ -13,10 +13,10 @@ class ProductsDao:
             allProducts.append(doc)
         return allProducts
 
-    def getAllProductsByCategory(self, category):
+    def getAllProductsByCategory(self, pcategory):
         allProducts = []
         products = self.db
-        for doc in products.find({"pcategory": category}):
+        for doc in products.find({"pcategory": pcategory}):
             allProducts.append(doc)
         return allProducts
 
