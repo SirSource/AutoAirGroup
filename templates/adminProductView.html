@@ -1,6 +1,6 @@
 {% extends "adminLayout.html" %}
 {% block title %}
-    {% if productExists %}
+    {% if productExist %}
         {{ product['pname'] }} [{{ product['pid'] }}]
     {% else %}
         Producto no encontrado
@@ -12,7 +12,7 @@
     <!--Featured Section-->
     <div class="row mt-3 mb-3">
         <h3 class="font-weight-bold">
-            {% if productExists %}
+            {% if productExist %}
                 {{ product['pname'] }} [{{ product['pid'] }}]
             {% else %}
                 Producto no encontrado
@@ -57,7 +57,7 @@
                     </button>
                 </p>
                 <div class="collapse" id="collapseStore">
-                    <form enctype="multipart/form-data" action="{{url_for('adminProductsView')}}" method="POST">
+                    <form enctype="multipart/form-data" method="POST">
                         <div class="form-group">
                             <label for="photo">Añadir una imágen</label>
                             <input type="file" name="file" class="form-control-file" id="photo">
