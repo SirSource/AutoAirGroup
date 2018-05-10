@@ -87,6 +87,17 @@ def user(email):
     return render_template('userProfile.html', orders=orders, user=user)
 
 
+@app.route('/account/user/<string:email>/<string:oid>')
+def userOrderReceipt(email, oid):
+    if 'email' not in session:
+        return redirect(url_for('accounts'))
+    elif not session['email'] == email:
+        email = session['email']
+    orders = o().getOrdersByOrderID(oid)
+    print(orders)
+    return render_template('receipt.html', orders=orders)
+
+
 @app.route('/account/user/<string:email>/edit', methods=['GET', 'POST'])
 def userEdit(email):
     if 'email' not in session:
