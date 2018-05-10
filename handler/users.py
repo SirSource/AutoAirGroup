@@ -119,11 +119,12 @@ class UserHandler:
         if email == '' or password == '' or newPassword == '':
             return False, 'invalid_form'
         if v().validPassword(newPassword) and self.userExists(email):
-            if self.userAuthenticate(form={'email': email, 'password': password}):
+            bool = self.userAuthenticate(form={'email': email, 'password': password})[0]
+            if bool:
                 UsersDao().updateUserPassword(email, v().encrypt(newPassword))
                 return True, 'updated_password'
             else:
-                return False, 'invalid_password'
+                return False, 'invalid_old_password'
         else:
             return False, 'invalid_password'
 

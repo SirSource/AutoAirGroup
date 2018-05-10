@@ -93,14 +93,17 @@ def userEdit(email):
         return redirect(url_for('accounts'))
     elif not session['email'] == email:
         email = session['email']
+    message = ''
     if request.method == 'POST':
         postType = request.form['_method']
         if postType == 'ADD_ADDRESS':
             operation = u().updateUserAddress(email, request.form)
+            message = operation[1]
         if postType == 'CHANGE_PASSWORD':
             operation = u().updateUserPassword(email, request.form)
+            message = operation[1]
     user = u().getUserByEmail(email)
-    return render_template('userProfileEdit.html', user=user)
+    return render_template('userProfileEdit.html', user=user, message=message)
 
 
 @app.route("/logout")
