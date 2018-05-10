@@ -124,8 +124,6 @@ class OrdersHandler:
         ivu = Decimal128(str(t().getTax()))
         total = Decimal128('0')
         allQty = Decimal128('0')
-        # remove items with zero quantity:
-        cart = self.purgeEmptyItemFromCart(cart)
         for item in cart:
             pid = list(item.keys())[0]
             qty = Decimal128(item[pid])
@@ -149,14 +147,12 @@ class OrdersHandler:
         grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
         return True, products, total, shipping, taxed, grandTotal, allQty, 'cart_exists'
 
-    def createOrderForProcessing(self, cart):
+    def createOrderForProcessing(self, user, cart):
         products = []
         shipping = Decimal128('0')
         ivu = Decimal128(str(t().getTax()))
         total = Decimal128('0')
         allQty = Decimal128('0')
-        # remove items with zero quantity:
-        cart = self.purgeEmptyItemFromCart(cart)
         for item in cart:
             pid = list(item.keys())[0]
             qty = Decimal128(item[pid])
@@ -178,11 +174,11 @@ class OrdersHandler:
         roundedTax = round(ivu.to_decimal() * total.to_decimal(), 2)
         taxed = Decimal128(roundedTax)
         grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
-
-        newOrder = {
-
-        }
-        return True, products, total, shipping, taxed, grandTotal, allQty, 'cart_exists'
+        oid = self.generateOrderNumber()
+        date = datetime.datetime.now()
+        dao = OrdersDao()
+        dao.insertOrder(oid, user, total, ivu, taxed, grandTotal, shipping, date, products)
+        return oid
 
     def generateOrderNumber(self):
         sequence = OrdersDao().getOrderSequenceNumber()
@@ -217,11 +213,3 @@ class OrdersHandler:
 
     def countUnshippedOrders(self):
         return OrdersDao().countUnshippedOrders()
-
-    def purgeEmptyItemFromCart(self, cart):
-        for x in cart:
-            pid = list(x.keys())[0]
-            qty = Decimal128(x[pid])
-            if qty == Decimal128('0'):
-                cart.remove(x)
-        return cart

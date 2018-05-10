@@ -1,5 +1,6 @@
 from config.dbconfig import client
 from bson.objectid import ObjectId
+from bson.decimal128 import Decimal128
 
 
 class OrdersDao:
@@ -24,7 +25,7 @@ class OrdersDao:
         :param oid: The id for the order to retrieve
         :return: the order that matches the id.
         """
-        order = self.db.find_one({"orderid": oid})
+        order = self.db.find_one({"orderid": int(oid)})
         return order
 
     def getOrdersByEmail(self, email):
@@ -86,10 +87,9 @@ class OrdersDao:
             allOrders = tempList
         return allOrders
 
-    def insertOrder(self, orderid, ufirst, ulast, city, place, street, zipcode, uemail, uphone, total, ivu,
-                    payment_status, shipping, date, products):
+    def insertOrder(self, orderid, user, total, ivu, taxed,
+                    grandTotal, shipping, date, products):
         """
-
         :param orderid:
         :param ufirst:
         :param ulast:
@@ -107,44 +107,31 @@ class OrdersDao:
         :param products:
         :return:
         """
-        try:
-            address = {
-                "city": city,
-                "place": place,
-                "street": street,
-                "zipcode": zipcode
-            }
-            product = []
-            order = {
-                'orderid': orderid,
-                'ufirst': ufirst,
-                'ulast': ulast,
-                'uemail': uemail,
-                'uphone': uphone,
-                'address': address,
-                'total': total,
-                'payment_status': payment_status,
-                'shipping': shipping,
-                'date': date,
-                'products': product
-            }
-            self.db.insert_one(order).inserted_id
-
-            for p in products:
-                self.db.update({'orderid': orderid}, {'$push': {'products': {
-                    'pid': p[0],
-                    'pname': p[1],
-                    'plocation': p[2],
-                    'qty': p[3],
-                    'unit_price': p[4],
-                    'unit_total': p[5]
-
-                }}})
-                # prod().updateProductQtyByIDFromOrder(p[0],p[2],p[3])
-
-            return True
-        except:
-            return False
+        address = {
+            "city": user['city'],
+            "address1": user['address1'],
+            "address2": user['address2'],
+            "zipcode": user['zipcode']
+        }
+        order = {
+            'orderid': orderid,
+            'ufirst': user['ufirst'],
+            'ulast': user['ulast'],
+            'uemail': user['uemail'],
+            'uphone': user['uphone'],
+            'address': address,
+            'total': total,
+            'ivu': ivu,
+            'tax_total': taxed,
+            'shipping_total': shipping,
+            'grand_total': grandTotal,
+            'payment_status': 'pending',
+            'shipping': 'not_shipped',
+            'date': date,
+            'products': products
+        }
+        self.db.insert_one(order).inserted_id
+        return True, orderid
 
     def updateOrderStatusForm(self, oid, status):
         """

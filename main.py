@@ -98,18 +98,6 @@ def cart():
     return render_template('cart.html')
 
 
-@app.route('/checkout')
-def checkout():
-    user = None
-    if 'cart' not in session:
-        return redirect('catalog')
-    if 'email' in session:
-        user = u().getUserByEmail(session['email'])
-    operation = o().createOrderfromCart(session['cart'])
-    return render_template('checkout.html', user=user, products=operation[1], total=operation[2], shipping=operation[3],
-                           taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
-
-
 @app.route('/cart/add', methods=['GET', 'POST'])
 def cartAdd():
     if request.method == 'POST':
@@ -127,6 +115,37 @@ def cartAdd():
         print(session['cart'])
     session.modified = True
     return redirect(request.referrer)
+
+
+@app.route('/checkout')
+def checkout():
+    user = None
+    if 'cart' not in session:
+        return redirect('catalog')
+    if 'email' in session:
+        user = u().getUserByEmail(session['email'])
+    session['cart'] = purgeEmptyItemFromCart(session['cart'])
+    session.modified = True
+    operation = o().createOrderfromCart(session['cart'])
+    return render_template('checkout.html', user=user, products=operation[1], total=operation[2], shipping=operation[3],
+                           taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
+
+
+@app.route('/checkout/process', methods=['POST'])
+def processOrder():
+    if request.referrer == None:
+        return redirect('/')
+    user = u().formToFormattedUser(request.form)
+    print(request.form)
+    if request.form['_userStatus'] == '_newUser':
+        print('HERE')
+        genericPassword = v().generatePassword()
+        print(genericPassword)
+        None
+    order = o().createOrderForProcessing(user[1], session['cart'])
+    print(order)
+    session.pop('cart', None)
+    return redirect('/')
 
 
 @app.route('/users')
@@ -367,6 +386,16 @@ def internal_server_error(e):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+# Cart purge orders with zero quantity
+def purgeEmptyItemFromCart(cart):
+    for x in cart:
+        pid = list(x.keys())[0]
+        qty = x[pid]
+        if qty == '0':
+            cart.remove(x)
+    return cart
 
 
 if __name__ == '__main__':

@@ -7,8 +7,13 @@ from passlib.hash import sha256_crypt
 class Valid:
 
     def validPhone(self, phone):
-
         if not phone.isdigit() or len(phone) < 10 or len(phone) > 10:
+            return False
+        else:
+            return True
+
+    def validZip(self, zip):
+        if not zip.isdigit() or len(zip) < 5 or len(zip) > 5:
             return False
         else:
             return True
@@ -68,3 +73,10 @@ class Valid:
 
     def decrypt(self, testing, password):
         return sha256_crypt.verify(testing, password)
+
+    def generatePassword(self):
+        minlength = 8
+        maxlength = 12
+        chars = string.ascii_letters + string.punctuation + string.digits
+        password = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
+        return password

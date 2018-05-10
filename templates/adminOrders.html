@@ -76,7 +76,7 @@
                                 href="{{ url_for('adminOrders') }}/{{ item['orderid'] }}">{{ item['orderid'] }}</a></th>
                         <td>{{ item['ufirst'] }} {{ item['ulast'] }}</td>
                         <td>{{ item['uphone'] }}</td>
-                        <td>{{ item['total'] }}</td>
+                        <td>${{ item['total'] }}</td>
                         {% if item['payment_status'] == 'complete' %}
                             <td>Completado</td>
                         {% elif item['payment_status'] == 'pending' %}

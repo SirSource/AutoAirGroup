@@ -76,14 +76,21 @@
                         <th></th>
                         <th></th>
                         <th>IVU:</th>
-                        <th>${{ order['total']*order['ivu'] }}</th>
+                        <th>${{ order['tax_total']}}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Envío:</th>
+                        <th>${{ order['shipping_total']}}</th>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th>Gran Total:</th>
-                        <th>${{ order['total'] + order['total']*order['ivu'] }}</th>
+                        <th>${{ order['grand_total'] }}</th>
                     </tr>
                     </tbody>
                 </table>

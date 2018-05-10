@@ -146,3 +146,38 @@ class UserHandler:
             return False
         else:
             return True
+
+    def formToFormattedUser(self, form):
+        name = form['ufirst']
+        last = form['ulast']
+        email = form['uemail']
+        phone = form['uphone']
+        city = form['city']
+        address1 = form['address1']
+        address2 = form['address2']
+        zipcode = form['zipcode']
+
+        if name == '' or last == '' or email == '' or phone == '' or city == '' or address1 == '' or zipcode == '':
+            return False, None, 'invalid_form'
+
+        if not v().validZip(zipcode):
+            return False, None, 'invalid_zip'
+
+        if not v().validPhone(phone):
+            return False, None, 'invalid_phone'
+
+        if not v().validEmail(email):
+            return False, None, 'invalid_email'
+
+        user = {
+            'ufirst': name,
+            'ulast': last,
+            'uemail': email,
+            'uphone': phone,
+            'city': city,
+            'address1': address1,
+            'address2': address2,
+            'zipcode': zipcode
+        }
+
+        return True, user, 'user_formatted'

@@ -7,35 +7,9 @@
             <h4>Carrito</h4>
         </div>
         <!--Car year selection-->
-        <div class="col-md-7 list-group">
-            <div class="list-group-item list-group-item-action mb-3">
-                <div class="float-left">
-                    <img class="aag-cart-pic"
-                         src="http://127.0.0.1:5000/static/img/products/J8ArDEW6qdClLWMBEggsAo6.jpg">
-                </div>
-                <div class="float-left ml-4">
-                    <span>Título</span>
-                    <br/><span>Precio</span>
-                    <br/><span>Envío</span>
-                    <br/><span>Cantidad</span>
-                </div>
-            </div>
-
-            <div class="list-group-item list-group-item-action mb-3">
-                <div class="float-left">
-                    <img class="aag-cart-pic"
-                         src="http://127.0.0.1:5000/static/img/products/J8ArDEW6qdClLWMBEggsAo6.jpg">
-                </div>
-                <div class="float-left ml-4">
-                    <span>Título</span>
-                    <br/><span>Precio</span>
-                    <br/><span>Envío</span>
-                    <br/><span>Cantidad</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md ml-1 mb-3 p-3 aag-bg-gray1">
-            <h5>Resumen de su compra</h5>
+        <div class="col-md">
+            <h3 class="text-center">¡Su carrito está vacío, <a href="{{ url_for('catalog') }}">pulse aqui para comenzar
+                a comprar!</a></h3>
         </div>
     </div>
 {% endblock %}
