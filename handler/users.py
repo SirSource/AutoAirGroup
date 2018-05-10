@@ -65,9 +65,18 @@ class UserHandler:
         UsersDao().insertUser(name, last, usertype, email, address, v().encrypt(password))
         return True, email
 
-    def updateUserAddress(self, email, city, address1, address2, zip):
-        if email == '' or city == '' or address1 == '' or address2 == '' or zip == '':
+    def updateUserAddress(self, email, form):
+        city = form['city']
+        address1 = form['address1']
+        address2 = form['address2']
+        zip = form['zipcode']
+
+        if email == '' or city == '' or address1 == '' or zip == '':
             return False, 'invalid_form'
+
+        if not v().validZip(zip):
+            return False, 'invalid_zip'
+
         if self.userExists(email):
             address = {
                 "city": city,
@@ -104,7 +113,9 @@ class UserHandler:
             return False
             'invalid_email'
 
-    def updateUserPassword(self, email, password, newPassword):
+    def updateUserPassword(self, email, form):
+        password = form['current_pass']
+        newPassword = form['new_pass']
         if email == '' or password == '' or newPassword == '':
             return False, 'invalid_form'
         if v().validPassword(newPassword) and self.userExists(email):

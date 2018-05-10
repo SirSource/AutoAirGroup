@@ -87,6 +87,22 @@ def user(email):
     return render_template('userProfile.html', orders=orders, user=user)
 
 
+@app.route('/account/user/<string:email>/edit', methods=['GET', 'POST'])
+def userEdit(email):
+    if 'email' not in session:
+        return redirect(url_for('accounts'))
+    elif not session['email'] == email:
+        email = session['email']
+    if request.method == 'POST':
+        postType = request.form['_method']
+        if postType == 'ADD_ADDRESS':
+            operation = u().updateUserAddress(email, request.form)
+        if postType == 'CHANGE_PASSWORD':
+            operation = u().updateUserPassword(email, request.form)
+    user = u().getUserByEmail(email)
+    return render_template('userProfileEdit.html', user=user)
+
+
 @app.route("/logout")
 def logout():
     session.pop('email', None)

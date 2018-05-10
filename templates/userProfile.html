@@ -8,8 +8,10 @@
         </div>
         <!--Car year selection-->
         <div class="col-md-2 list-group">
-            <a href="#" class="list-group-item list-group-item-action">Mis Compras</a>
-            <a href="#" class="list-group-item list-group-item-action">Editar Perfil</a>
+            <a href="{{ url_for('accounts') }}/user/{{ user['user_email'] }}"
+               class="list-group-item list-group-item-action">Mis Compras</a>
+            <a href="{{ url_for('accounts') }}/user/{{ user['user_email'] }}/edit"
+               class="list-group-item list-group-item-action">Editar Perfil</a>
             <a href="{{ url_for('logout') }}"
                class="list-group-item list-group-item-action active align-content-center"><strong>Cerrar Sesión</strong></a>
         </div>
