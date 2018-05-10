@@ -140,7 +140,7 @@ class OrdersDao:
         :param status: The new status (provided from the form, passed to the handler.)
         :return: Database objectid.
         """
-        return self.db.update({'orderid': oid}, {'$set': {'payment_status': status}})
+        return self.db.update({'orderid': int(oid)}, {'$set': {'payment_status': status}})
 
     def updateOrderShippingForm(self, oid, status):
         """
@@ -149,7 +149,7 @@ class OrdersDao:
         :param status: The new shipping status (provided from the form, passed to the handler.)
         :return: Database objectid.
         """
-        return self.db.update({'orderid': oid}, {'$set': {'shipping': status}})
+        return self.db.update({'orderid': int(oid)}, {'$set': {'shipping': status}})
 
     def deleteOrderById(self, oid):
         """
@@ -157,7 +157,7 @@ class OrdersDao:
         :param oid: The ID of the order to remove.
         :return: Database objectid.
         """
-        return self.db.delete_many({"orderid": oid})
+        return self.db.delete_many({"orderid": int(oid)})
 
     def deleteOrderByUserEmail(self, email):
         """
