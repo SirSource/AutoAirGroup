@@ -18,5 +18,5 @@ from utilities.sendmail import Sendmail as s
 #     print()
 
 
-hello = s().sendAccountCreationEmail('jaime.cortes@upr.edu')
+hello = s().sendAccountCreationEmail('jcd_fusion@hotmail.com')
 print(hello)

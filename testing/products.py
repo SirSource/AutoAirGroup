@@ -5,15 +5,14 @@ from config.dbconfig import client
 # search
 
 # print(p().getProductQty('EV93x678PFC'))
-
 collection = client.AutoAirGroupdb.products
 search_this_string = 'RDX'
-# collection.create_index([('pbrand', 'text'),('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text'), ({'car.model':'text'})])
-collection.create_index({'car.year': 'text', 'pname': 'text'})
+collection.create_index([('pbrand', 'text'),('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
 find = collection.find({"$text": {"$search": search_this_string}}, {"_id": 0})
-
+products = []
 for doc in find:
-    print(doc)
+    products.append(doc)
+print(products)
 
 # deleteTest =['234DDDD','Guaynabo']
 # print(p().deleteProductByIDAndLocation(deleteTest[0],deleteTest[1]))

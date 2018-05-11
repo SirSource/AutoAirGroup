@@ -21,7 +21,7 @@
             ]);
 
             // Optional; add a title and set the width and height of the chart
-            var options = {'width': 450, 'height': 300};
+            var options = {'width': 393, 'height': 300};
 
             // Display the chart inside the <div> element with id="piechart"
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -41,60 +41,47 @@
             <table class="table table-responsive-md table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">Order No.</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Municipality</th>
+                    <th scope="col">No. Orden</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Teléfono</th>
                     <th scope="col">Total</th>
-                    <th scope="col">Payment</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Estatus</th>
+                    <th scope="col">Envío</th>
+                    <th scope="col">Fecha</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>M. Rodríguez</td>
-                    <td>Arecibo</td>
-                    <td>$50.00</td>
-                    <td>
-                        <span class="badge badge-primary">Complete</span>
-                    </td>
-                    <td>
-                        <span class="badge badge-info">Shipped</span>
-                    </td>
-                    <td>05/01/2018</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>H. Sánchez</td>
-                    <td>Luquillo</td>
-                    <td>$32.78</td>
-                    <td>
-                        <span class="badge badge-danger">No Payment</span>
-                    </td>
-                    <td>-</td>
-                    <td>09/02/2018</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>T. Gómez</td>
-                    <td>Adjuntas</td>
-                    <td>$99.99</td>
-                    <td>
-                        <span class="badge badge-secondary">Canceled</span>
-                    </td>
-                    <td>-</td>
-                    <td>15/03/2018</td>
-                </tr>
+                {% for item in orders %}
+                    <tr>
+                        <th scope="row"><a href="{{ url_for('adminOrders') }}/{{ item['orderid'] }}">{{ item['orderid'] }}</a></th>
+                        <td>{{ item['ufirst'] }} {{ item['ulast'] }}</td>
+                        <td>{{ item['uphone'] }}</td>
+                        <td>${{ item['grand_total'] }}</td>
+                        {% if item['payment_status'] == 'complete' %}
+                            <td>Completado</td>
+                        {% elif item['payment_status'] == 'pending' %}
+                            <td>Pendiente</td>
+                        {% elif item['payment_status'] == 'canceled' %}
+                            <td>Cancelado</td>
+                        {% endif %}
+                        {% if item['shipping'] == 'shipped' %}
+                            <td>Enviado</td>
+                        {% elif item['shipping'] == 'not_shipped' %}
+                            <td>No enviado</td>
+                        {% endif %}
+                        <td>{{ item['date'] }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
         <div class="col-md mt-5">
             <h5 class="aag-border-bottom">Estadísticas de compras</h5>
             <div id="piechart"></div>
+            <span class="text-muted"><small>La gráfica se genera de haber al menos una orden.</small></span>
         </div>
         <div class="col-md mt-5">
-            <h5 class="aag-border-bottom">Other Information</h5>
+            <h5 class="aag-border-bottom">Información</h5>
             <span>Other information can be placed here.</span>
         </div>
     </div>

@@ -412,3 +412,13 @@ class ProductsDao:
 
         except:
             return False
+
+    def genericProductSearch(self, string):
+        collection = self.db
+        collection.create_index(
+            [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
+        find = collection.find({"$text": {"$search": string}}, {"_id": 0})
+        products = []
+        for doc in find:
+            products.append(doc)
+        return products

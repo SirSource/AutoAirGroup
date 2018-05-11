@@ -28,19 +28,27 @@
                 <form action="{{ url_for('adminStaff') }}" method="post">
                     <div class="form-group">
                         <label for="first-name">Nombre</label>
-                        <input type="text" class="form-control" name="first_name" id="first-name" placeholder="Nombre" oninvalid="this.setCustomValidity('Entre el nombre del empleado.')" oninput="setCustomValidity('')" required>
+                        <input type="text" class="form-control" name="first_name" id="first-name" placeholder="Nombre"
+                               oninvalid="this.setCustomValidity('Entre el nombre del empleado.')"
+                               oninput="setCustomValidity('')" required>
                     </div>
                     <div class="form-group">
                         <label for="last-name">Apellido</label>
-                        <input type="text" class="form-control" name="last_name" id="last-name" placeholder="Apellido" oninvalid="this.setCustomValidity('Entre el apellido del empleado')" oninput="setCustomValidity('')" required>
+                        <input type="text" class="form-control" name="last_name" id="last-name" placeholder="Apellido"
+                               oninvalid="this.setCustomValidity('Entre el apellido del empleado')"
+                               oninput="setCustomValidity('')" required>
                     </div>
                     <div class="form-group">
                         <label for="eid">ID de Empleado (EID)</label>
-                        <input type="text" class="form-control" name="eid" id="eid" placeholder="EID" oninvalid="this.setCustomValidity('Entre un EID para el empleado.')" oninput="setCustomValidity('')" required>
+                        <input type="text" class="form-control" name="eid" id="eid" placeholder="EID"
+                               oninvalid="this.setCustomValidity('Entre un EID para el empleado.')"
+                               oninput="setCustomValidity('')" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" oninvalid="this.setCustomValidity('Entre un correo electrónico para el empleado.')" oninput="setCustomValidity('')" required>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                               oninvalid="this.setCustomValidity('Entre un correo electrónico para el empleado.')"
+                               oninput="setCustomValidity('')" required>
                         <small class="text-muted">Esto será el nombre de usuario del empleado.</small>
                     </div>
                     <div class="form-group">
@@ -69,7 +77,11 @@
         </div>
         <div class="col-md">
             <h5 class="aag-border-bottom">Buscar Empleado</h5>
-            {% if message=='invalid_eid' or message=='invalid_email' %}
+            {% if message=='employee_found' %}
+                <div class="col alert-info pt-3 pb-3">
+                    <h5>Se encontraron empleados, ver los resultados abajo.</h5>
+                </div>
+            {% elif message=='invalid_eid' or message=='invalid_email' %}
                 <div class="col alert-danger pt-3 pb-3">
                     <h5>Error: El campo está vacío o no se entró un dato válido.</h5>
                 </div>
@@ -80,7 +92,9 @@
             {% endif %}
             <form action="{{ url_for('adminStaff') }}" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="eid" placeholder="Entre el ID del empleado a buscar" oninvalid="this.setCustomValidity('Se requiere el id del empleado para poder realizar una busqueda.')" oninput="setCustomValidity('')" required>
+                    <input type="text" class="form-control" name="eid" placeholder="Busque por id, nombre, email o tiendas"
+                           oninvalid="this.setCustomValidity('Se requiere el id del empleado para poder realizar una busqueda.')"
+                           oninput="setCustomValidity('')" required>
                     <input type="hidden" name="_method" value="SEARCH">
                     <button class="btn btn-primary" type="submit">Buscar</button>
                 </div>
@@ -95,7 +109,8 @@
                 {#                    <label class="form-check-label" for="inlineRadio2">Nombre del Empleado</label>#}
                 {#                </div>#}
             </form>
-        <p class="col-12 mt-5">Utiliza el botón de abajo para proceder a remover un empleado del sistema. Puede remover empleados regulares y administradores.</p>
+            <p class="col-12 mt-5">Utiliza el botón de abajo para proceder a remover un empleado del sistema. Puede
+                remover empleados regulares y administradores.</p>
             <p class="justify-content-center col-12 mt-1 pb-3 aag-border-bottom">
                 <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDelete"
                         aria-expanded="false"
@@ -120,7 +135,9 @@
                 </div>
                 <form action="{{ url_for('adminStaff') }}" method="post">
                     <div class="input-group">
-                        <input type="text" name="eid" class="form-control" placeholder="EID del empleado a remover..." oninvalid="this.setCustomValidity('El EID del empleado no puede estar vacío.')" oninput="setCustomValidity('')" required>
+                        <input type="text" name="eid" class="form-control" placeholder="EID del empleado a remover..."
+                               oninvalid="this.setCustomValidity('El EID del empleado no puede estar vacío.')"
+                               oninput="setCustomValidity('')" required>
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="btn btn-danger">Borrar Empleado</button>
                     </div>
@@ -142,7 +159,8 @@
                 <tbody>
                 {% for item in staff %}
                     <tr>
-                        <th scope="row"><a href="{{ url_for('adminStaff') }}/{{ item['eid'] }}">{{ item['eid'] }}</a></th>
+                        <th scope="row"><a href="{{ url_for('adminStaff') }}/{{ item['eid'] }}">{{ item['eid'] }}</a>
+                        </th>
                         <td>{{ item['staff_fname'] }} {{ item['staff_lname'] }}</td>
                         <td>{{ item['staff_email'] }}</td>
                         <td>{{ item['staff_store'] }}</td>

@@ -46,6 +46,10 @@ def product(pid):
 def about():
     return render_template('about.html')
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 
 @app.route('/account', methods=['GET', 'POST'])
 def accounts():
@@ -198,8 +202,9 @@ def admin():
     pending = o().countPendingOrders()
     unshipped = o().countUnshippedOrders()
     canceled = o().countCanceledOrders()
+    actualOrders = o().getAllOrders()
     return render_template('admin.html', complete=complete, pending=pending, unshipped=unshipped, canceled=canceled,
-                           staffStatus=operation[1])
+                           staffStatus=operation[1], orders=actualOrders)
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])
@@ -297,6 +302,7 @@ def adminProducts():
     staffStatus = s().staffIsAdmin(session['eid'])[0]
     if not staffStatus:
         return redirect(url_for('admin'))
+    product = p().getAllProducts()
     if request.method == 'POST':
         method = request.form['_method']
         if method == 'ADD_PRODUCT':
@@ -312,9 +318,11 @@ def adminProducts():
                 image = v().generatePhotoName(extension[1])
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], image))
                 operation = p().addProduct(image, request.form)
-                product = operation[1]
-                message = operation[2]
-    return render_template('adminProducts.html', products=p().getAllProducts())
+                # product = operation[1]
+                # message = operation[2]
+        elif method == 'SEARCH':
+            product = p().genericProductSearch(request.form['query'])
+    return render_template('adminProducts.html', products=product)
 
 
 # @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
@@ -400,14 +408,19 @@ def adminStaff():
             operation = s().insertStaff(request.form)
             return render_template('adminStaff.html', addSuccess=operation[1], staff=s().getAllStaff())
         if method == 'SEARCH':
-            operation = s().getStaffByEid(request.form)
-            status = operation[0]
-            result = operation[1]
-            message = operation[2]
-            if not status:
-                return render_template('adminStaff.html', message=message, staff=staff)
-            else:
-                return render_template('adminStaffEdit.html', staff=result)
+            # operation = s().getStaffByEid(request.form)
+            # status = operation[0]
+            # result = operation[1]
+            # message = operation[2]
+            # if not status:
+            #     return render_template('adminStaff.html', message=message, staff=staff)
+            # else:
+            #     return render_template('adminStaffEdit.html', staff=result)
+            staff = s().genericStaffSearch(request.form['eid'])
+            message = 'employee_found'
+            if len(staff) == 0:
+                message = 'no_staff'
+            return render_template('adminStaff.html', message=message, staff=staff)
         if method == 'DELETE':
             operation = s().deleteStaff(request.form)
             return render_template('adminStaff.html', deleteStatus=operation[1], staff=s().getAllStaff())

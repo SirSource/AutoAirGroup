@@ -1,5 +1,6 @@
 from config.dbconfig import client
 
+
 class StaffDao:
 
     def __init__(self):
@@ -101,7 +102,7 @@ class StaffDao:
         :param admin: True for admin, False for regular staff status.
         :return: Object ID of record from mongodb.
         """
-        return self.db.update({'eid': eid}, {'$set':{'admin': admin}})
+        return self.db.update({'eid': eid}, {'$set': {'admin': admin}})
 
     def updateStaffStore(self, eid, store):
         """
@@ -145,3 +146,13 @@ class StaffDao:
         :return: Object ID of record from mongodb.
         """
         return self.db.delete_many({"eid": eid})
+
+    def genericStaffSearch(self, string):
+        collection = self.db
+        collection.create_index(
+            [('staff_fname', 'text'), ('staff_lname', 'text'), ('staff_email', 'text'), ('eid', 'text'), ('staff_store', 'text')])
+        find = collection.find({"$text": {"$search": string}}, {"_id": 0})
+        staff = []
+        for doc in find:
+            staff.append(doc)
+        return staff

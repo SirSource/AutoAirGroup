@@ -165,3 +165,6 @@ class StaffHandler:
             return True, 'is_admin'
         else:
             return False, 'not_admin'
+
+    def genericStaffSearch(self, string):
+        return StaffDao().genericStaffSearch(string)

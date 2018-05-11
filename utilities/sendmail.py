@@ -26,7 +26,7 @@ class Sendmail:
     def sendAccountCreationEmail(self, userEmail):
         to_email = Email(userEmail)
         subject = "!Bienvenido a Auto Air Group!"
-        content = Content("text/plain", "Your order number is...")
+        content = Content("text/plain", "<h1>Your order number is...</h1>")
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
         return response

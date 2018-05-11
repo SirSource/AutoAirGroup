@@ -17,12 +17,16 @@
                 <div class="col-lg-12">
                     <div class="col-lg-5 mt-3">
                         <h5>Buscar un producto:</h5>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Entre un producto para buscar...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Buscar</button>
+                        <form action="{{ url_for('adminProducts') }}" method="POST">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="query"
+                                       placeholder="Entre un producto para buscar...">
+                                <span class="input-group-btn">
+                                    <input type="hidden" name="_method" value="SEARCH">
+                                <button class="btn btn-primary" type="submit">Buscar</button>
                             </span>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                     <!--Display products in the system-->
                     <div class="col-lg-12 mt-5">
@@ -73,31 +77,46 @@
                                 <div class="form-group">
                                     <label for="product-name">ID para el producto</label>
                                     <input type="text" class="form-control" name="pid" id="product-ID"
-                                           placeholder="PID" oninvalid="this.setCustomValidity('Entre un ID para el producto (ej. SKU, UPC, Número de modelo).')" oninput="setCustomValidity('')" required>
+                                           placeholder="PID"
+                                           oninvalid="this.setCustomValidity('Entre un ID para el producto (ej. SKU, UPC, Número de modelo).')"
+                                           oninput="setCustomValidity('')" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="product-name">Título / Nombre</label>
                                     <input type="text" class="form-control" name="pname" id="product-name"
-                                           placeholder="Título / Nombre" oninvalid="this.setCustomValidity('El producto debe tener un nombre o título.')" oninput="setCustomValidity('')" required>
+                                           placeholder="Título / Nombre"
+                                           oninvalid="this.setCustomValidity('El producto debe tener un nombre o título.')"
+                                           oninput="setCustomValidity('')" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="brand">Marca</label>
                                     <input type="text" class="form-control" name="pbrand" id="brand"
-                                           placeholder="Marca" oninvalid="this.setCustomValidity('El producto debe tener un valor para la marca.')" oninput="setCustomValidity('')" required>
+                                           placeholder="Marca"
+                                           oninvalid="this.setCustomValidity('El producto debe tener un valor para la marca.')"
+                                           oninput="setCustomValidity('')" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="price">Precio</label>
-                                    <input type="number" min="0.00" step="0.01" class="form-control" name="pprice" id="price"
-                                           placeholder="Precio" oninvalid="this.setCustomValidity('Entre un precio para el producto.')" oninput="setCustomValidity('')" required>
+                                    <input type="number" min="0.00" step="0.01" class="form-control" name="pprice"
+                                           id="price"
+                                           placeholder="Precio"
+                                           oninvalid="this.setCustomValidity('Entre un precio para el producto.')"
+                                           oninput="setCustomValidity('')" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="shipping">Envío</label>
-                                    <input type="number" min="0.00" step="0.01" class="form-control" name="pshipping" id="shipping"
-                                           placeholder="Costo de envío" oninvalid="this.setCustomValidity('Entre el valor para el manejo y envío del producto.')" oninput="setCustomValidity('')" required>
+                                    <input type="number" min="0.00" step="0.01" class="form-control" name="pshipping"
+                                           id="shipping"
+                                           placeholder="Costo de envío"
+                                           oninvalid="this.setCustomValidity('Entre el valor para el manejo y envío del producto.')"
+                                           oninput="setCustomValidity('')" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="qty">Cantidad</label>
-                                    <input type="number" min="0" class="form-control" name="qty" id="qty" placeholder="Cantidad" oninvalid="this.setCustomValidity('Entre la cantidad disponible para vender.')" oninput="setCustomValidity('')" required>
+                                    <input type="number" min="0" class="form-control" name="qty" id="qty"
+                                           placeholder="Cantidad"
+                                           oninvalid="this.setCustomValidity('Entre la cantidad disponible para vender.')"
+                                           oninput="setCustomValidity('')" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="store">Tienda</label>
@@ -111,7 +130,9 @@
                                 <!--DE AQUI-->
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Año de vehículo</label>
-                                    <select class="form-control" name="cyear" id="year" oninvalid="this.setCustomValidity('Especifíque el año del vehículo.')" oninput="setCustomValidity('')" required>
+                                    <select class="form-control" name="cyear" id="year"
+                                            oninvalid="this.setCustomValidity('Especifíque el año del vehículo.')"
+                                            oninput="setCustomValidity('')" required>
                                         <option value="2019">2019</option>
                                         <option value="2018">2018</option>
                                         <option value="2017">2017</option>
@@ -166,13 +187,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Marca de vehículo</label>
-                                    <select class="form-control" name="cmake" id="formmake" oninvalid="this.setCustomValidity('Especifique la marca del vehículo.')" oninput="setCustomValidity('')" required>
+                                    <select class="form-control" name="cmake" id="formmake"
+                                            oninvalid="this.setCustomValidity('Especifique la marca del vehículo.')"
+                                            oninput="setCustomValidity('')" required>
                                         <option selected="selected">-Marca-</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Modelo de vehículo</label>
-                                    <select class="form-control" name="cmodel" id="formmodel" oninvalid="this.setCustomValidity('Especifique el modelo del vehículo.')" oninput="setCustomValidity('')" required>
+                                    <select class="form-control" name="cmodel" id="formmodel"
+                                            oninvalid="this.setCustomValidity('Especifique el modelo del vehículo.')"
+                                            oninput="setCustomValidity('')" required>
                                         <option selected="selected">-Modelo-</option>
                                     </select>
                                 </div>
@@ -184,7 +209,9 @@
                                 <!--A AQUI-->
                                 <div class="form-group">
                                     <label for="category">Categoría</label>
-                                    <select id="inputState" name="category" class="form-control" oninvalid="this.setCustomValidity('Escoja una categoría para el producto.')" oninput="setCustomValidity('')" required>
+                                    <select id="inputState" name="category" class="form-control"
+                                            oninvalid="this.setCustomValidity('Escoja una categoría para el producto.')"
+                                            oninput="setCustomValidity('')" required>
                                         <option value="Compresores" selected>Compresores</option>
                                         <option value="Evaporadores">Evaporadores</option>
                                         <option value="Acumuladores">Acumuladores y secadores</option>
@@ -207,7 +234,9 @@
                                 <div class="form-group">
                                     <label for="description">Descripción</label>
                                     <textarea class="form-control" name="description" id="description"
-                                              rows="3" oninvalid="this.setCustomValidity('Describa brevemente el producto.')" oninput="setCustomValidity('')" required></textarea>
+                                              rows="3"
+                                              oninvalid="this.setCustomValidity('Describa brevemente el producto.')"
+                                              oninput="setCustomValidity('')" required></textarea>
                                 </div>
                                 <input type="hidden" name="_method" value="ADD_PRODUCT">
                                 <button class="btn btn-primary">Añadir producto</button>

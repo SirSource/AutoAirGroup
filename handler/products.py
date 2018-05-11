@@ -456,3 +456,6 @@ class ProductsHandler:
 
             except:
                 return False, None, 'update_not_successful'
+
+    def genericProductSearch(self, string):
+        return ProductsDao().genericProductSearch(string)
