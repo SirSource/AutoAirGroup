@@ -33,8 +33,9 @@
                         <tr>
                             <th scope="row">
                                 <a href="{{ url_for('userOrderReceipt', email=user['user_email'], oid=item['orderid']) }}" target="_blank"> {{ item['orderid'] }}</a>
+                                <br/><span class="text-muted"><small>Oprima para ver recibo.</small></span>
                             </th>
-                            <td>{{ item['total'] }}</td>
+                            <td>${{ item['total'] }}</td>
                             {% if item['payment_status'] == 'complete' %}
                                 <td>Completado</td>
                             {% elif item['payment_status'] == 'pending' %}

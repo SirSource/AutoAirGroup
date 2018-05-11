@@ -10,20 +10,76 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
-    <title>Recibo de Orden [{{ orders['orderid'] }}]</title>
+    <title>Recibo de Orden [{{ order['orderid'] }}]</title>
 </head>
 <body>
-<div class="col-md">
-    <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center">Completadas:
-            <span><strong></strong></span></li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">Pendientes:
-            <span><strong></strong></span></li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">Sin Enviar:
-            <span><strong></strong></span></li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">Canceladas:
-            <span><strong></strong></span></li>
-    </ul>
+<div><h1 class="text-center">Auto Air Group</h1></div>
+<hr>
+<div class="col-md-5 m-auto">
+    <div class="mt-3 mb-3"><span>Fecha: <strong>{{ order['date'] }}</strong></span></div>
+    <div class="mt-3 mb-3"><span>Número de orden: {{ order['orderid'] }}</span></div>
+    <table class="table table-responsive-md table-striped">
+        <thead>
+        <tr>
+            <th scope="col">PID</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Precio (unidad)</th>
+            <th scope="col">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in order['products'] %}
+            <tr>
+                <th scope="row">{{ item['pid'] }}</th>
+                <td>{{ item['pname'] }}</td>
+                <td>{{ item['qty'] }}</td>
+                <td>${{ item['unit_price'] }}</td>
+                <td>${{ item['unit_total'] }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Sub-total:</th>
+            <th>${{ order['total'] }}</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>IVU:</th>
+            <th>${{ order['tax_total'] }}</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Envío:</th>
+            <th>${{ order['shipping_total'] }}</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Gran Total:</th>
+            <th>${{ order['grand_total'] }}</th>
+        </tr>
+        </tbody>
+    </table>
+    {% if order['payment_status'] == 'complete' %}
+        <div class="mt-3 mb-3"><span>Estatus de transacción: <strong>Completado</strong></span></div>
+    {% elif order['payment_status'] == 'pending' %}
+        <div class="mt-3 mb-3"><span>Estatus de transacción: <strong>Pendiente</strong></span></div>
+    {% elif order['payment_status'] == 'canceled' %}
+        <div class="mt-3 mb-3"><span>Estatus de transacción: <strong>Cancelado</strong></span></div>
+    {% endif %}
+    {% if order['shipping'] == 'not_shipped' %}
+        <div class="mt-3 mb-3"><span>Estatus de enío: <strong>No enviado</strong></span></div>
+    {% elif order['shipping'] == 'shipped' %}
+        <div class="mt-3 mb-3"><span>Estatus de envío: <strong>Enviado</strong></span></div>
+    {% endif %}
 </div>
 </body>
 </html>

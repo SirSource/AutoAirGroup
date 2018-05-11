@@ -15,7 +15,19 @@
                             <small class="text-muted">Cantidad: {{ items['qty'] }} (${{ items['unit_price'] }}/c.u.)
                             </small>
                             <br/>
-                            <small class="text-muted"><a href="#">Modificar cantidad</a></small>
+                            <p>
+                                <a data-toggle="collapse" href="#collapse{{ items['pid'] }}" role="button"
+                                   aria-expanded="false" aria-controls="collapseExample">
+                                    <small>Modificar Carrito</small>
+                                </a>
+                            </p>
+                            <div class="collapse" id="collapse{{ items['pid'] }}">
+                                <form action="{{ url_for('cartAdd') }}" method="POST">
+                                    <input type="hidden" name="_cartPid" value="{{ items['pid'] }}">
+                                    <input type="number" min="0" max="200" step="1" style="width: 65px" name="qty" value="{{ items['qty'] }}">
+                                    <button type="submit" class="btn btn-primary">Actialuzar</button>
+                                </form>
+                            </div>
                         </div>
                         <span class="text-muted">${{ items['unit_total'] }}</span>
                     </li>
@@ -264,7 +276,8 @@
 
                     <div class="mb-3">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="uemail" placeholder="Correo electrónico"
+                        <input type="email" class="form-control" id="email" name="uemail"
+                               placeholder="Correo electrónico"
                                oninvalid="this.setCustomValidity('Entre su correo electrónico.')"
                                oninput="setCustomValidity('')" required>
                     </div>
@@ -278,7 +291,8 @@
 
                     <div class="mb-3">
                         <label for="address">Dirección</label>
-                        <input type="text" class="form-control" id="address1" name="address1" placeholder="Dirección, línea 1"
+                        <input type="text" class="form-control" id="address1" name="address1"
+                               placeholder="Dirección, línea 1"
                                oninvalid="this.setCustomValidity('Entre su dirección.')"
                                oninput="setCustomValidity('')" required>
                     </div>
@@ -448,6 +462,5 @@
                 </form>
             {% endif %}
         </div>
-    </div>
     </div>
 {% endblock %}

@@ -95,7 +95,7 @@ def userOrderReceipt(email, oid):
         email = session['email']
     orders = o().getOrdersByOrderID(oid)
     print(orders)
-    return render_template('receipt.html', orders=orders)
+    return render_template('receipt.html', order=orders)
 
 
 @app.route('/account/user/<string:email>/edit', methods=['GET', 'POST'])
@@ -125,7 +125,9 @@ def logout():
 
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
+    if 'cart' not in session:
+        return render_template('cart.html')
+    return redirect(url_for('checkout'))
 
 
 @app.route('/cart/add', methods=['GET', 'POST'])
