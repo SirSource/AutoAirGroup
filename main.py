@@ -158,6 +158,9 @@ def checkout():
         user = u().getUserByEmail(session['email'])
     session['cart'] = purgeEmptyItemFromCart(session['cart'])
     session.modified = True
+    if len(session['cart']) == 0:
+        session.pop('cart', None)
+        return redirect(url_for('catalog'))
     operation = o().createOrderfromCart(session['cart'])
     return render_template('checkout.html', user=user, products=operation[1], total=operation[2], shipping=operation[3],
                            taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
