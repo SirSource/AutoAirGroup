@@ -314,6 +314,19 @@ def adminProducts():
     return render_template('adminProducts.html', products=p().getAllProducts())
 
 
+# @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
+# def adminProductsView(pid):
+#     if 'eid' not in session:
+#         return redirect(url_for('adminLogin'))
+#     staffStatus = s().staffIsAdmin(session['eid'])[0]
+#     if not staffStatus:
+#         return redirect(url_for('admin'))
+#     operation = p().getProductByID(pid)
+#     product = operation[1]
+#     if not operation[0]:
+#         return render_template('adminProductView.html', product=None)
+#     return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
+
 @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
 def adminProductsView(pid):
     if 'eid' not in session:
@@ -325,6 +338,30 @@ def adminProductsView(pid):
     product = operation[1]
     if not operation[0]:
         return render_template('adminProductView.html', product=None)
+    if request.method == 'POST':
+        print("ENtre al POST")
+        # It will have the same picture
+        if 'file' not in request.files:
+            print("EDIT WITHOUTH PHOTO")
+            # EDIT PRODUCT WITHOUT PHOTO
+            operation = p().EditProductByID(None, request.form)
+            product = p().getProductByID(pid)[1]  # devuelve una lista de una lista del producto
+            print(operation)
+            return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
+
+        else:
+            file = request.files['file']
+            if file.filename == '':
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                extension = filename.split('.')
+                image = v().generatePhotoName(extension[1])
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], image))
+                operation = p().EditProductByID(image, request.form)
+                product = p().getProductByID(pid)[1]  # devuelve una lista de una lista del producto
+            return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
+
     return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
 
 

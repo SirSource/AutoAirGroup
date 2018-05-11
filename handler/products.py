@@ -415,3 +415,44 @@ class ProductsHandler:
         if product == None:
             return False
         return True
+
+    def EditProductByID(self, image, form):
+        """
+        EDITS ALL FIELDS OF PRODUCTS IF THERE IS ANY CHANGE
+        :param form:
+        :return:
+        """
+        cmake = form['cmake']
+        cmodel = form['cmodel']
+        cyear = form['cyear']
+        cmotor = form['cmotor'].upper()
+        pid = form['pid'].upper()
+        pcategory = form['category']
+        pname = form['pname']
+        pdetails = form['description']
+        plocation = form['store']
+        pprice = form['pprice']
+        pbrand = form['pbrand']
+        pshipping = form['pshipping']
+        qty = form['qty']
+        featured = form['featured']
+        if image == None:
+            try:
+                dao = ProductsDao()
+                product = dao.updateProductByIdWithSameImage(cmake, cmodel, cyear, cmotor, pid, pcategory, pname,
+                                                             pdetails, plocation, Decimal128(pprice), pbrand, int(qty),
+                                                             Decimal128(pshipping), featured)
+                return bool(product['updatedExisting']), product, 'update_successful'
+
+            except:
+                return False, None, 'update_not_successful'
+        else:
+            try:
+                dao = ProductsDao()
+                product = dao.updateProductByIdWithDiffImage(image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname,
+                                                             pdetails, plocation, Decimal128(pprice), pbrand, int(qty),
+                                                             Decimal128(pshipping), featured)
+                return bool(product['updatedExisting']), product, 'update_successful'
+
+            except:
+                return False, None, 'update_not_successful'

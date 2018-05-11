@@ -351,3 +351,64 @@ class ProductsDao:
 
         find = products.find({"$text": {"$search": args}}, {"_id": 0})
         return find
+
+    def updateProductByIdWithSameImage(self, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails,
+                                       plocation, pprice, pbrand, qty, pshipping, featured):
+        try:
+            car = {
+                "make": cmake,
+                "model": cmodel,
+                "year": cyear,
+                "motor": cmotor
+            }
+
+            return self.db.update({'pid': pid}, {'$set': {'car': car,
+                                                          "pcategory": pcategory,
+                                                          "pname": pname,
+                                                          "pdetails": pdetails,
+                                                          "plocation": plocation,
+                                                          "pprice": pprice,
+                                                          "pbrand": pbrand,
+                                                          "qty": qty,
+                                                          "pshipping": pshipping,
+                                                          "featured": featured}})
+        except:
+            return False
+
+    def updateProductByIdWithDiffImage(self, image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails,
+                                       plocation, pprice,
+                                       pbrand, qty, pshipping, featured):
+        """
+        Updates the product by product ID
+        author: Luis Perez
+        :param image:
+        :param cmake:
+        :param cmodel:
+        :param cyear:
+        :param cmotor:
+        :param pid:
+        :param pcategory:
+        :param pname:
+        :param pdetails:
+        :param plocation:
+        :param pprice:
+        :param pbrand:
+        :param qty:
+        :return:
+        TESTED NO
+        """
+        try:
+            car = {
+                "make": cmake,
+                "model": cmodel,
+                "year": cyear,
+                "motor": cmotor
+            }
+
+            return self.db.update({'pid': pid}, {
+                '$set': {'image': image, 'car': car, "pcategory": pcategory, "pname": pname, "pdetails": pdetails,
+                         "plocation": plocation, "pprice": pprice, "pbrand": pbrand, "qty": qty, "pshipping": pshipping,
+                         "featured": featured}})
+
+        except:
+            return False

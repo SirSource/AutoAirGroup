@@ -1,7 +1,8 @@
 from dao.formOptions import FormDao as f
+from utilities.sendmail import Sendmail as s
 
-list = f().getAllCarMakes()
-models = f().getAllCarModels()
+# list = f().getAllCarMakes()
+# models = f().getAllCarModels()
 
 # for x in list:
 #     print('<option value="' + str(x['make']) + '">' + str(x['make']) + '</option>')
@@ -15,3 +16,7 @@ models = f().getAllCarModels()
 #             print('"' + y['model'] + '", ', end="")
 #     print(");", end="")
 #     print()
+
+
+hello = s().sendAccountCreationEmail('jaime.cortes@upr.edu')
+print(hello)
