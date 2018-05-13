@@ -127,8 +127,10 @@
                                      src="{{ url_for('static', filename='img/products/' + item['image']) }}">
                             </a>
                             <p class="card-text">{{ item['pdetails'] }}</p>
-                            <a href="product/{{ item['pid'] }}"
-                               class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
+                            <div class="text-center">
+                                <a href="product/{{ item['pid'] }}"
+                                   class="btn btn-primary font-weight-bold">${{ item['pprice'] }}</a>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
