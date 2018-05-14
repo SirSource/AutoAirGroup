@@ -24,7 +24,15 @@ def home():
 def catalog():
     products = p().getAllProducts()
     if request.method == 'POST':
+        if request.form['_method'] == 'genericsearch':
+            products = p().genericProductSearch(request.form['query'])
+            if len(products) == 0:
+                products = 'no_products'
+            return render_template('catalog.html', products=products)
         products = p().searchProductsByCar(request.form)
+        if products == None:
+            products = 'no_products'
+            return render_template('catalog.html', products=products)
         if len(products[1]) == 0:
             products = 'no_products'
             return render_template('catalog.html', products=products)
@@ -37,7 +45,10 @@ def catalog():
 def product(pid):
     operation = p().getProductByID(pid)
     result = operation[0]
-    value = operation[1][0]
+    try:
+        value = operation[1][0]
+    except:
+        return redirect(url_for('catalog'))
     message = operation[2]
     return render_template('product.html', product=value)
 
@@ -45,6 +56,7 @@ def product(pid):
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/contact')
 def contact():
@@ -121,10 +133,15 @@ def userEdit(email):
     return render_template('userProfileEdit.html', user=user, message=message)
 
 
-@app.route("/logout")
+@app.route('/logout')
 def logout():
     session.pop('email', None)
     return redirect(url_for('home'))
+
+
+@app.route('/user/reset/password')
+def resetUser():
+    return render_template('userResetPass.html')
 
 
 @app.route('/cart')
@@ -185,11 +202,6 @@ def processOrder():
     print(order)
     session.pop('cart', None)
     return redirect('/')
-
-
-@app.route('/users')
-def getAllUsers():
-    return u().getAllUsers()
 
 
 # ---ADMIN PAGES---#

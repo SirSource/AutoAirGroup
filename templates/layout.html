@@ -97,7 +97,7 @@
     </div>
     <!--Navigation bar-->
     <div class="row aag-bg-dark aag-shadow">
-        <nav class="col-md navbar navbar-expand-md navbar-dark bg-dark">
+        <nav class="col navbar navbar-expand-md navbar-dark bg-dark">
             <!--Hmaburger Menu Button-->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                     aria-controls="navbarNavDropdown"
@@ -120,7 +120,7 @@
                         <a class="nav-link" href="{{ url_for('about') }}">Sobre nosotros</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contáctenos</a>
+                        <a class="nav-link" href="{{ url_for('contact') }}">Contáctenos</a>
                     </li>
                     {% if session['email'] %}
                         <li>
@@ -130,9 +130,12 @@
                 </ul>
             </div>
             <!--Search Box Input Group-->
-            <div class="input-group col-md-3 w-75 mx-auto">
-                <input type="text" class="form-control" placeholder="Buscar...">
-                <span class="input-group-btn"><button class="btn btn-primary" type="button">Buscar</button></span>
+            <div class="input-group col-md-2 mx-auto justify-content-center">
+                <form class="form-inline text-center" action="{{ url_for('catalog') }}" method="POST">
+                    <input type="text" style="width: 180px" name="query" class="form-control" placeholder="Buscar...">
+                    <input type="hidden" name="_method" value="genericsearch">
+                    <button class="btn btn-primary material-icons" type="submit">search</button>
+                </form>
             </div>
         </nav>
     </div>
@@ -145,29 +148,16 @@
 <div class="container-fluid mt-5 aag-footer aag-bg-blue3 aag-white-text" id="footer">
     <div class="container">
         <div class="row pt-3">
-            {#            <div class="col-md">#}
-            {#                <h5>Enlaces Importantes</h5>#}
-            {#                <ul>#}
-            {#                    <li>Enlace 1</li>#}
-            {#                    <li>Enlace 2</li>#}
-            {#                    <li>Enlace 3</li>#}
-            {#                </ul>#}
-            {#            </div>#}
             <div class="col-md">
-                {#                <h5>Redes Sociales</h5>#}
-                {#                <ul>#}
-                {#                    <li>Facebook</li>#}
-                {#                    <li>Twitter</li>#}
-                {#                </ul>#}
+                <small>© 2018 Auto Air Group, inc</small>
+            </div>
+            <div class="col-md-2 float-right">
                 <a href="https://www.facebook.com/LAP-LAE-Auto-Air-Group-270403163033552/" target="_blank"><img
                         width="50px" src="{{ url_for('static', filename='img/fb_logo.png') }}"></a>
             </div>
-            <div class="col-md-2 float-right">
-                <small>© 2018 Auto Air Group, inc</small>
-            </div>
+
         </div>
     </div>
 </div>
 </body>
-
 </html>

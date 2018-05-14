@@ -18,5 +18,10 @@ from utilities.sendmail import Sendmail as s
 #     print()
 
 
-hello = s().sendAccountCreationEmail('jcd_fusion@hotmail.com')
-print(hello)
+# hello = s().sendAccountCreationEmail('jcd_fusion@hotmail.com')
+# print(hello)
+
+from handler.passReset import PassResetHandler as pr
+form = 'test@email.com'
+pr().resetPassword(form)
+pr().getReset(form)

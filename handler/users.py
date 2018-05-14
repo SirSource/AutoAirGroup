@@ -36,6 +36,14 @@ class UserHandler:
         else:
             return user
 
+    def getUserByEmailReset(self, email):
+        dao = UsersDao()
+        user = dao.getUserByEmail(email)
+        if user == None:
+            return False, 'no_user'
+        else:
+            return True, user
+
     def getUserByPhone(self, phone):
         dao = UsersDao()
         user = dao.getUserByPhone()
