@@ -24,4 +24,4 @@ from utilities.sendmail import Sendmail as s
 from handler.passReset import PassResetHandler as pr
 form = 'test@email.com'
 pr().resetPassword(form)
-pr().getReset(form)
+#pr().getReset(form)

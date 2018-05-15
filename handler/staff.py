@@ -94,6 +94,16 @@ class StaffHandler:
         else:
             return False, 'invalid_new_password'
 
+    def updateStaffPasswordReset(self, eid, form):
+        newPassword = form['newPass']
+        if newPassword == '':
+            return False, 'invalid_form'
+        if v().validPassword(newPassword) and self.staffExists(eid):
+            StaffDao().updateStaffPassword(eid, v().encrypt(newPassword))
+            return True, 'updated_password'
+        else:
+            return False, 'invalid_password'
+
     def insertStaff(self, form):
         fname = form['first_name']
         lname = form['last_name']

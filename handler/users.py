@@ -136,6 +136,16 @@ class UserHandler:
         else:
             return False, 'invalid_password'
 
+    def updateUserPasswordReset(self, email, form):
+        newPassword = form['newPass']
+        if newPassword == '':
+            return False, 'invalid_form'
+        if v().validPassword(newPassword) and self.userExists(email):
+                UsersDao().updateUserPassword(email, v().encrypt(newPassword))
+                return True, 'updated_password'
+        else:
+            return False, 'invalid_password'
+
     def deleteUserByEmail(self, email):
         if self.userExists(email):
             UsersDao().deleteUserByEmail(email)

@@ -7,6 +7,7 @@ from handler.products import ProductsHandler as p
 from handler.tax import TaxHandler as t
 from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
+from handler.passReset import PassResetHandler as pr
 
 app = Flask(__name__)
 app.secret_key = 'PGaxILENXyNhKV3meAMa'
@@ -139,9 +140,77 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/user/reset/password')
-def resetUser():
-    return render_template('userResetPass.html')
+@app.route('/request/password', methods=['GET', 'POST'])
+def requestUser():
+    session.pop('email', None)
+    if request.method == 'POST':
+        operation = pr().resetPassword(request.form['email'])
+        print("operation is: " + str(operation))
+        if operation == None:
+            return render_template('requestPassword.html', message='failed')
+        else:
+            return render_template('requestPassword.html', message='success')
+    return render_template('requestPassword.html')
+
+
+@app.route('/request/password/staff', methods=['GET', 'POST'])
+def requestStaff():
+    session.pop('eid', None)
+    if request.method == 'POST':
+        operation = pr().resetPassword(request.form['eid'])
+        print("operation staff is: " + str(operation))
+        if operation == None:
+            return render_template('requestPasswordStaff.html', message='failed')
+        else:
+            return render_template('requestPasswordStaff.html', message='success')
+    return render_template('requestPasswordStaff.html')
+
+
+@app.route('/user/reset/password/<string:key>')
+def resetUser(key):
+    try:
+        user = pr().getReset(key)
+    except:
+        return redirect(url_for('home'))
+    session.pop('email', None)
+    session.pop('eid', None)
+    if user[1] == 'user':
+        session['email'] = user[0]
+        return render_template('userResetPass.html')
+    elif user[1] == 'staff':
+        session['eid'] = user[0]
+        return render_template('staffResetPass.html')
+
+
+@app.route('/user/reset/password/complete', methods=['POST'])
+def resetPassUser():
+    if not request.method == 'POST':
+        session.pop('email', None)
+        return redirect(url_for('home'))
+    else:
+        user = u().updateUserPasswordReset(session['email'], request.form)
+        message = user[1]
+        if message == 'updated_password':
+            return redirect(url_for('accounts'))
+        else:
+            session.pop('email', None)
+            return render_template('resetFailed.html')
+
+
+@app.route('/user/reset/password/auth', methods=['POST'])
+def resetPassStaff():
+    if not request.method == 'POST':
+        session.pop('eid', None)
+        return redirect(url_for('home'))
+    else:
+        user = s().updateStaffPasswordReset(session['eid'], request.form)
+        message = user[1]
+        print('Staff message: ' + str(message))
+        if message == 'updated_password':
+            return redirect(url_for('admin'))
+        else:
+            session.pop('eid', None)
+            return render_template('resetFailed.html')
 
 
 @app.route('/cart')

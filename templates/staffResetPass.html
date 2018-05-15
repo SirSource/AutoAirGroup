@@ -7,9 +7,10 @@
             <h4>Recuperar Acceso</h4>
         </div>
         <div class="col-lg-6 mx-auto">
-            <form action="{{ url_for('resetPassUser') }}" method="POST">
+            <form action="{{ url_for('resetPassStaff') }}" method="POST">
                 <div class="form-group">
                     <label for="email">Nueva contrseña</label>
+                    <input type="hidden" name="AAGA" value="{{ staff }}">
                     <input type="password" class="form-control" name="newPass" id="newPass"
                            oninvalid="this.setCustomValidity('Entre una nueva contraseña.')"
                            oninput="setCustomValidity('')" required>

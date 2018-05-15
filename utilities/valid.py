@@ -80,3 +80,10 @@ class Valid:
         chars = string.ascii_letters + string.punctuation + string.digits
         password = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
         return password
+
+    def generateRandomString(self):
+        minlength = 12
+        maxlength = 25
+        chars = string.ascii_letters + string.digits
+        line = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
+        return line

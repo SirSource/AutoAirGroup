@@ -13,9 +13,9 @@ class PassResetDao:
         }
         return self.db.insert_one(key)
 
-    def retrieveFromResetTable(self, user):
-        key = self.db.find_one({"user": user})
+    def retrieveFromResetTable(self, auth):
+        key = self.db.find_one({'auth': auth})
         key = key['user']
         print('user is: ' + str(key))
-        self.db.delete_many({"user": user})
+        self.db.delete_many({'user': key})
         return key

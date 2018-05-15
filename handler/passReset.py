@@ -9,18 +9,25 @@ class PassResetHandler:
     def resetPassword(self, id):
         userHandler = u().getUserByEmailReset(id)
         staffHandler = s().getStaffByEidMain(id)
-        print(userHandler)
-        print(staffHandler)
         if userHandler[0] == False:
             print('no user')
         else:
             print('there is a user')
-            return pr().addToResetTable(id, v().generatePassword())
+            return pr().addToResetTable(id, v().generateRandomString())
         if staffHandler[0] == False:
             print('no staff')
         else:
-            print('there is a staff')
+            return pr().addToResetTable(id, v().generateRandomString())
 
     def getReset(self, id):
         user = pr().retrieveFromResetTable(id)
-        print(user)
+        userHandler = u().getUserByEmailReset(user)
+        staffHandler = s().getStaffByEidMain(user)
+        if userHandler[0] == False:
+            print('no user')
+        else:
+            return user, 'user'
+        if staffHandler[0] == False:
+            print('no staff')
+        else:
+            return user, 'staff'
