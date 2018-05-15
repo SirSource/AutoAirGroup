@@ -16,7 +16,7 @@ print(response.headers)
 '''
 
 
-class Sendmail:
+class SendMail:
 
     def __init__(self):
         self.sg = sendgrid.SendGridAPIClient(
@@ -39,18 +39,14 @@ class Sendmail:
         response = self.sg.client.mail.send.post(request_body=mail.get())
         return response
 
-    def sendAccountCreationEmail(self, userEmail):
-        to_email = Email(userEmail)
-        subject = "Auto Air Group Order Details"
-        content = Content("text/plain", "Your order number is...")
+
+    def sendOrderConfirmationEmail(self, userEmail, orderNum, total):
+        to_email = Email("%s" % userEmail)
+        subject = "Su compra en Auto Air Group"
+        content = Content("text/plain", "Your order number is %s with a total of $ %s" % (orderNum, total))
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
         return response
 
-    def sendOrderConfirmationEmail(self, userEmail):
-        to_email = Email(userEmail)
-        subject = "Auto Air Group Order Details"
-        content = Content("text/plain", "Your order number is...")
-        mail = Mail(self.from_email, subject, to_email, content)
-        response = self.sg.client.mail.send.post(request_body=mail.get())
-        return response
+
+
