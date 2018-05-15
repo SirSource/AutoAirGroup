@@ -9,6 +9,17 @@ from handler.tax import TaxHandler as t
 from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 
+
+stripe_keys = {
+  'secret_key': 'sk_test_L1gq9DkWasFWF93WONLDWhUw',
+  'publishable_key': 'pk_test_D3JW1FlVygvBQIz2uDJlPHix',
+  'live_secret': 'sk_live_829z48QuQMKzuYJ95xjVUUSa',
+  'live_pub': 'pk_live_aOGdiL9OkX0PAGcHXf2oMsJp'
+}
+
+stripe.api_key = stripe_keys['live_secret']
+
+
 app = Flask(__name__)
 app.secret_key = 'PGaxILENXyNhKV3meAMa'
 UPLOAD_FOLDER = app.root_path + '/static/img/products/'
@@ -185,8 +196,47 @@ def checkout():
         return redirect(url_for('catalog'))
     operation = o().createOrderfromCart(session['cart'])
     return render_template('checkout.html', user=user, products=operation[1], total=operation[2], shipping=operation[3],
-                           taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
+                           taxed=operation[4], grandTotal=operation[5], allQty=operation[6], key=stripe_keys['live_pub'])
 
+
+
+@app.route('/charge', methods=['GET','POST'])
+def charge():
+    # Amount in cents
+    amount = 50  # Sacarlo del Form/Carrito
+
+
+    if request.method == 'POST':
+        customer = stripe.Customer.create(
+            email='customer@example.com', #Sacar del form referente al email del usuario o cliente de AAG
+            source=request.form['stripeToken']
+        )
+        try:
+
+         charge = stripe.Charge.create(
+            customer=customer.id,
+            amount=amount,
+            currency='usd',
+            description='Flask Charge' #Poner otra descripcion si se puede
+        )
+
+        except stripe.error.CardError as e:   # Si no pasa el pago, pasa por este error!
+
+            body = e.json_body
+            err = body.get('error', {})
+
+            print("Status is: %s" % e.http_status)
+            status = e.http_status
+            print(status)
+            print("Type is: %s" % err.get('type'))
+            print("Code is: %s" % err.get('code'))
+            # param is '' in this case
+            print("Param is: %s" % err.get('param'))
+            print("Message is: %s" % err.get('message'))
+            #print("CARD ERROR")
+            # flash('Error processing payment.', 'error')
+
+    return render_template('checkout.html',)  # Aqui puedes poner algun template como que confirmando o no
 
 @app.route('/checkout/process', methods=['POST'])
 def processOrder():
