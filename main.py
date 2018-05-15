@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, url_for, render_template, session
 import os
+import stripe
 from werkzeug.utils import secure_filename
 from utilities.valid import Valid as v
 from handler.users import UserHandler as u
