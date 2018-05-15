@@ -24,7 +24,8 @@
                             <div class="collapse" id="collapse{{ items['pid'] }}">
                                 <form action="{{ url_for('cartAdd') }}" method="POST">
                                     <input type="hidden" name="_cartPid" value="{{ items['pid'] }}">
-                                    <input type="number" min="0" max="200" step="1" style="width: 65px" name="qty" value="{{ items['qty'] }}">
+                                    <input type="number" min="0" max="200" step="1" style="width: 65px" name="qty"
+                                           value="{{ items['qty'] }}">
                                     <button type="submit" class="btn btn-primary">Actialuzar</button>
                                 </form>
                             </div>
@@ -201,60 +202,8 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-
-                    <h4 class="mb-3">Pago</h4>
-
-                    <div class="d-block my-3">
-                        <div class="custom-control custom-radio">
-                            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input"
-                                   name="card_type" value="credit" checked
-                                   required>
-                            <label class="custom-control-label" for="credit">Tarjeta de Crédito</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input"
-                                   name="card_type" value="debit" required>
-                            <label class="custom-control-label" for="debit">Tarjeta de Débito</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="cc-name">Nombre en la tarjeta</label>
-                            <input type="text" class="form-control" id="cc-name" name="cc-name" placeholder="" required>
-                            <small class="text-muted">Nombre tal y como aparece en la tarjeta</small>
-                            <div class="invalid-feedback">
-                                Nombre en la tarjeta es requerido.
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="cc-number">Número de tarjeta</label>
-                            <input type="text" class="form-control" id="cc-number" name="cc-number" placeholder=""
-                                   required>
-                            <div class="invalid-feedback">
-                                Número de tarjeta es requerido.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">Expiración</label>
-                            <input type="text" class="form-control" id="cc-expiration" name="cc-expiration"
-                                   placeholder="" required>
-                            <div class="invalid-feedback">
-                                Se requiere la fecha de expiración
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Código de seguridad requerido
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="mb-4">
                     <input type="hidden" name="_userStatus" value="_existingUser">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Completar la compra</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Completar pago</button>
                 </form>
             {% else %}
                 <!--Form for new users-->
@@ -405,60 +354,8 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-
-                    <h4 class="mb-3">Pago</h4>
-
-                    <div class="d-block my-3">
-                        <div class="custom-control custom-radio">
-                            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input"
-                                   name="card_type" value="credit" checked
-                                   required>
-                            <label class="custom-control-label" for="credit">Tarjeta de Crédito</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input"
-                                   name="card_type" value="debit" required>
-                            <label class="custom-control-label" for="debit">Tarjeta de Débito</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="cc-name">Nombre en la tarjeta</label>
-                            <input type="text" class="form-control" id="cc-name" name="cc-name" placeholder="" required>
-                            <small class="text-muted">Nombre tal y como aparece en la tarjeta</small>
-                            <div class="invalid-feedback">
-                                Nombre en la tarjeta es requerido.
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="cc-number">Número de tarjeta</label>
-                            <input type="text" class="form-control" id="cc-number" name="cc-number" placeholder=""
-                                   required>
-                            <div class="invalid-feedback">
-                                Número de tarjeta es requerido.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">Expiración</label>
-                            <input type="text" class="form-control" id="cc-expiration" name="cc-expiration"
-                                   placeholder="" required>
-                            <div class="invalid-feedback">
-                                Se requiere la fecha de expiración
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Código de seguridad requerido
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="mb-4">
                     <input type="hidden" name="_userStatus" value="_newUser">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Completar la compra</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Completar pago</button>
                 </form>
             {% endif %}
         </div>

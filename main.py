@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, url_for, render_template, session
+import stripe
 import os
 from werkzeug.utils import secure_filename
 from utilities.valid import Valid as v
@@ -8,6 +9,15 @@ from handler.tax import TaxHandler as t
 from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 from handler.passReset import PassResetHandler as pr
+
+stripe_keys = {
+    'secret_key': 'sk_test_L1gq9DkWasFWF93WONLDWhUw',
+    'publishable_key': 'pk_test_D3JW1FlVygvBQIz2uDJlPHix',
+    'live_secret': 'sk_live_829z48QuQMKzuYJ95xjVUUSa',
+    'live_pub': 'pk_live_aOGdiL9OkX0PAGcHXf2oMsJp'
+}
+
+stripe.api_key = stripe_keys['live_secret']
 
 app = Flask(__name__)
 app.secret_key = 'PGaxILENXyNhKV3meAMa'
@@ -256,21 +266,76 @@ def checkout():
                            taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
 
 
+@app.route('/process/payment')
+def payment(order):
+    oid = order['oid']
+    email = order['email']
+    zipcode = order['zip']
+    total = order['total']
+    return render_template('pay.html', email=email, zip=zipcode, total=total)
+
+
+@app.route('/charge', methods=['POST'])
+def charge():
+    if not request.method == 'POST':
+        return redirect(url_for('home'))
+    # Amount in cents
+    # amount = 50  # Sacarlo del Form/Carrito
+
+    if request.method == 'POST':
+        print(request.form)
+        oid = request.form['_oid']
+        amount = request.form['_amount']
+        email = request.form['_email']
+        customer = stripe.Customer.create(
+            email=email,  # Sacar del form referente al email del usuario o cliente de AAG
+            source=request.form['stripeToken']
+        )
+        try:
+
+            charge = stripe.Charge.create(
+                customer=customer.id,
+                amount=amount,
+                currency='usd',
+                description='Flask Charge'  # Poner otra descripcion si se puede
+            )
+
+        except stripe.error.CardError as e:  # Si no pasa el pago, pasa por este error!
+
+            body = e.json_body
+            err = body.get('error', {})
+
+            print("Status is: %s" % e.http_status)
+            status = e.http_status
+            print(status)
+            print("Type is: %s" % err.get('type'))
+            print("Code is: %s" % err.get('code'))
+            # param is '' in this case
+            print("Param is: %s" % err.get('param'))
+            print("Message is: %s" % err.get('message'))
+            # print("CARD ERROR")
+            # flash('Error processing payment.', 'error')
+            # TODO: Make order declined
+            o().updateOrderStatusToCanceled(oid)
+            return render_template('paymentFailed.html')
+    o().updateOrderStatusToComplete(oid)
+    # TODO: change order to complete
+    # TODO: send email
+    return render_template('succesfulPayment.html')  # Aqui puedes poner algun template como que confirmando o no
+
+
 @app.route('/checkout/process', methods=['POST'])
 def processOrder():
     if request.referrer == None:
         return redirect('/')
     user = u().formToFormattedUser(request.form)
-    print(request.form)
     if request.form['_userStatus'] == '_newUser':
-        print('HERE')
         genericPassword = v().generatePassword()
-        print(genericPassword)
         None
     order = o().createOrderForProcessing(user[1], session['cart'])
     print(order)
     session.pop('cart', None)
-    return redirect('/')
+    return render_template('pay.html', order=order[1], key=stripe_keys['live_pub'])
 
 
 # ---ADMIN PAGES---#

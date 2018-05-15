@@ -130,8 +130,11 @@ class OrdersDao:
             'date': date,
             'products': products
         }
-        self.db.insert_one(order).inserted_id
-        return True, orderid
+        try:
+            self.db.insert_one(order).inserted_id
+            return True, orderid
+        except:
+            return False, orderid
 
     def updateOrderStatusForm(self, oid, status):
         """

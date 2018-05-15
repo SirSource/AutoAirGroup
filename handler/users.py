@@ -93,8 +93,9 @@ class UserHandler:
                 "zipcode": zip
             }
             UsersDao().updateUserAddress(email, address)
+            return True, 'address_updated'
         else:
-            return False, 'address_updated'
+            return False, 'address_not_updated'
 
     def updateUserPhone(self, email, phone):
         if email == '' or phone == '':
@@ -141,8 +142,8 @@ class UserHandler:
         if newPassword == '':
             return False, 'invalid_form'
         if v().validPassword(newPassword) and self.userExists(email):
-                UsersDao().updateUserPassword(email, v().encrypt(newPassword))
-                return True, 'updated_password'
+            UsersDao().updateUserPassword(email, v().encrypt(newPassword))
+            return True, 'updated_password'
         else:
             return False, 'invalid_password'
 

@@ -107,6 +107,12 @@ class OrdersHandler:
         else:
             return False, 'update_error'
 
+    def updateOrderStatusToComplete(self, oid):
+        OrdersDao().updateOrderStatusForm(oid, 'complete')
+
+    def updateOrderStatusToCanceled(self, oid):
+        OrdersDao().updateOrderStatusForm(oid, 'canceled')
+
     def updateOrderShippingForm(self, oid, form):
         status = form['shipping_status']
         if status == 'shipped':
@@ -177,8 +183,16 @@ class OrdersHandler:
         oid = self.generateOrderNumber()
         date = datetime.datetime.now()
         dao = OrdersDao()
-        dao.insertOrder(oid, user, total, ivu, taxed, grandTotal, shipping, date, products)
-        return oid
+        theOrder = dao.insertOrder(oid, user, total, ivu, taxed, grandTotal, shipping, date, products)
+        if theOrder[0] == False:
+            return False, None
+        returnOrder = {
+            'oid': oid,
+            'email': user['uemail'],
+            'total': int(grandTotal.to_decimal() * 100),
+            'zip': user['zipcode']
+        }
+        return True, returnOrder
 
     def generateOrderNumber(self):
         sequence = OrdersDao().getOrderSequenceNumber()

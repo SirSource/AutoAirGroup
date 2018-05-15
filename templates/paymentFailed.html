@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block main %}
+    <div class="row mt-3 bg-white p-4 aag-shadow">
+        <div class="col-12">
+            <h4 class="mb-3">Pago Falló</h4>
+            <img src="{{ url_for('static', filename='img/failed.gif') }}">
+        </div>
+    </div>
+{% endblock %}
