@@ -202,41 +202,48 @@ def checkout():
 
 @app.route('/charge', methods=['GET','POST'])
 def charge():
-    # Amount in cents
-    amount = 50  # Sacarlo del Form/Carrito
+        # Amount in cents
+        amount = 50  # Sacarlo del Form/Carrito
+        process = 0
+
+        if request.method == 'POST':
+            customer = stripe.Customer.create(
+                email='customer@example.com', #Sacar del form referente al email del usuario o cliente de AAG
+                source=request.form['stripeToken']
+            )
+            try:
+
+             charge = stripe.Charge.create(
+                customer=customer.id,
+                amount=amount,
+                currency='usd',
+                description='Flask Charge' #Poner otra descripcion si se puede
+            )
+
+            process = 1
+
+            except stripe.error.CardError as e:   # Si no pasa el pago, pasa por este error!
+
+                body = e.json_body
+                err = body.get('error', {})
+
+                process = 0
+
+                print("Status is: %s" % e.http_status)
+                status = e.http_status
+                print(status)
+                print("Type is: %s" % err.get('type'))
+                print("Code is: %s" % err.get('code'))
+                # param is '' in this case
+                print("Param is: %s" % err.get('param'))
+                print("Message is: %s" % err.get('message'))
+                #print("CARD ERROR")
+                # flash('Error processing payment.', 'error')
+
+        return render_template('checkout.html',)  # Aqui puedes poner algun template como que confirmando o no
 
 
-    if request.method == 'POST':
-        customer = stripe.Customer.create(
-            email='customer@example.com', #Sacar del form referente al email del usuario o cliente de AAG
-            source=request.form['stripeToken']
-        )
-        try:
 
-         charge = stripe.Charge.create(
-            customer=customer.id,
-            amount=amount,
-            currency='usd',
-            description='Flask Charge' #Poner otra descripcion si se puede
-        )
-
-        except stripe.error.CardError as e:   # Si no pasa el pago, pasa por este error!
-
-            body = e.json_body
-            err = body.get('error', {})
-
-            print("Status is: %s" % e.http_status)
-            status = e.http_status
-            print(status)
-            print("Type is: %s" % err.get('type'))
-            print("Code is: %s" % err.get('code'))
-            # param is '' in this case
-            print("Param is: %s" % err.get('param'))
-            print("Message is: %s" % err.get('message'))
-            #print("CARD ERROR")
-            # flash('Error processing payment.', 'error')
-
-    return render_template('checkout.html',)  # Aqui puedes poner algun template como que confirmando o no
 
 @app.route('/checkout/process', methods=['POST'])
 def processOrder():
