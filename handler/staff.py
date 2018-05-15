@@ -118,6 +118,12 @@ class StaffHandler:
             return False, 'staff_exists'
         else:
             StaffDao().insertStaff(fname, lname, eid, admin, email, v().encrypt(password), store)
+
+            # Trigger el handler
+            # Crear el link
+            # Envio el email
+
+            
             return True, 'staff_created'
 
     def deleteStaff(self, form):

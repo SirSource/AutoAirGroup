@@ -302,8 +302,8 @@ def charge():
                 description='Compra Auto Air Group'  # Poner otra descripcion si se puede
             )
 
-
-            mail.sendOrderConfirmationEmail(email, oid, amount)
+            m = mail()
+            m.sendOrderConfirmationEmail(email, oid, amount)
 
 
 
@@ -559,6 +559,7 @@ def adminStaff():
         method = request.form['_method']
         if method == 'ADD':
             operation = s().insertStaff(request.form)
+
             return render_template('adminStaff.html', addSuccess=operation[1], staff=s().getAllStaff())
         if method == 'SEARCH':
             # operation = s().getStaffByEid(request.form)
