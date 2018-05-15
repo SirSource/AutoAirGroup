@@ -123,7 +123,7 @@ class StaffHandler:
             # Crear el link
             # Envio el email
 
-            
+
             return True, 'staff_created'
 
     def deleteStaff(self, form):
