@@ -49,4 +49,16 @@ class SendMail:
         return response
 
 
+    def sendChangePasswordLink(self, userEmail, link):
+        to_email = Email("%s" % userEmail)
+        subject = "Cambio de contrasena"
+        content = Content("text/plain", "Favor de ir al siguiente enlace para cambiar de contrasena %s " % link)
+        mail = Mail(self.from_email, subject, to_email, content)
+        response = self.sg.client.mail.send.post(request_body=mail.get())
+        return response
+
+
+
+
+
 
