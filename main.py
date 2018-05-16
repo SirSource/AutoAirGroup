@@ -11,6 +11,8 @@ from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 from handler.passReset import PassResetHandler as pr
 from utilities.sendmail import SendMail as mail
+import pymongo
+
 
 stripe_keys = {
     'secret_key': 'sk_test_L1gq9DkWasFWF93WONLDWhUw',
@@ -35,23 +37,26 @@ def home():
 
 @app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
-    products = p().getAllProducts()
-    if request.method == 'POST':
-        if request.form['_method'] == 'genericsearch':
-            products = p().genericProductSearch(request.form['query'])
-            if len(products) == 0:
+    try:
+        products = p().getAllProducts()
+        if request.method == 'POST':
+            if request.form['_method'] == 'genericsearch':
+                products = p().genericProductSearch(request.form['query'])
+                if len(products) == 0:
+                    products = 'no_products'
+                return render_template('catalog.html', products=products)
+            products = p().searchProductsByCar(request.form)
+            if products == None:
                 products = 'no_products'
-            return render_template('catalog.html', products=products)
-        products = p().searchProductsByCar(request.form)
-        if products == None:
-            products = 'no_products'
-            return render_template('catalog.html', products=products)
-        if len(products[1]) == 0:
-            products = 'no_products'
-            return render_template('catalog.html', products=products)
-        else:
-            return render_template('catalog.html', products=products[1])
-    return render_template('catalog.html', products=products)
+                return render_template('catalog.html', products=products)
+            if len(products[1]) == 0:
+                products = 'no_products'
+                return render_template('catalog.html', products=products)
+            else:
+                return render_template('catalog.html', products=products[1])
+        return render_template('catalog.html', products=products)
+    except pymongo.errors:
+        print("ERRORRRRRRRR")
 
 
 @app.route('/product/<string:pid>')
@@ -86,6 +91,7 @@ def accounts():
         if method == 'LOG_IN':
             operation = u().userAuthenticate(request.form)
             message = operation[2]
+            print(operation)
             if operation[0]:
                 session['email'] = operation[1]
                 return redirect(url_for('user', email=operation[1]))
@@ -241,6 +247,7 @@ def cartAdd():
         if 'cart' in session:
             if not any(product in d for d in session['cart']):
                 session['cart'].append({product: qty})
+
             elif any(product in d for d in session['cart']):
                 for d in session['cart']:
                     d.update((k, qty) for k, v in d.items() if k == product)

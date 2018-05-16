@@ -165,9 +165,12 @@ class UserHandler:
         email = form['email'].lower()
         password = form['password']
         systemPass = UsersDao().getUserPass(email)
-        if v().decrypt(password, systemPass):
-            return True, email, 'login_success'
-        else:
+        try:
+            if v().decrypt(password, systemPass):
+                return True, email, 'login_success'
+            else:
+                return False, None, 'login_fail'
+        except:
             return False, None, 'login_fail'
 
     # ---Auxiliary Methods--- #
