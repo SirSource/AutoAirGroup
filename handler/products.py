@@ -305,25 +305,45 @@ class ProductsHandler:
                                         pbrand, qty, pshipping, featured)
             return True, product, 'product_added'
 
-    def updateProductQtyByLocation(self, pid, plocation, qty):
+    def decreaseProductQty(self, pid, qty):
         """
 
         :param pid:
-        :param plocation:
         :param qty:
         :return:
         TESTED: NO
         """
         dao = ProductsDao()
-        p = dao.productExistByIDAndLocation(pid, plocation)
+        p = dao.productExistByID(pid)
         try:
             if p['pid'] == pid:
                 try:
-                    pass
+                    dao.decreaseProductQty(pid, qty)
+                    return True, "update_successful"
                 except:
-                    pass
+                    return False, "update_not_successful"
         except:
-            pass
+            return False, "no_id_exist"
+
+    def increaseProductQty(self, pid, qty):
+        """
+
+        :param pid:
+        :param qty:
+        :return:
+        TESTED: NO
+        """
+        dao = ProductsDao()
+        p = dao.productExistByID(pid)
+        try:
+            if p['pid'] == pid:
+                try:
+                    dao.increaseProductQty(pid, qty)
+                    return True, "update_successful"
+                except:
+                    return False, "update_not_successful"
+        except:
+            return False, "no_id_exist"
 
     def updateProductQtyInEveryLocation(self, pid, qty):
         """

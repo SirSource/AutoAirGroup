@@ -262,16 +262,27 @@ class ProductsDao:
     #       UPDATE PRODUCT
     ################################################################################
 
-    def updateProductQtyByLocation(self, pid, plocation, qty):
+    def decreaseProductQty(self, pid, qty):
         """
         Updates the qty of the product by location and product id
         :param pid: product id
         :param plocation: location where the product is
         :param qty: quantity update
-        :return:
+        :return:F
         TESTED: NO
         """
-        return self.db.update({'pid': pid, 'plocation': plocation}, {'$set': {'qty': qty}})
+        return self.db.update({'pid': pid}, {'$inc': {'qty': -qty}})
+
+    def increaseProductQty(self, pid, qty):
+        """
+        Updates the qty of the product by location and product id
+        :param pid: product id
+        :param plocation: location where the product is
+        :param qty: quantity update
+        :return:F
+        TESTED: NO
+        """
+        return self.db.update({'pid': pid}, {'$inc': {'qty': qty}})
 
     def updateProductById(self, image, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails, plocation, pprice,
                           pbrand, qty):
