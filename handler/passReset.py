@@ -31,17 +31,3 @@ class PassResetHandler:
             print('no staff')
         else:
             return user, 'staff'
-
-
-    def getResetFromAdmin(self, id):
-        user = pr().generateAdminLinkReset(id)  # user devuelve lo que va a ser el link
-        userHandler = u().getUserByEmailReset(user)
-        staffHandler = s().getStaffByEidMain(user)
-        if userHandler[0] == False:
-            print('no user')
-        else:
-            return user, 'user'
-        if staffHandler[0] == False:
-            print('no staff')
-        else:
-            return user, 'staff'

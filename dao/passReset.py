@@ -20,8 +20,7 @@ class PassResetDao:
         self.db.delete_many({'user': key})  #
         return key
 
-    def generateAdminLinkReset(self, auth):
-        key = self.db.find_one({'auth': auth})
-        key = key['user']
-        print('user is: ' + str(key))
-        return key
+    def generateAdminLinkReset(self, id):
+        key = self.db.find_one({'user': id})
+        print(key)
+        return key['auth']

@@ -3,10 +3,8 @@ from dao.passReset import PassResetDao as passDao
 import string
 from random import *
 from utilities.valid import Valid as v
-from handler.passReset import PassResetHandler as passHandler
+from dao.passReset import PassResetDao as pr
 from utilities.sendmail import SendMail as mail
-
-
 
 
 class StaffHandler:
@@ -126,27 +124,18 @@ class StaffHandler:
 
             # Trigger el handler
 
-            dao = passDao()
-            id = dao.generateAdminLinkReset(eid)
-
-            handler = passHandler()
-            keyLink = handler.getResetFromAdmin(id)
-
+            dao = pr()
+            dao.addToResetTable(eid, v().generateRandomString())
+            key = dao.generateAdminLinkReset(eid)
 
             # Crear el link
-            link = "localhost:5000/user/reset/password/%s" (keyLink)
-
+            link = "http://localhost:5000/user/reset/password/" + str(key)
 
             # link : localhost:5000/user/reset/password/KEY
             # Envio el email
 
             m = mail()
             m.sendChangePasswordLink(email, link)
-
-
-
-
-
 
             return True, 'staff_created'
 
@@ -208,3 +197,11 @@ class StaffHandler:
 
     def genericStaffSearch(self, string):
         return StaffDao().genericStaffSearch(string)
+
+    def getResetFromAdmin(self, id):
+        user = pr().generateAdminLinkReset(id)  # user devuelve lo que va a ser el link
+        staffHandler = self.getStaffByEidMain(user)
+        if staffHandler[0] == False:
+            print('no staff')
+        else:
+            return user, 'staff'

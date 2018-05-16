@@ -26,8 +26,12 @@
                             <td><h1><strong><i>${{ product['pprice'] }}</i></strong></h1><h5>+
                                 ${{ product['pshipping'] }} de envío</h5></td>
                             <td>
-                                {% if product['qty'] == 1 %}
-                                    <h5>¡Sólo queda uno!</h5>
+                                {% if product['qty'] < 5 and product['qty'] >= 1 %}
+                                    <h5 class="alert alert-warning">
+                                        <small>¡Queda poco invnetario! Y pueden agotarse al momento de comprar. Si es el
+                                            caso Auto Air Group le contactará.
+                                        </small>
+                                    </h5>
                                 {% endif %}
                                 {% if product['qty'] < 1 %}
                                     <button class="btn btn-secondary" type="submit">NO DISPONIBLE</button>
