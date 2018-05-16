@@ -1,7 +1,12 @@
 from dao.staff import StaffDao
+from dao.passReset import PassResetDao as passDao
 import string
 from random import *
 from utilities.valid import Valid as v
+from handler.passReset import PassResetHandler as passHandler
+from utilities.sendmail import SendMail as mail
+
+
 
 
 class StaffHandler:
@@ -120,8 +125,27 @@ class StaffHandler:
             StaffDao().insertStaff(fname, lname, eid, admin, email, v().encrypt(password), store)
 
             # Trigger el handler
+
+            dao = passDao()
+            id = dao.generateAdminLinkReset(eid)
+
+            handler = passHandler()
+            keyLink = handler.getResetFromAdmin(id)
+
+
             # Crear el link
+            link = "localhost:5000/user/reset/password/%s" (keyLink)
+
+
+            # link : localhost:5000/user/reset/password/KEY
             # Envio el email
+
+            m = mail()
+            m.sendChangePasswordLink(email, link)
+
+
+
+
 
 
             return True, 'staff_created'
