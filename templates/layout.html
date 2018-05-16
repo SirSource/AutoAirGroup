@@ -36,13 +36,13 @@
     <!--Subheader-->
     <div class="row bg-white aag-border-bottom1">
         <div class="col pt-2 pb-2 d-none d-lg-block d-xl-block">
-            <img src="{{ url_for('static', filename='img/logo.png') }}">
+            <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='img/logo.png') }}"></a>
         </div>
         <div class="col pt-2 pb-2 mx-auto d-block d-sm-block d-md-block d-lg-none text-center">
             <img src="{{ url_for('static', filename='img/logo.png') }}">
         </div>
         <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block col pt-2 pb-2"></div>
-        <div class="col-2 pt-md-4 pb-2 d-none d-lg-block d-xl-block">
+        <div class="col-3 pt-md-4 pb-2 d-none d-lg-block d-xl-block">
             <span class="col-md-3">
                 <!--Account link-->
                 {% if session['email'] %}
@@ -114,9 +114,6 @@
                         <a class="nav-link" href="{{ url_for('catalog') }}">Catálogo de productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Información sobre envíos</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about') }}">Sobre nosotros</a>
                     </li>
                     <li class="nav-item">
@@ -130,9 +127,9 @@
                 </ul>
             </div>
             <!--Search Box Input Group-->
-            <div class="input-group col-md-2 mx-auto justify-content-center">
+            <div class="input-group col-md-3 mx-auto justify-content-center">
                 <form class="form-inline text-center" action="{{ url_for('catalog') }}" method="POST">
-                    <input type="text" style="width: 180px" name="query" class="form-control" placeholder="Buscar...">
+                    <input type="text" style="width: 180px" name="query" class="form-control" placeholder="Buscar productos...">
                     <input type="hidden" name="_method" value="genericsearch">
                     <button class="btn btn-primary material-icons" type="submit">search</button>
                 </form>
