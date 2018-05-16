@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for, render_template, session
 import stripe
 import os
+
 from werkzeug.utils import secure_filename
 from utilities.valid import Valid as v
 from handler.users import UserHandler as u
@@ -9,6 +10,7 @@ from handler.tax import TaxHandler as t
 from handler.staff import StaffHandler as s
 from handler.orders import OrdersHandler as o
 from handler.passReset import PassResetHandler as pr
+from utilities.sendmail import SendMail as mail
 
 stripe_keys = {
     'secret_key': 'sk_test_L1gq9DkWasFWF93WONLDWhUw',
@@ -297,8 +299,13 @@ def charge():
                 customer=customer.id,
                 amount=amount,
                 currency='usd',
-                description='Flask Charge'  # Poner otra descripcion si se puede
+                description='Compra Auto Air Group'  # Poner otra descripcion si se puede
             )
+
+            m = mail()
+            m.sendOrderConfirmationEmail(email, oid, amount)
+
+
 
         except stripe.error.CardError as e:  # Si no pasa el pago, pasa por este error!
 
@@ -552,6 +559,7 @@ def adminStaff():
         method = request.form['_method']
         if method == 'ADD':
             operation = s().insertStaff(request.form)
+
             return render_template('adminStaff.html', addSuccess=operation[1], staff=s().getAllStaff())
         if method == 'SEARCH':
             # operation = s().getStaffByEid(request.form)
