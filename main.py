@@ -23,7 +23,7 @@ stripe_keys = {
 
 stripe.api_key = stripe_keys['live_secret']
 
-app = Flask(__name__)
+application = app = Flask(__name__)
 app.secret_key = 'PGaxILENXyNhKV3meAMa'
 UPLOAD_FOLDER = app.root_path + '/static/img/products/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
