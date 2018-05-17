@@ -13,7 +13,6 @@ from handler.passReset import PassResetHandler as pr
 from utilities.sendmail import SendMail as mail
 import pymongo
 
-
 stripe_keys = {
     'secret_key': 'sk_test_L1gq9DkWasFWF93WONLDWhUw',
     'publishable_key': 'pk_test_D3JW1FlVygvBQIz2uDJlPHix',
@@ -240,10 +239,12 @@ def cart():
 
 @app.route('/cart/add', methods=['GET', 'POST'])
 def cartAdd():
+    # If request method is not post, user will be redirected to catalog page.
+    if request.method == 'GET':
+        return redirect(url_for('catalog'))
     if request.method == 'POST':
         product = request.form['_cartPid']
         qty = request.form['qty']
-        print(str(product) + " " + str(qty))
         if 'cart' in session:
             if not any(product in d for d in session['cart']):
                 session['cart'].append({product: qty})
@@ -253,7 +254,11 @@ def cartAdd():
                     d.update((k, qty) for k, v in d.items() if k == product)
         else:
             session['cart'] = [{product: qty}]
-        print(session['cart'])
+    # Get the quantity of items in the cart and store in a session for use in the cart button.
+    if len(session['cart']) > 0:
+        session['allQty'] = getQtyFromCart(session['cart'])
+    # The session was modified
+    session['cart'] = purgeEmptyItemFromCart(session['cart'])
     session.modified = True
     return redirect(request.referrer)
 
@@ -261,18 +266,24 @@ def cartAdd():
 @app.route('/checkout')
 def checkout():
     user = None
+    error = False
     if 'cart' not in session:
         return redirect('catalog')
     if 'email' in session:
         user = u().getUserByEmail(session['email'])
+    if 'cartError' in session:
+        error = session['cartError']
+        session.pop('cartError', None)
     session['cart'] = purgeEmptyItemFromCart(session['cart'])
+    session['allQty'] = getQtyFromCart(session['cart'])
     session.modified = True
     if len(session['cart']) == 0:
         session.pop('cart', None)
+        session.pop('allQty', None)
         return redirect(url_for('catalog'))
     operation = o().createOrderfromCart(session['cart'])
     return render_template('checkout.html', user=user, products=operation[1], total=operation[2], shipping=operation[3],
-                           taxed=operation[4], grandTotal=operation[5], allQty=operation[6])
+                           taxed=operation[4], grandTotal=operation[5], allQty=operation[6], error=error)
 
 
 @app.route('/process/payment')
@@ -348,7 +359,13 @@ def processOrder():
         None
     order = o().createOrderForProcessing(user[1], session['cart'])
     print(order)
+    if not order[0]:
+        session['cart'] = removeProductFromCart(order[1], session['cart'])
+        session['cartError'] = True
+        session.modified = True
+        return render_template('cartForced.html')
     session.pop('cart', None)
+    session.pop('allQty', None)
     return render_template('pay.html', order=order[1], key=stripe_keys['live_pub'])
 
 
@@ -640,6 +657,23 @@ def purgeEmptyItemFromCart(cart):
         pid = list(x.keys())[0]
         qty = x[pid]
         if qty == '0':
+            cart.remove(x)
+    return cart
+
+
+# Get the total qty of items in the cart
+def getQtyFromCart(cart):
+    qty = 0
+    for x in cart:
+        pid = list(x.keys())[0]
+        qty = qty + int(x[pid])
+    return qty
+
+
+def removeProductFromCart(pid, cart):
+    for x in cart:
+        product = list(x.keys())[0]
+        if pid == product:
             cart.remove(x)
     return cart
 

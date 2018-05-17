@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Carrito{% endblock %}
 {% block main %}
     <div class="row mt-3 bg-white p-4 aag-shadow">
         <div class="col-md-4 order-md-2 mb-4">
@@ -7,6 +7,11 @@
                 <span class="text-muted">Mi carrito</span>
                 <span class="badge badge-secondary badge-pill">{{ allQty }}</span>
             </h4>
+            {% if error %}
+                <div class="alert alert-danger">Un producto en su carrito fue removido ya que la cantidad elegida no
+                    está en inventario.
+                </div>
+            {% endif %}
             <ul class="list-group mb-3">
                 {% for items in products %}
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -26,7 +31,7 @@
                                     <input type="hidden" name="_cartPid" value="{{ items['pid'] }}">
                                     <input type="number" min="0" max="200" step="1" style="width: 65px" name="qty"
                                            value="{{ items['qty'] }}">
-                                    <button type="submit" class="btn btn-primary">Actialuzar</button>
+                                    <button type="submit" class="btn btn-primary">Actializar</button>
                                 </form>
                             </div>
                         </div>

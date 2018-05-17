@@ -60,7 +60,7 @@
                 {% if session['cart'] %}
                     <a class="btn btn-primary" href="{{ url_for('cart') }}">
                     <i class="material-icons">shopping_cart</i>
-                    <span class="badge badge-light">Lleno</span>
+                    <span class="badge badge-light">{{ session['allQty'] }}</span>
                 </a>
                 {% else %}
                     <a class="btn btn-secondary" href="{{ url_for('cart') }}">
@@ -74,18 +74,18 @@
             {% if session['email'] %}
                 <a class="btn btn-primary" href="{{ url_for('accounts') }}">
                     <i class="material-icons">person</i>
-                    <span>Ingresar</span>
+                    <span>Mi Cuenta</span>
                 </a>
             {% else %}
                 <a class="btn btn-primary" href="{{ url_for('accounts') }}">
                     <i class="material-icons">person</i>
-                    <span>Mi Cuenta</span>
+                    <span>Ingresar</span>
                 </a>
             {% endif %}
             {% if session['cart'] %}
                 <a class="btn btn-primary" href="{{ url_for('cart') }}">
                     <i class="material-icons">shopping_cart</i>
-                    <span class="badge badge-light">Lleno</span>
+                    <span class="badge badge-light">{{ session['allQty'] }}</span>
                 </a>
             {% else %}
                 <a class="btn btn-secondary" href="{{ url_for('cart') }}">
@@ -129,7 +129,8 @@
             <!--Search Box Input Group-->
             <div class="input-group col-md-3 mx-auto justify-content-center">
                 <form class="form-inline text-center" action="{{ url_for('catalog') }}" method="POST">
-                    <input type="text" style="width: 180px" name="query" class="form-control" placeholder="Buscar productos...">
+                    <input type="text" style="width: 180px" name="query" class="form-control"
+                           placeholder="Buscar productos...">
                     <input type="hidden" name="_method" value="genericsearch">
                     <button class="btn btn-primary material-icons" type="submit">search</button>
                 </form>

@@ -1,26 +1,117 @@
 {% extends "layout.html" %}
-{% block title %}About Us{% endblock %}
+{% block title %}Contáctenos{% endblock %}
 {% block main %}
     <!--Additional Info Box-->
     <div class="row mt-3 bg-white p-4 aag-shadow">
-        <div class="col-md aag-border-bottom">
-            <h4>About Auto Air Group</h4>
+        <!--Card group-->
+        <h2>Contáctenos</h2>
+        <div class="mt-4">
+            <p>Auto Air Group cuenta con cuatro localizaciones. </p>
+            <div class="card-group">
+                <!--Card-->
+                <div class="card mb-4">
+                    <!--Card image-->
+                    <div class="view overlay">
+                        <img class="img-fluid"
+                             src="http://www.autoairgroup.net/wp-content/uploads/2016/04/12985337_1026200730787121_799095594841060591_n-730x350.jpg">
+                        <a href="#!">
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+                    <!--Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <!--Title-->
+                        <h4 class="card-title">San Juan</h4>
+                        <!--Text-->
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's content.</p>
+                        <a href="#">787-274-0760</a> <br>
+                        <a href="https://goo.gl/maps/vJFmCdNdEpN2">Abrir el Mapa</a>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                    </div>
+                    <!--Card content-->
+                </div>
+                <div class="card mb-4">
+                    <!--Card image-->
+                    <div class="view overlay">
+                        <img class="img-fluid"
+                             src="http://www.autoairgroup.net/wp-content/uploads/2016/09/LAPGuaynabo-730x350.jpg">
+                        <a href="#!">
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+                    <!--Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <!--Title-->
+                        <h4 class="card-title">Guaynabo</h4>
+                        <!--Text-->
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's content.</p>
+                        <a href="#">787-720-7561</a> <br>
+                        <a href="https://goo.gl/maps/5awQEycYD132">Abrir el Mapa</a>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                    </div>
+                    <!--Card content-->
+                </div>
+                <!--Card-->
+                <!--Card-->
+                <div class="card mb-4">
+
+                    <!--Card image-->
+                    <div class="view overlay">
+                        <img class="img-fluid"
+                             src="http://www.autoairgroup.net/wp-content/uploads/2016/09/LAPCaguas-730x350.jpg">
+                        <a href="#!">
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+                    <!--Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <!--Title-->
+                        <h4 class="card-title">Caguas</h4>
+                        <!--Text-->
+                        <a href="#">787-287-7100</a> <br>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i><a href="https://goo.gl/maps/1VXxrRtSB8U2">Abrir el Mapa</a>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                    </div>
+                    <!--Card content-->
+                </div>
+                <!--Card-->
+                <!--Card-->
+                <div class="card mb-4">
+                    <!--Card image-->
+                    <div class="view overlay">
+                        <img class="img-fluid"
+                             src="http://www.autoairgroup.net/wp-content/uploads/2016/09/LAEBayamon-730x350.jpg">
+                        <a href="#!">
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+                    <!--Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <!--Title-->
+                        <h4 class="card-title">Bayamon</h4>
+
+                        <!--Text-->
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's content.</p>
+                        <a href="#">787-288-3112</a> <br>
+                        <a href="https://goo.gl/maps/MZFrDz2QjZ32">Abrir el Mapa</a>
+
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                    </div>
+                    <!--Card content-->
+                </div>
+                <!--Card-->
+            </div>
+            <!--Card group-->
         </div>
-        <div class="col-lg-12">
-            <img class="agg-max-width-card-img mb-3" src="{{ url_for('static', filename='img/LapAndLae.jpg') }}">
-            <span>LAP and LAE Auto Air Group es una distribuidora de piezas para el aire acondicionado de su vehiculo o camión.
-                    Contamos con localizaciones en:</br>
-                </br>
-                </span>
-            <ul>
-                <li>Bayamón</br>(787-288-3112)</li>
-                <li>Caguas</br>(787-287-7100)</li>
-                <li>Guaynabo</br>(787-720-7561)</li>
-                <li>Río Piedras</br>(787-274-0760)</li>
-            </ul>
-        </div>
-        <iframe width="600" height="450" frameborder="0" style="border:0"
-                src="https://www.google.com/maps/embed/v1/search?q=LAE%20auto%20air%20group%20bayamon&key=..."
-                allowfullscreen></iframe>
     </div>
 {% endblock %}

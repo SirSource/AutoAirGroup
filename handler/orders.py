@@ -177,7 +177,10 @@ class OrdersHandler:
             products.append(newProduct)
             total = Decimal128(total.to_decimal() + (pprice.to_decimal() * qty.to_decimal()))
             shipping = Decimal128(shipping.to_decimal() + query['pshipping'].to_decimal())
-            p().decreaseProductQty(pid, int(item[pid]))
+            if p().productQtyAvailable(pid, int(item[pid])):
+                p().decreaseProductQty(pid, int(item[pid]))
+            else:
+                return False, pid
         roundedTax = round(ivu.to_decimal() * total.to_decimal(), 2)
         taxed = Decimal128(roundedTax)
         grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())

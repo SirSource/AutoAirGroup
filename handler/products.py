@@ -479,3 +479,14 @@ class ProductsHandler:
 
     def genericProductSearch(self, string):
         return ProductsDao().genericProductSearch(string)
+
+    def productQtyAvailable(self, pid, qty):
+        dao = ProductsDao()
+        product = dao.getProductByID(pid)
+        print(product)
+        pQty = product[0]['qty']
+        print('qty: ' + str(qty) + ' pQty: ' + str(pQty) + " result = " + str(pQty - qty))
+        if (pQty - qty) < 0:
+            return False
+        else:
+            return True
