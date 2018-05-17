@@ -373,6 +373,16 @@ def processOrder():
     return render_template('pay.html', order=order[1], key=stripe_keys['live_pub'])
 
 
+@app.route('/tos')
+def tos():
+    return render_template('tos.html')
+
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+
 # ---ADMIN PAGES---#
 @app.route('/admin')
 def admin():

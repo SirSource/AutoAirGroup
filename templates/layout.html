@@ -146,10 +146,16 @@
 <div class="container-fluid mt-5 aag-footer aag-bg-blue3 aag-white-text" id="footer">
     <div class="container">
         <div class="row pt-3">
-            <div class="col-md">
+            <div class="col-md-3">
                 <small>© 2018 Auto Air Group, inc</small>
             </div>
-            <div class="col-md-2 float-right">
+            <div class="col-md">
+                <ul>
+                    <li><a class="text-white" href="{{ url_for('tos') }}">Términos de Servicio</a></li>
+                    <li><a class="text-white" href="{{ url_for('privacy') }}">Declaración de Privacidad</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 float-right text-center">
                 <a href="https://www.facebook.com/LAP-LAE-Auto-Air-Group-270403163033552/" target="_blank"><img
                         width="50px" src="{{ url_for('static', filename='img/fb_logo.png') }}"></a>
             </div>

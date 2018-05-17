@@ -94,6 +94,14 @@
                             caracter especial (@, #, $, %, *, ?, !)
                         </small>
                     </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                               oninvalid="this.setCustomValidity('Debe aceptar los términos y condiciones y la declaración de privacidad.')"
+                               oninput="setCustomValidity('')" required>
+                        <label class="form-check-label" for="exampleCheck1">He leído y acepto los <a
+                                href="{{ url_for('tos') }}" target="_blank">Términos y condiciones</a> y la <a
+                                href="{{ url_for('privacy') }}" target="_blank">Declaración de privacidad</a></label>
+                    </div>
                     <input type="hidden" name="_method" value="CREATE_USER">
                     <input type="hidden" name="user" value="customer">
                     <button class="btn btn-primary">Completar registro</button>

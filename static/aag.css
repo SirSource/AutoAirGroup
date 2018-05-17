@@ -2,9 +2,11 @@ body {
     background-color: #e8e8e8;
     height: 100%;
 }
-#main{
+
+#main {
     min-height: 690px;
 }
+
 .aag-border-primary-1 {
     border-top-style: solid;
     border-bottom-style: solid;
@@ -67,7 +69,7 @@ body {
 
 .aag-footer {
     bottom: 0;
-    height: 80px; /* Height of the footer */
+    min-height: 80px; /* Height of the footer */
 }
 
 .aag-white-text {
