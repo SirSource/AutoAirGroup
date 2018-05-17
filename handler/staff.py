@@ -160,12 +160,17 @@ class StaffHandler:
             return True
 
     def staffAuthenticateChange(self, eid, password):
-        if eid == '' or password == '':
-            return False, None, 'invalid_form'
-        systemPass = StaffDao().getStaffPass(eid)
-        if v().decrypt(password, systemPass):
-            return True, eid, 'staff_auth'
-        else:
+        try:
+            if eid == '' or password == '':
+                return False, None, 'invalid_form'
+            systemPass = StaffDao().getStaffPass(eid)
+            if not systemPass:
+                return False, None, 'staff_auth_failed'
+            if v().decrypt(password, systemPass):
+                return True, eid, 'staff_auth'
+            else:
+                return False, None, 'staff_auth_failed'
+        except:
             return False, None, 'staff_auth_failed'
 
     def staffAuthenticate(self, form):
@@ -174,9 +179,12 @@ class StaffHandler:
         if eid == '' or password == '':
             return False, None, 'invalid_form'
         systemPass = StaffDao().getStaffPass(eid)
-        if v().decrypt(password, systemPass):
-            return True, eid, 'staff_auth'
-        else:
+        try:
+            if v().decrypt(password, systemPass):
+                return True, eid, 'staff_auth'
+            else:
+                return False, None, 'staff_auth_failed'
+        except:
             return False, None, 'staff_auth_failed'
 
     def generatePassword(self):

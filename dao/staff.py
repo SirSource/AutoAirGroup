@@ -60,6 +60,8 @@ class StaffDao:
         :return: The password of the staff member.
         """
         staff = self.getStaffByEid(eid)
+        if staff == None:
+            return False
         return staff['staff_password']
 
     def staffIsAdmin(self, eid):
@@ -150,7 +152,8 @@ class StaffDao:
     def genericStaffSearch(self, string):
         collection = self.db
         collection.create_index(
-            [('staff_fname', 'text'), ('staff_lname', 'text'), ('staff_email', 'text'), ('eid', 'text'), ('staff_store', 'text')])
+            [('staff_fname', 'text'), ('staff_lname', 'text'), ('staff_email', 'text'), ('eid', 'text'),
+             ('staff_store', 'text')])
         find = collection.find({"$text": {"$search": string}}, {"_id": 0})
         staff = []
         for doc in find:

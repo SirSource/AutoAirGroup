@@ -38,6 +38,20 @@ class ProductsHandler:
             result_list.append(result)
         return result_list
 
+    def getAllProductsCatalog(self):
+        """
+        Returns all the products available in the database
+        :return:
+        TESTED: YES: WORKS
+        """
+        dao = ProductsDao()
+        list = dao.getAllProducts()
+        result_list = []
+        for row in list:
+            result = self.products_dictionary(row)
+            result_list.append(result)
+        return result_list
+
     # Returns the ID of the product by entering the name of the product
     # author: Luis Perez
     # TESTED: YES; IT WORKS

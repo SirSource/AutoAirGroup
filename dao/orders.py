@@ -1,6 +1,7 @@
 from config.dbconfig import client
 from bson.objectid import ObjectId
 from bson.decimal128 import Decimal128
+import pymongo
 
 
 class OrdersDao:
@@ -15,7 +16,7 @@ class OrdersDao:
         """
         allOrders = []
         orders = self.db
-        for doc in orders.find():
+        for doc in orders.find().sort("orderid", pymongo.DESCENDING):
             allOrders.append(doc)
         return allOrders
 

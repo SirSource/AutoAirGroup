@@ -25,11 +25,14 @@ class OrdersHandler:
         return result_list
 
     def getOrdersByOrderID(self, oid):
-        if self.orderExists(oid):
-            dao = OrdersDao()
-            item = dao.getOrdersByOrderID(oid)
-            return self.order_dictionary(item)
-        else:
+        try:
+            if self.orderExists(oid):
+                dao = OrdersDao()
+                item = dao.getOrdersByOrderID(oid)
+                return self.order_dictionary(item)
+            else:
+                return None
+        except:
             return None
 
     def getOrdersByEmail(self, email):

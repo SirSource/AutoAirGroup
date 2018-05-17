@@ -37,13 +37,16 @@ def home():
 @app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
     try:
-        products = p().getAllProducts()
+        # TODO: Make products display only those that are Active
+        products = p().getAllProductsCatalog()
         if request.method == 'POST':
             if request.form['_method'] == 'genericsearch':
+                # TODO: Make products display only those that are Active
                 products = p().genericProductSearch(request.form['query'])
                 if len(products) == 0:
                     products = 'no_products'
                 return render_template('catalog.html', products=products)
+            # TODO: Make products display only those that are Active
             products = p().searchProductsByCar(request.form)
             if products == None:
                 products = 'no_products'
