@@ -6,7 +6,7 @@ from config.dbconfig import client
 
 # print(p().getProductQty('EV93x678PFC'))
 collection = client.AutoAirGroupdb.products
-search_this_string = 'RDX'
+search_this_string = 'jeep'
 collection.create_index([('pbrand', 'text'),('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
 find = collection.find({"$text": {"$search": search_this_string}}, {"_id": 0})
 products = []

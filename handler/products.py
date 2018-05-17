@@ -45,7 +45,7 @@ class ProductsHandler:
         TESTED: YES: WORKS
         """
         dao = ProductsDao()
-        list = dao.getAllProducts()
+        list = dao.getAllProductsCatalog()
         result_list = []
         for row in list:
             result = self.products_dictionary(row)
@@ -256,6 +256,24 @@ class ProductsHandler:
         for row in plist:
             result = self.products_dictionary(row)
             result_list.append(result)
+        return result_list
+
+    def getGenericSearchCatalog(self, args):
+        """
+
+        :param args:
+        :return:
+        """
+        dao = ProductsDao()
+        string = str(args)
+        plist = dao.getGenericSearchCatalog(string)
+        result_list = []
+
+        for row in plist:
+            result = self.products_dictionary(row)
+            if result['featured']=='yes':
+                result_list.append(result)
+
         return result_list
 
     def addProduct(self, image, form):

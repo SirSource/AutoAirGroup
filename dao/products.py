@@ -13,10 +13,18 @@ class ProductsDao:
             allProducts.append(doc)
         return allProducts
 
+    def getAllProductsCatalog(self):
+
+        allProducts = []
+        products = self.db
+        for doc in products.find({'featured':'yes'}):
+            allProducts.append(doc)
+        return allProducts
+
     def getAllProductsByCategory(self, pcategory):
         allProducts = []
         products = self.db
-        for doc in products.find({"pcategory": pcategory}):
+        for doc in products.find({"pcategory": pcategory,'featured':'yes'}):
             allProducts.append(doc)
         return allProducts
 
@@ -104,7 +112,7 @@ class ProductsDao:
         products = self.db
         p = []
         for doc in products.find(
-                {'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'pcategory': pcategory}):
+                {'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'pcategory': pcategory,'featured':'yes'}):
             p.append(doc)
         return p
 
@@ -114,7 +122,7 @@ class ProductsDao:
     def getProductByMakeModelYear(self, cmake, cmodel, cyear):
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'car.year': cyear}):
+        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'car.year': cyear,'featured':'yes'}):
             p.append(doc)
         return p
 
@@ -124,7 +132,7 @@ class ProductsDao:
     def getProductByCarMakeModel(self, cmake, cmodel):
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake, 'car.model': cmodel}):
+        for doc in products.find({'car.make': cmake, 'car.model': cmodel,'featured':'yes'}):
             p.append(doc)
         return p
 
@@ -138,7 +146,7 @@ class ProductsDao:
         """
         products = self.db
         p = []
-        for doc in products.find({'car.year': cyear}):
+        for doc in products.find({'car.year': cyear,'featured':'yes'}):
             p.append(doc)
         return p
 
@@ -150,7 +158,7 @@ class ProductsDao:
         """
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake}):
+        for doc in products.find({'car.make': cmake,'featured':'yes'}):
             p.append(doc)
         return p
 
@@ -357,11 +365,21 @@ class ProductsDao:
 
     def getGenericSearch(self, args):
 
-        products = self.db.create_index(
+        self.db.create_index(
             [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
 
-        find = products.find({"$text": {"$search": args}}, {"_id": 0})
+        find = self.db.find({"$text": {"$search": args}}, {"_id": 0})
         return find
+
+    def getGenericSearchCatalog(self, args):
+
+        self.db.create_index(
+            [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
+
+        find = self.db.find({"$text": {"$search": args}})
+
+        return find
+
 
     def updateProductByIdWithSameImage(self, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails,
                                        plocation, pprice, pbrand, qty, pshipping, featured):
@@ -433,3 +451,5 @@ class ProductsDao:
         for doc in find:
             products.append(doc)
         return products
+
+
