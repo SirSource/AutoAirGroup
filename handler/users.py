@@ -53,9 +53,9 @@ class UserHandler:
             return user
 
     def insertUser(self, form):
-        name = form['first_name']
-        last = form['last_name']
-        usertype = form['user']
+        name = v().removeSpecialChars(form['first_name'])
+        last = v().removeSpecialChars(form['last_name'])
+        usertype = v().sanitize(form['user'])
         email = form['email'].lower()
         password = form['password']
         address = {
@@ -75,8 +75,8 @@ class UserHandler:
 
     def updateUserAddress(self, email, form):
         city = form['city']
-        address1 = form['address1']
-        address2 = form['address2']
+        address1 = v().removeSpecialChars(form['address1'])
+        address2 = v().removeSpecialChars(form['address2'])
         zip = form['zipcode']
 
         if email == '' or city == '' or address1 == '' or zip == '':
@@ -119,8 +119,7 @@ class UserHandler:
             else:
                 return False, 'no_user'
         else:
-            return False
-            'invalid_email'
+            return False, 'invalid_email'
 
     def updateUserPassword(self, email, form):
         password = form['current_pass']
@@ -182,13 +181,13 @@ class UserHandler:
             return True
 
     def formToFormattedUser(self, form):
-        name = form['ufirst']
-        last = form['ulast']
-        email = form['uemail']
+        name = v().removeSpecialChars(form['ufirst'])
+        last = v().removeSpecialChars(form['ulast'])
+        email = v().toLower(form['uemail'])
         phone = form['uphone']
         city = form['city']
-        address1 = form['address1']
-        address2 = form['address2']
+        address1 = v().removeSpecialChars(form['address1'])
+        address2 = v().removeSpecialChars(form['address2'])
         zipcode = form['zipcode']
 
         if name == '' or last == '' or email == '' or phone == '' or city == '' or address1 == '' or zipcode == '':

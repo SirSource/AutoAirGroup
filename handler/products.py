@@ -1,5 +1,6 @@
 from dao.products import ProductsDao
 from bson.decimal128 import Decimal128
+from utilities.valid import Valid as v
 
 
 class ProductsHandler:
@@ -56,6 +57,7 @@ class ProductsHandler:
     # author: Luis Perez
     # TESTED: YES; IT WORKS
     def getProductIDbyName(self, pname):
+        pname = v().removeSpecialChars(pname)
         dao = ProductsDao()
         list = dao.getProductIDbyName(pname)
         result_list = []
@@ -64,6 +66,7 @@ class ProductsHandler:
         return result_list
 
     def getProductByID(self, pid):
+        pid = v().sanitize(pid)
         if not self.productExistByID(pid):
             return False, None, 'no_product'
         return True, ProductsDao().getProductByID(pid), 'product_exists'
@@ -82,6 +85,7 @@ class ProductsHandler:
         :return:
         TESTED: YES: IT WORKS
         """
+        pname = v().removeSpecialChars(pname)
         dao = ProductsDao()
         list = dao.getProductByName(pname)
         result_list = []
@@ -271,7 +275,7 @@ class ProductsHandler:
 
         for row in plist:
             result = self.products_dictionary(row)
-            if result['featured']=='yes':
+            if result['featured'] == 'yes':
                 result_list.append(result)
 
         return result_list
@@ -299,16 +303,16 @@ class ProductsHandler:
         cmake = form['cmake']
         cmodel = form['cmodel']
         cyear = form['cyear']
-        cmotor = form['cmotor'].upper()
-        pid = form['pid'].upper()
+        cmotor = v().removeSpecialChars(form['cmotor'].upper())
+        pid = v().sanitize(form['pid'].upper())
         pcategory = form['category']
-        pname = form['pname']
+        pname = v().removeSpecialChars(form['pname'])
         pdetails = form['description']
         plocation = form['store']
         pprice = form['pprice']
-        pbrand = form['pbrand']
+        pbrand = v().removeSpecialChars(form['pbrand'])
         pshipping = form['pshipping']
-        qty = form['qty']
+        qty = v().sanitize(form['qty'])
         featured = form['featured']
 
         if cmake == '' or cmodel == '' or cyear == '' or cmotor == '' or pid == '' or pcategory == '' or pname == '' or pdetails == '' or plocation == '' or pprice == '' or pbrand == '' or qty == '' or pshipping == '' or featured == '':
@@ -477,16 +481,16 @@ class ProductsHandler:
         cmake = form['cmake']
         cmodel = form['cmodel']
         cyear = form['cyear']
-        cmotor = form['cmotor'].upper()
-        pid = form['pid'].upper()
+        cmotor = v().removeSpecialChars(form['cmotor'].upper())
+        pid = v().sanitize(form['pid'].upper())
         pcategory = form['category']
-        pname = form['pname']
+        pname = v().removeSpecialChars(form['pname'])
         pdetails = form['description']
         plocation = form['store']
         pprice = form['pprice']
-        pbrand = form['pbrand']
+        pbrand = v().removeSpecialChars(form['pbrand'])
         pshipping = form['pshipping']
-        qty = form['qty']
+        qty = v().sanitize(form['qty'])
         featured = form['featured']
         if image == None:
             try:

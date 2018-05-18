@@ -87,3 +87,13 @@ class Valid:
         chars = string.ascii_letters + string.digits
         line = "".join(choice(chars) for x in range(randint(minlength, maxlength)))
         return line
+
+    def sanitize(self, str):
+        whitelist = string.ascii_letters + string.digits
+        newString = ''.join(c for c in str if c in whitelist)
+        return newString
+
+    def removeSpecialChars(self, str):
+        whitelist = string.ascii_letters + string.digits + ' ' + '-'
+        newString = ''.join(c for c in str if c in whitelist)
+        return newString

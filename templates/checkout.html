@@ -31,7 +31,7 @@
                                     <input type="hidden" name="_cartPid" value="{{ items['pid'] }}">
                                     <input type="number" min="0" max="200" step="1" style="width: 65px" name="qty"
                                            value="{{ items['qty'] }}">
-                                    <button type="submit" class="btn btn-primary">Actializar</button>
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
                                 </form>
                             </div>
                         </div>
@@ -200,7 +200,9 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="zip">Zipcode</label>
-                            <input type="text" class="form-control" id="zip" name="zipcode" placeholder="Código postal"
+                            <input type="text" maxlength="5" minlength="5" class="form-control" id="zip"
+                                   name="zipcode"
+                                   placeholder="Código postal"
                                    oninvalid="this.setCustomValidity('Entre su código postal.')"
                                    oninput="setCustomValidity('')" value="{{ user['user_address']['zipcode'] }}"
                                    required>
@@ -358,7 +360,9 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="zip">Zipcode</label>
-                            <input type="text" class="form-control" id="zip" name="zipcode" placeholder="Código postal"
+                            <input type="text" maxlength="5" minlength="5" class="form-control" id="zip"
+                                   name="zipcode"
+                                   placeholder="Código postal"
                                    oninvalid="this.setCustomValidity('Entre su código postal.')"
                                    oninput="setCustomValidity('')" required>
                         </div>

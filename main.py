@@ -64,6 +64,7 @@ def catalog():
 
 @app.route('/product/<string:pid>')
 def product(pid):
+    inCart = False
     operation = p().getProductByID(pid)
     result = operation[0]
     try:
@@ -71,7 +72,9 @@ def product(pid):
     except:
         return redirect(url_for('catalog'))
     message = operation[2]
-    return render_template('product.html', product=value)
+    if 'cart' in session:
+        inCart = itemInCart(pid, session['cart'])
+    return render_template('product.html', product=value, inCart=inCart)
 
 
 @app.route('/about')
@@ -166,7 +169,6 @@ def requestUser():
     session.pop('email', None)
     if request.method == 'POST':
         operation = pr().resetPassword(request.form['email'])
-        print("operation is: " + str(operation))
         if operation == None:
             return render_template('requestPassword.html', message='failed')
         else:
@@ -179,7 +181,6 @@ def requestStaff():
     session.pop('eid', None)
     if request.method == 'POST':
         operation = pr().resetPassword(request.form['eid'])
-        print("operation staff is: " + str(operation))
         if operation == None:
             return render_template('requestPasswordStaff.html', message='failed')
         else:
@@ -226,7 +227,6 @@ def resetPassStaff():
     else:
         user = s().updateStaffPasswordReset(session['eid'], request.form)
         message = user[1]
-        print('Staff message: ' + str(message))
         if message == 'updated_password':
             return redirect(url_for('admin'))
         else:
@@ -249,6 +249,8 @@ def cartAdd():
     if request.method == 'POST':
         product = request.form['_cartPid']
         qty = request.form['qty']
+        if int(qty) + 0 == 0:
+            qty = '0'
         if 'cart' in session:
             if not any(product in d for d in session['cart']):
                 session['cart'].append({product: qty})
@@ -307,7 +309,6 @@ def charge():
     # amount = 50  # Sacarlo del Form/Carrito
 
     if request.method == 'POST':
-        print(request.form)
         oid = request.form['_oid']
         amount = request.form['_amount']
         email = request.form['_email']
@@ -362,7 +363,6 @@ def processOrder():
         genericPassword = v().generatePassword()
         None
     order = o().createOrderForProcessing(user[1], session['cart'])
-    print(order)
     if not order[0]:
         session['cart'] = removeProductFromCart(order[1], session['cart'])
         session['cartError'] = True
@@ -511,6 +511,7 @@ def adminProducts():
                 operation = p().addProduct(image, request.form)
                 # product = operation[1]
                 # message = operation[2]
+            return render_template('adminProducts.html', products=product)
         elif method == 'SEARCH':
             product = p().genericProductSearch(request.form['query'])
     return render_template('adminProducts.html', products=product)
@@ -541,14 +542,11 @@ def adminProductsView(pid):
     if not operation[0]:
         return render_template('adminProductView.html', product=None)
     if request.method == 'POST':
-        print("ENtre al POST")
         # It will have the same picture
         if 'file' not in request.files:
-            print("EDIT WITHOUTH PHOTO")
             # EDIT PRODUCT WITHOUT PHOTO
             operation = p().EditProductByID(None, request.form)
             product = p().getProductByID(pid)[1]  # devuelve una lista de una lista del producto
-            print(operation)
             return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
 
         else:
@@ -690,6 +688,14 @@ def removeProductFromCart(pid, cart):
         if pid == product:
             cart.remove(x)
     return cart
+
+
+def itemInCart(pid, cart):
+    for x in cart:
+        product = list(x.keys())[0]
+        if pid == product:
+            return True
+    return False
 
 
 if __name__ == '__main__':

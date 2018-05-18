@@ -76,14 +76,14 @@
                         <th></th>
                         <th></th>
                         <th>IVU:</th>
-                        <th>${{ order['tax_total']}}</th>
+                        <th>${{ order['tax_total'] }}</th>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th>Envío:</th>
-                        <th>${{ order['shipping_total']}}</th>
+                        <th>${{ order['shipping_total'] }}</th>
                     </tr>
                     <tr>
                         <th></th>
@@ -108,9 +108,9 @@
                 </div>
                 <div>
                     {% if order['shipping'] == 'shipped' %}
-                        <span>Estatus de pago: <strong>ENVIADO</strong></span>
+                        <span>Estatus de envío: <strong>ENVIADO</strong></span>
                     {% elif order['shipping'] == 'not_shipped' %}
-                        <span>Estatus de pago: <strong>NO ENVIADO</strong></span>
+                        <span>Estatus de envío: <strong>NO ENVIADO</strong></span>
                     {% endif %}
                 </div>
             </div>

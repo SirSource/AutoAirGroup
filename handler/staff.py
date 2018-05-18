@@ -108,9 +108,9 @@ class StaffHandler:
             return False, 'invalid_password'
 
     def insertStaff(self, form):
-        fname = form['first_name']
-        lname = form['last_name']
-        eid = v().toLower(form['eid'])
+        fname = v().removeSpecialChars(form['first_name'])
+        lname = v().removeSpecialChars(form['last_name'])
+        eid = v().toLower(v().sanitize(form['eid']))
         email = v().toLower(form['email'])
         store = form['store']
         admin = v().stringToBool(form['admin'])
@@ -204,6 +204,7 @@ class StaffHandler:
             return False, 'not_admin'
 
     def genericStaffSearch(self, string):
+        string = v().removeSpecialChars(string)
         return StaffDao().genericStaffSearch(string)
 
     def getResetFromAdmin(self, id):
