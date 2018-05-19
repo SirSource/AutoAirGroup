@@ -162,6 +162,31 @@ class ProductsDao:
             p.append(doc)
         return p
 
+    def getProductByCarModel(self, cmodel):
+        """
+
+                :param cmodel:
+                :return:
+                """
+        products = self.db
+        p = []
+        for doc in products.find({'car.model': cmodel, 'featured': 'yes'}):
+            p.append(doc)
+        return p
+
+
+    def getProductByCarMotor(self, cmotor):
+        """
+
+                        :param cmotor:
+                        :return:
+                        """
+        products = self.db
+        p = []
+        for doc in products.find({'car.motor': cmotor, 'featured': 'yes'}):
+            p.append(doc)
+        return p
+
     def getInfoForCheckout(self, pid):
         """
         Returns the information when a user checks out in the shopping cart
@@ -363,22 +388,75 @@ class ProductsDao:
         qty = product['qty']
         return qty
 
-    def getGenericSearch(self, args):
+    def getGenericSearch(self, string):
+        """
+        author: Luis Perez
+        :param string:
+        :return:
+        """
 
-        self.db.create_index(
+        collection = self.db
+        collection.create_index(
             [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
+        find = collection.find({"$text": {"$search": string}})
+        products = []
+        for doc in find:
+            products.append(doc)
 
-        find = self.db.find({"$text": {"$search": args}}, {"_id": 0})
-        return find
+        cmake = self.getProductByCarMake(string)
+        for doc in cmake:
+            if doc and doc not in products:
+                products.append(doc)
+        cyear = self.getProductByCarYear(string)
+        for doc in cyear:
+            if doc and doc not in products:
+                products.append(doc)
+        cmodel = self.getProductByCarModel(string)
+        for doc in cmodel:
+            if doc and doc not in products:
+                products.append(doc)
 
-    def getGenericSearchCatalog(self, args):
+        cmotor = self.getProductByCarMotor(string)
+        for doc in cmotor:
+            if doc and doc not in products:
+                products.append(doc)
 
-        self.db.create_index(
+        return products
+
+    def getGenericSearchCatalog(self, string):
+        """
+        author: Luis Perez
+        :param string:
+        :return:
+        """
+
+        collection = self.db
+        collection.create_index(
             [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
+        find = collection.find({"$text": {"$search": string}})
+        products = []
+        for doc in find:
+            products.append(doc)
 
-        find = self.db.find({"$text": {"$search": args}})
+        cmake = self.getProductByCarMake(string)
+        for doc in cmake:
+            if doc and doc not in products:
+                products.append(doc)
+        cyear = self.getProductByCarYear(string)
+        for doc in cyear:
+            if doc and doc not in products:
+                products.append(doc)
+        cmodel = self.getProductByCarModel(string)
+        for doc in cmodel:
+            if doc and doc not in products:
+                products.append(doc)
 
-        return find
+        cmotor = self.getProductByCarMotor(string)
+        for doc in cmotor:
+            if doc and doc not in products:
+                products.append(doc)
+
+        return products
 
 
     def updateProductByIdWithSameImage(self, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails,
@@ -446,10 +524,32 @@ class ProductsDao:
         collection = self.db
         collection.create_index(
             [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
-        find = collection.find({"$text": {"$search": string}}, {"_id": 0})
+        find = collection.find({"$text": {"$search": string}})
         products = []
         for doc in find:
             products.append(doc)
+
+        cmake = self.getProductByCarMake(string)
+        for doc in cmake:
+            if doc and doc not in products:
+                products.append(doc)
+        cyear = self.getProductByCarYear(string)
+        for doc in cyear:
+            if doc and doc not in products:
+                products.append(doc)
+        cmodel = self.getProductByCarModel(string)
+        for doc in cmodel:
+            if doc and doc not in products:
+                products.append(doc)
+
+        cmotor = self.getProductByCarMotor(string)
+        for doc in cmotor:
+            if doc and doc not in products:
+                products.append(doc)
+
         return products
+
+
+
 
 

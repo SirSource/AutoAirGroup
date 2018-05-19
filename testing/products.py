@@ -1,17 +1,28 @@
 from handler.products import ProductsHandler as p
-
+import pymongo
 from config.dbconfig import client
+from dao.products import ProductsDao as p
 
 # search
 
 # print(p().getProductQty('EV93x678PFC'))
 collection = client.AutoAirGroupdb.products
-search_this_string = 'jeep'
-collection.create_index([('pbrand', 'text'),('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
-find = collection.find({"$text": {"$search": search_this_string}}, {"_id": 0})
-products = []
-for doc in find:
-    products.append(doc)
+search_this_string = 'Wrangler'
+#collection.create_index([('pdetails','text')])
+products = p().genericProductSearch(search_this_string)
+print(len(products))
+
+# for doc in collection.find({'car.year':search_this_string}, {"_id": 0}):
+#     products.append(doc)
+#     print()
+# "image": image,
+#             "car": car,
+#             "pid": pid,
+
+#  "make": cmake,
+#             "model": cmodel,
+#             "year": cyear,
+#             "motor": cmotor
 print(products)
 
 # deleteTest =['234DDDD','Guaynabo']
