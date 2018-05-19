@@ -7,10 +7,10 @@ from dao.products import ProductsDao as p
 
 # print(p().getProductQty('EV93x678PFC'))
 collection = client.AutoAirGroupdb.products
-search_this_string = 'Wrangler'
+search_this_string = 'Wrangler jeep Kia'
 #collection.create_index([('pdetails','text')])
 products = p().genericProductSearch(search_this_string)
-print(len(products))
+#print(len(products))
 
 # for doc in collection.find({'car.year':search_this_string}, {"_id": 0}):
 #     products.append(doc)

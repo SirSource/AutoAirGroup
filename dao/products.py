@@ -1,4 +1,5 @@
 from config.dbconfig import client
+import re
 
 
 class ProductsDao:
@@ -437,24 +438,26 @@ class ProductsDao:
         products = []
         for doc in find:
             products.append(doc)
-
-        cmake = self.getProductByCarMake(string)
-        for doc in cmake:
-            if doc and doc not in products:
-                products.append(doc)
-        cyear = self.getProductByCarYear(string)
-        for doc in cyear:
-            if doc and doc not in products:
-                products.append(doc)
-        cmodel = self.getProductByCarModel(string)
-        for doc in cmodel:
-            if doc and doc not in products:
-                products.append(doc)
-
-        cmotor = self.getProductByCarMotor(string)
-        for doc in cmotor:
-            if doc and doc not in products:
-                products.append(doc)
+        token = re.split(" ", string)
+        print(token)
+        for tk in token:
+            print(tk)
+            cmake = self.getProductByCarMake(tk)
+            for doc in cmake:
+                if doc and doc not in products:
+                    products.append(doc)
+            cyear = self.getProductByCarYear(tk)
+            for doc in cyear:
+                if doc and doc not in products:
+                    products.append(doc)
+            cmodel = self.getProductByCarModel(tk)
+            for doc in cmodel:
+                if doc and doc not in products:
+                    products.append(doc)
+            cmotor = self.getProductByCarMotor(tk)
+            for doc in cmotor:
+                if doc and doc not in products:
+                    products.append(doc)
 
         return products
 
@@ -528,24 +531,27 @@ class ProductsDao:
         products = []
         for doc in find:
             products.append(doc)
+        token = re.split(" ",string)
+        print(token)
+        for tk in token:
+            print(tk)
+            cmake = self.getProductByCarMake(tk)
+            for doc in cmake:
+                if doc and doc not in products:
+                    products.append(doc)
+            cyear = self.getProductByCarYear(tk)
+            for doc in cyear:
+                if doc and doc not in products:
+                    products.append(doc)
+            cmodel = self.getProductByCarModel(tk)
+            for doc in cmodel:
+                if doc and doc not in products:
+                    products.append(doc)
 
-        cmake = self.getProductByCarMake(string)
-        for doc in cmake:
-            if doc and doc not in products:
-                products.append(doc)
-        cyear = self.getProductByCarYear(string)
-        for doc in cyear:
-            if doc and doc not in products:
-                products.append(doc)
-        cmodel = self.getProductByCarModel(string)
-        for doc in cmodel:
-            if doc and doc not in products:
-                products.append(doc)
-
-        cmotor = self.getProductByCarMotor(string)
-        for doc in cmotor:
-            if doc and doc not in products:
-                products.append(doc)
+            cmotor = self.getProductByCarMotor(tk)
+            for doc in cmotor:
+                if doc and doc not in products:
+                    products.append(doc)
 
         return products
 
