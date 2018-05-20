@@ -143,6 +143,8 @@ class StaffHandler:
         eid = v().toLower(form['eid'])
         if eid == '':
             return False, 'invalid_form'
+        if eid == 'aag1':
+            return False, 'delete_error_super'
         if self.staffExists(eid):
             StaffDao().deleteStaffbyEid(eid)
             return True, 'staff_deleted'

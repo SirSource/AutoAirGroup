@@ -26,28 +26,30 @@ class SendMail:
     def sendAccountCreationEmail(self, userEmail):
         to_email = Email(userEmail)
         subject = "!Bienvenido a Auto Air Group!"
-        content = Content("text/plain", "<h1>Your order number is...</h1>")
+        content = Content("text/plain",
+                          "<h1>!Gracias por crear una cuenta con Auto Air Group!</h1><p>Desde su cuenta puede ver el historial de compras y tener un récord para sus recibos.</p>")
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
         return response
 
-    def sendAccountRecoverEmail(self, userEmail):
+    def sendAccountRecoverEmail(self, userEmail, code):
         to_email = Email(userEmail)
-        subject = "Auto Air Group Order Details"
-        content = Content("text/plain", "Your order number is...")
+        subject = "Recuperar Acceso a su Cuenta"
+        content = Content("text/plain",
+                          'Para recuperar acceso a su cuenta haga clic en el enlace: <a href="https://autoair.io/user/reset/password/">Recuperar acceso<a>' + str(
+                              code))
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
         return response
-
 
     def sendOrderConfirmationEmail(self, userEmail, orderNum, total):
         to_email = Email("%s" % userEmail)
         subject = "Su compra en Auto Air Group"
-        content = Content("text/plain", "Your order number is %s with a total of $ %s" % (orderNum, total))
+        content = Content("text/plain",
+                          "Gracias por comprar en Auto Air Group. Su número de orden es: " + str(orderNum) + ".")
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
         return response
-
 
     def sendChangePasswordLink(self, userEmail, link):
         to_email = Email("%s" % userEmail)
@@ -56,9 +58,3 @@ class SendMail:
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
         return response
-
-
-
-
-
-

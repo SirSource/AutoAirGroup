@@ -92,7 +92,8 @@
             {% endif %}
             <form action="{{ url_for('adminStaff') }}" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="eid" placeholder="Busque por id, nombre, email o tiendas"
+                    <input type="text" class="form-control" name="eid"
+                           placeholder="Busque por id, nombre, email o tiendas"
                            oninvalid="this.setCustomValidity('Se requiere el id del empleado para poder realizar una busqueda.')"
                            oninput="setCustomValidity('')" required>
                     <input type="hidden" name="_method" value="SEARCH">
@@ -118,7 +119,15 @@
                     Borrar Empleado
                 </button>
             </p>
-            {% if deleteStatus=='delete_error' %}
+            {% if deleteStatus=='delete_error_super' %}
+                <div class="col alert-danger pt-3 pb-3">
+                    <h5>Error: El Super Administrador no se puede borrar.</h5>
+                </div>
+            {% elif deleteStatus=='delete_error_self' %}
+                <div class="col alert-danger pt-3 pb-3">
+                    <h5>Error: Usted no puede borrar su propia cuenta.</h5>
+                </div>
+            {% elif deleteStatus=='delete_error' %}
                 <div class="col alert-danger pt-3 pb-3">
                     <h5>Error: No se pudo borrar el empleado ya que no se encontró en el sistema.</h5>
                 </div>

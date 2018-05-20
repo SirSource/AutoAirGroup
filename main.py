@@ -109,6 +109,7 @@ def accounts():
                 return render_template('userSession.html', message=message)
             elif condition:
                 session['email'] = message
+                mail().sendAccountCreationEmail(session['email'])
                 return redirect(url_for('user', email=message))
     return render_template('userSession.html', message=message)
 
@@ -517,19 +518,6 @@ def adminProducts():
     return render_template('adminProducts.html', products=product)
 
 
-# @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
-# def adminProductsView(pid):
-#     if 'eid' not in session:
-#         return redirect(url_for('adminLogin'))
-#     staffStatus = s().staffIsAdmin(session['eid'])[0]
-#     if not staffStatus:
-#         return redirect(url_for('admin'))
-#     operation = p().getProductByID(pid)
-#     product = operation[1]
-#     if not operation[0]:
-#         return render_template('adminProductView.html', product=None)
-#     return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
-
 @app.route('/admin/products/<string:pid>', methods=['GET', 'POST'])
 def adminProductsView(pid):
     if 'eid' not in session:
@@ -612,6 +600,8 @@ def adminStaff():
                 message = 'no_staff'
             return render_template('adminStaff.html', message=message, staff=staff)
         if method == 'DELETE':
+            if session['eid'] == request.form['eid']:
+                return render_template('adminStaff.html', deleteStatus='delete_error_self', staff=s().getAllStaff())
             operation = s().deleteStaff(request.form)
             return render_template('adminStaff.html', deleteStatus=operation[1], staff=s().getAllStaff())
     return render_template('adminStaff.html', staff=staff)
