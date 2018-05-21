@@ -33,7 +33,7 @@ class SendMail:
         to_email = Email(userEmail)
         subject = "Recuperar Acceso a su Cuenta"
         content = Content("text/html",
-                          '<html>Para recuperar acceso a su cuenta favor de seguir el siguiente:<a href="https://autoair.io/user/reset/password/' + str(
+                          '<html>Para recuperar acceso a su cuenta favor de seguir el siguiente enlace:<a href="https://autoair.io/user/reset/password/' + str(
                               code) + '">Recuperar Contraseña</a></html>')
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
