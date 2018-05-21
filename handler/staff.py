@@ -129,13 +129,14 @@ class StaffHandler:
             key = dao.generateAdminLinkReset(eid)
 
             # Crear el link
-            link = "http://localhost:5000/user/reset/password/" + str(key)
+            # link = "http://localhost:5000/user/reset/password/" + str(key)
 
             # link : localhost:5000/user/reset/password/KEY
             # Envio el email
 
             m = mail()
-            m.sendChangePasswordLink(email, link)
+            m.sendAccountRecoverEmail(email, key)
+            # m.sendChangePasswordLink(email, link)
 
             return True, 'staff_created'
 

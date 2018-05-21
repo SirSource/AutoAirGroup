@@ -140,6 +140,14 @@ def userOrderReceipt(email, oid):
     return render_template('receipt.html', order=orders)
 
 
+@app.route('/order/receipt/confirmation/<string:oid>')
+def orderReceipt(oid):
+    orders = o().getOrdersByOrderID(oid)
+    if orders == None:
+        return redirect(url_for('home'))
+    return render_template('receipt.html', order=orders)
+
+
 @app.route('/account/user/<string:email>/edit', methods=['GET', 'POST'])
 def userEdit(email):
     if 'email' not in session:
@@ -173,6 +181,8 @@ def requestUser():
         if operation == None:
             return render_template('requestPassword.html', message='failed')
         else:
+            # send email to user
+            mail().sendAccountRecoverEmail(request.form['email'], pr().getResetFromForms(request.form['email'])[0])
             return render_template('requestPassword.html', message='success')
     return render_template('requestPassword.html')
 
@@ -185,6 +195,9 @@ def requestStaff():
         if operation == None:
             return render_template('requestPasswordStaff.html', message='failed')
         else:
+            # Send Email to staff member
+            mail().sendAccountRecoverEmail(s().getStaffByEidMain(request.form['eid'])[1]['staff_email'],
+                                           pr().getResetFromForms(request.form['eid'])[0])
             return render_template('requestPasswordStaff.html', message='success')
     return render_template('requestPasswordStaff.html')
 
@@ -346,12 +359,10 @@ def charge():
             print("Message is: %s" % err.get('message'))
             # print("CARD ERROR")
             # flash('Error processing payment.', 'error')
-            # TODO: Make order declined
             o().updateOrderStatusToCanceled(oid)
             return render_template('paymentFailed.html')
     o().updateOrderStatusToComplete(oid)
-    # TODO: change order to complete
-    # TODO: send email
+    mail().sendOrderConfirmationEmail(email, oid)
     return render_template('succesfulPayment.html')  # Aqui puedes poner algun template como que confirmando o no
 
 

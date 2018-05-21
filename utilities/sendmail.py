@@ -36,18 +36,20 @@ class SendMail:
         to_email = Email(userEmail)
         subject = "Recuperar Acceso a su Cuenta"
         content = Content("text/html",
-                          'Para recuperar acceso a su cuenta haga clic en el enlace: <html>https://autoair.io/user/reset/password/'+str(
-                              code)+'</html> Recuperar acceso')
+                          '<html>Para recuperar acceso a su cuenta copie y pegue la siguiente dirección en su navegador <a href="https://autoair.io/user/reset/password/' + str(
+                              code) + '">Recuperar Contraseña</a></html>')
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
         print("recovery pass")
         return response
 
-    def sendOrderConfirmationEmail(self, userEmail, orderNum, total):
+    def sendOrderConfirmationEmail(self, userEmail, orderNum):
         to_email = Email("%s" % userEmail)
-        subject = "Su compra en Auto Air Group"
+        subject = "Su compra con Auto Air Group"
         content = Content("text/plain",
-                          "Gracias por comprar en Auto Air Group. Su número de orden es: " + str(orderNum) + ".")
+                          '<html><h5>Gracias por comprar en Auto Air Group.</h5> <p>Puede ver un recibo de su orden (' + str(
+                              orderNum) + ') <a href="127.0.0.1:5000/order/receipt/confirmation/' + str(
+                              orderNum) + '">aquí</a>.</p></html>')
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
 
@@ -58,7 +60,8 @@ class SendMail:
         to_email = Email("%s" % userEmail)
         print("level 2")
         subject = "Cambio de contrasena"
-        content = Content("text/html", "Favor de ir al siguiente enlace para cambiar de contrasena %s " '<html>' % link +'</html>')
+        content = Content("text/html",
+                          "Favor de ir al siguiente enlace para cambiar de contrasena %s " '<html>' % link + '</html>')
         print("level 3")
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
