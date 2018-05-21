@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Pago{% endblock %}
 {% block main %}
     <div class="row mt-3 bg-white p-4 aag-shadow">
         <div class="col-12">
@@ -7,7 +7,8 @@
             <form action="/charge" method="post">
                 <article>
                     <label>
-                        <span>Amount is ${{ order['total']/100 }}</span>
+                        <span>Usted va a someter un pago de ${{ order['total']/100 }} a Auto Air Group por la mercancía en su carrito.</span>
+                        <span><br/>Los pagos son procesados por Stripe.</span>
                     </label>
                 </article>
                 <input type="hidden" name="_oid" value="{{ order['oid'] }}">

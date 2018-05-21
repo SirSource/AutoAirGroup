@@ -6,9 +6,9 @@
         Producto no encontrado
     {% endif %}
 {% endblock %}
-<!--Car Pciker Module-->
-<script src="{{ url_for('static', filename='carPicker.js') }}"></script>
 {% block main %}
+    <!-- Car Picker Module-->
+    <script src="{{ url_for('static', filename='carPicker.js') }}"></script>
     <!--Featured Section-->
     <div class="row mt-3 mb-3">
         <h3 class="font-weight-bold">
@@ -187,7 +187,6 @@
                                 <option value="{{ product['car']['make'] }}" selected>Actual:
                                     [{{ product['car']['make'] }}]
                                 </option>
-                                {#                                <option selected="selected">-Marca-</option>#}
                             </select>
                         </div>
                         <div class="form-group">
@@ -198,7 +197,6 @@
                                 <option value="{{ product['car']['model'] }}" selected>Actual:
                                     [{{ product['car']['model'] }}]
                                 </option>
-                                {#                                <option selected="selected">-Modelo-</option>#}
                             </select>
                         </div>
                         <div class="form-group">

@@ -446,8 +446,6 @@ def charge():
             m = mail()
             m.sendOrderConfirmationEmail(email, oid, amount)
 
-
-
         except stripe.error.CardError as e:  # Si no pasa el pago, pasa por este error!
 
             body = e.json_body
@@ -684,7 +682,6 @@ def adminProductsView(pid):
             operation = p().EditProductByID(None, request.form)
             product = p().getProductByID(pid)[1]  # devuelve una lista de una lista del producto
             return render_template('adminProductView.html', productExist=operation[0], product=product[0], pid=pid)
-
         else:
             file = request.files['file']
             if file.filename == '':

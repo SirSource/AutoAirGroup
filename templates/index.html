@@ -55,7 +55,7 @@
     </div>
     <!--Deck of Cards-->
     <div class="row">
-        <div class="card-deck">
+        <div class="card-deck mx-auto text-center">
             <!--Card-->
             <div class="card aag-min-width-card">
                 <div class="card-header">
@@ -64,13 +64,12 @@
                 <div class="card-body">
                     <img class="agg-max-width-card-img" src="{{ url_for('static', filename='img/products/p1.jpg') }}">
                     <p class="card-text"></p>
-                    <div class="text-center">
-                        <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
-                            <input type="hidden" name="query" class="form-control" value="compresores">
-                            <input type="hidden" name="_method" value="genericsearch">
-                            <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más productos</button>
-                        </form>
-                    </div>
+                    <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
+                        <input type="hidden" name="query" class="form-control" value="compresores">
+                        <input type="hidden" name="_method" value="genericsearch">
+                        <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más productos
+                        </button>
+                    </form>
                 </div>
             </div>
             <!--Card-->
@@ -81,15 +80,13 @@
                 <div class="card-body">
                     <img class="agg-max-width-card-img" src="{{ url_for('static', filename='img/products/p2.jpg') }}">
                     <p class="card-text"></p>
-                    <div class="text-center">
-                        <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
-                            <input type="hidden" name="query" class="form-control" value="evaporador">
-                            <input type="hidden" name="_method" value="genericsearch">
-                            <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más
-                                productos
-                            </button>
-                        </form>
-                    </div>
+                    <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
+                        <input type="hidden" name="query" class="form-control" value="evaporador">
+                        <input type="hidden" name="_method" value="genericsearch">
+                        <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más
+                            productos
+                        </button>
+                    </form>
                 </div>
             </div>
             <!--Card-->
@@ -100,13 +97,12 @@
                 <div class="card-body">
                     <img class="agg-max-width-card-img" src="{{ url_for('static', filename='img/products/p4.jpg') }}">
                     <p class="card-text"></p>
-                    <div class="text-center">
-                        <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
-                            <input type="hidden" name="query" class="form-control" value="filtro">
-                            <input type="hidden" name="_method" value="genericsearch">
-                            <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más productos</button>
-                        </form>
-                    </div>
+                    <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
+                        <input type="hidden" name="query" class="form-control" value="filtro">
+                        <input type="hidden" name="_method" value="genericsearch">
+                        <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más productos
+                        </button>
+                    </form>
                 </div>
             </div>
             <!--Card-->
@@ -114,27 +110,27 @@
                 <div class="card-header">
                     Condensadores
                 </div>
-                <div class="card-body">
+                <div class="card-body agg-max-width-card-img">
                     <img class="agg-max-width-card-img" src="{{ url_for('static', filename='img/products/p3.jpg') }}">
                     <p class="card-text"></p>
-                    <div class="text-center">
-                        <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
-                            <input type="hidden" name="query" class="form-control" value="condensador">
-                            <input type="hidden" name="_method" value="genericsearch">
-                            <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más productos</button>
-                        </form>
-                    </div>
+                    <form class="form-inline" action="{{ url_for('catalog') }}" method="POST">
+                        <input type="hidden" name="query" class="form-control" value="condensador">
+                        <input type="hidden" name="_method" value="genericsearch">
+                        <button class="ml-4 btn btn-primary font-weight-bold" type="submit">Ver más productos
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
     <!--Additional Info Box-->
     <div class="row mt-3 bg-white p-4 aag-shadow">
         <div class="col-md aag-border-bottom">
             <h4>Auto Air Group Acepta</h4>
         </div>
         <div class="col-lg-12 text-center">
-            <img src="{{ url_for('static', filename='img/cards.png') }}">
+            <img class="agg-max-width-card-img" src="{{ url_for('static', filename='img/cards.png') }}">
         </div>
     </div>
 {% endblock %}
