@@ -1,10 +1,15 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block main %}
-    <div class="row mt-3 bg-white p-4 aag-shadow">
-        <div class="col-12">
-            <h4 class="mb-3">Pago Falló</h4>
-            <img src="{{ url_for('static', filename='img/failed.gif') }}">
-        </div>
-    </div>
+<div class="jumbotron text-xs-center">
+  <h1 class="display-3">!Su pago no fue aceptado!</h1>
+  <p class="lead"><strong>Favor de volver al carrito e intentar nuevamente</strong>.</p>
+  <hr>
+  <p>
+    Having trouble? <a href="">Contactenos</a>
+  </p>
+  <p class="lead">
+    <a class="btn btn-primary btn-sm" href="https://autoair.io/cart" role="button">Ir al carrito</a>
+  </p>
+</div>
 {% endblock %}
