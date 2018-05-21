@@ -95,4 +95,10 @@ body {
     min-width: 120px;
 }
 
+.aag-carousel1-pic {
+    border: solid;
+    border-width: 2px;
+    border-color: #bbc8da;
+}
+
 /*Bootstrap 4 overides*/

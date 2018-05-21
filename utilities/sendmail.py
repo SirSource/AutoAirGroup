@@ -16,7 +16,7 @@ class SendMail:
         :return: Status code.
         """
         to_email = Email(userEmail)
-        subject = "!Bienvenido a Auto Air Group!"
+        subject = "¡Bienvenido a Auto Air Group!"
         content = Content("text/html",
                           "<html><h1>!Gracias por crear una cuenta con Auto Air Group!</h1> <h3>Desde su cuenta puede ver el historial de compras y tener un récord para sus recibos.</h3></html>")
         mail = Mail(self.from_email, subject, to_email, content)
@@ -49,10 +49,10 @@ class SendMail:
         """
         to_email = Email("%s" % userEmail)
         subject = "Su compra con Auto Air Group"
-        content = Content("text/plain",
+        content = Content("text/html",
                           '<html><h5>Gracias por comprar en Auto Air Group.</h5> <p>Puede ver un recibo de su orden (' + str(
                               orderNum) + ') <a href="127.0.0.1:5000/order/receipt/confirmation/' + str(
-                              orderNum) + '">aquí</a>.</p></html>')
+                              orderNum) + '"> aquí</a>.</p></html>')
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
 
