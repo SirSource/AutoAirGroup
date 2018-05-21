@@ -133,7 +133,7 @@
                                 {% if not user['user_address']['zipcode'] == '' %}
                                value="{{ user['user_address']['zipcode'] }}"
                                 {% endif %}
-                               placeholder="Código Postal">
+                               placeholder="Código Postal" required>
                     </div>
                     <input type="hidden" name="_method" value="ADD_ADDRESS">
                     <button class="mt-3 btn btn-primary">Editar Dirección</button>
