@@ -51,7 +51,7 @@ class SendMail:
         subject = "Su compra con Auto Air Group"
         content = Content("text/html",
                           '<html><h5>Gracias por comprar en Auto Air Group.</h5> <p>Puede ver un recibo de su orden (' + str(
-                              orderNum) + ') <a href="127.0.0.1:5000/order/receipt/confirmation/' + str(
+                              orderNum) + ') <a href="https://autoair.io/order/receipt/confirmation/' + str(
                               orderNum) + '"> aquí</a>.</p></html>')
         mail = Mail(self.from_email, subject, to_email, content)
         response = self.sg.client.mail.send.post(request_body=mail.get())
