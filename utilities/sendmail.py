@@ -1,20 +1,6 @@
 import sendgrid
 from sendgrid.helpers.mail import *
 
-# ======= ENVIAR EMAIL =========== #
-'''    #No perder el apikey !!!!
-sg = sendgrid.SendGridAPIClient(apikey='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')
-from_email = Email("gustavodev@live.com")  #Email de origen
-to_email = Email("gustavo.marrero1@upr.edu")   # El destinatario
-subject = "Auto Air Group Order Details"
-content = Content("text/plain", "Your order number is...")
-mail = Mail(from_email, subject, to_email, content)
-response = sg.client.mail.send.post(request_body=mail.get())
-print(response.status_code)
-print(response.body)
-print(response.headers)
-'''
-
 
 class SendMail:
 
@@ -24,6 +10,11 @@ class SendMail:
         self.from_email = Email("info@autoair.io")
 
     def sendAccountCreationEmail(self, userEmail):
+        """
+        Sends email after account creation.
+        :param userEmail: Email for the user.
+        :return: Status code.
+        """
         to_email = Email(userEmail)
         subject = "!Bienvenido a Auto Air Group!"
         content = Content("text/html",
@@ -33,6 +24,12 @@ class SendMail:
         return response
 
     def sendAccountRecoverEmail(self, userEmail, code):
+        """
+        Email to recover account.
+        :param userEmail: User emial.
+        :param code: The code that was generated for the link reset.
+        :return: Status code.
+        """
         to_email = Email(userEmail)
         subject = "Recuperar Acceso a su Cuenta"
         content = Content("text/html",
@@ -44,6 +41,12 @@ class SendMail:
         return response
 
     def sendOrderConfirmationEmail(self, userEmail, orderNum):
+        """
+        Email for oder completion.
+        :param userEmail: User email.
+        :param orderNum: Order Number.
+        :return: Status Code.
+        """
         to_email = Email("%s" % userEmail)
         subject = "Su compra con Auto Air Group"
         content = Content("text/plain",
@@ -56,6 +59,12 @@ class SendMail:
         return response
 
     def sendChangePasswordLink(self, userEmail, link):
+        """
+        Email for password link reset alternate.
+        :param userEmail: User email.
+        :param link: Entire link with embedded key.
+        :return: Status code.
+        """
         print("level 1")
         to_email = Email("%s" % userEmail)
         print("level 2")

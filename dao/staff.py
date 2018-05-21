@@ -150,6 +150,11 @@ class StaffDao:
         return self.db.delete_many({"eid": eid})
 
     def genericStaffSearch(self, string):
+        """
+        Search staff by name, last name, email, work place, id.
+        :param string: Query.
+        :return: Results of search.
+        """
         collection = self.db
         collection.create_index(
             [('staff_fname', 'text'), ('staff_lname', 'text'), ('staff_email', 'text'), ('eid', 'text'),

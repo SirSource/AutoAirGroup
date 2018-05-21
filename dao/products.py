@@ -8,6 +8,10 @@ class ProductsDao:
         self.db = client.AutoAirGroupdb.products
 
     def getAllProducts(self):
+        """
+        Fetches all products from the database.
+        :return: List of products.
+        """
         allProducts = []
         products = self.db
         for doc in products.find():
@@ -15,21 +19,34 @@ class ProductsDao:
         return allProducts
 
     def getAllProductsCatalog(self):
-
+        """
+        Fetches all products except those that are not active.
+        :return: List of active products.
+        """
         allProducts = []
         products = self.db
-        for doc in products.find({'featured':'yes'}):
+        for doc in products.find({'featured': 'yes'}):
             allProducts.append(doc)
         return allProducts
 
     def getAllProductsByCategory(self, pcategory):
+        """
+        Fetches all products of a given category.
+        :param pcategory: The category to search.
+        :return: List of products of category.
+        """
         allProducts = []
         products = self.db
-        for doc in products.find({"pcategory": pcategory,'featured':'yes'}):
+        for doc in products.find({"pcategory": pcategory, 'featured': 'yes'}):
             allProducts.append(doc)
         return allProducts
 
     def getAllProductsByBrand(self, brand):
+        """
+        Fetches all products by specific brand.
+        :param brand: Brand to query.
+        :return: All products of brand in a list.
+        """
         allProducts = []
         products = self.db
         for doc in products.find({"pbrand": brand}):
@@ -37,6 +54,11 @@ class ProductsDao:
         return allProducts
 
     def getProductByID(self, pid):
+        """
+        Fetches a product by it's ID
+        :param pid: Id of product.
+        :return: The specific product.
+        """
         products = self.db
         p = []
         for doc in products.find({"pid": pid}):
@@ -45,9 +67,9 @@ class ProductsDao:
 
     def getProductByName(self, pname):
         """
-
-        :param pname:
-        :return:
+        Fetches a product that matches a name.
+        :param pname: Name of product to fetch.
+        :return: Product that matches.
         """
         products = self.db
         p = []
@@ -113,7 +135,7 @@ class ProductsDao:
         products = self.db
         p = []
         for doc in products.find(
-                {'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'pcategory': pcategory,'featured':'yes'}):
+                {'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'pcategory': pcategory, 'featured': 'yes'}):
             p.append(doc)
         return p
 
@@ -123,7 +145,7 @@ class ProductsDao:
     def getProductByMakeModelYear(self, cmake, cmodel, cyear):
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'car.year': cyear,'featured':'yes'}):
+        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'car.year': cyear, 'featured': 'yes'}):
             p.append(doc)
         return p
 
@@ -133,7 +155,7 @@ class ProductsDao:
     def getProductByCarMakeModel(self, cmake, cmodel):
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake, 'car.model': cmodel,'featured':'yes'}):
+        for doc in products.find({'car.make': cmake, 'car.model': cmodel, 'featured': 'yes'}):
             p.append(doc)
         return p
 
@@ -147,7 +169,7 @@ class ProductsDao:
         """
         products = self.db
         p = []
-        for doc in products.find({'car.year': cyear,'featured':'yes'}):
+        for doc in products.find({'car.year': cyear, 'featured': 'yes'}):
             p.append(doc)
         return p
 
@@ -159,7 +181,7 @@ class ProductsDao:
         """
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake,'featured':'yes'}):
+        for doc in products.find({'car.make': cmake, 'featured': 'yes'}):
             p.append(doc)
         return p
 
@@ -174,7 +196,6 @@ class ProductsDao:
         for doc in products.find({'car.model': cmodel, 'featured': 'yes'}):
             p.append(doc)
         return p
-
 
     def getProductByCarMotor(self, cmotor):
         """
@@ -461,7 +482,6 @@ class ProductsDao:
 
         return products
 
-
     def updateProductByIdWithSameImage(self, cmake, cmodel, cyear, cmotor, pid, pcategory, pname, pdetails,
                                        plocation, pprice, pbrand, qty, pshipping, featured):
         try:
@@ -524,6 +544,11 @@ class ProductsDao:
             return False
 
     def genericProductSearch(self, string):
+        """
+        Queries a product for search.
+        :param string: The query
+        :return: The resulting products of such search.
+        """
         collection = self.db
         collection.create_index(
             [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])
@@ -531,7 +556,7 @@ class ProductsDao:
         products = []
         for doc in find:
             products.append(doc)
-        token = re.split(" ",string)
+        token = re.split(" ", string)
         print(token)
         for tk in token:
             print(tk)
@@ -554,8 +579,3 @@ class ProductsDao:
                     products.append(doc)
 
         return products
-
-
-
-
-

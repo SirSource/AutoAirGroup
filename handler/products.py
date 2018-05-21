@@ -6,6 +6,11 @@ from utilities.valid import Valid as v
 class ProductsHandler:
 
     def products_dictionary(self, row):
+        """
+        Creates a list of products to return
+        :param row: The array element of a product.
+        :return: The list of all products formatted as a dictionary.
+        """
         car = row['car']
         del row['car']
         del row['_id']
@@ -13,11 +18,21 @@ class ProductsHandler:
         return result
 
     def product_id_dictionary(self, row):
+        """
+        Creates a list of products to return from an id.
+        :param row: The array element of a product.
+        :return: The list of all products formatted as a dictionary.
+        """
         pid = row['pid']
         result = {*pid, *row}
         return result
 
     def product_carInfo_dictionary(self, row):
+        """
+        Creates a list of products to return from car information.
+        :param row: The array element of a product.
+        :return: The list of all products formatted as a dictionary.
+        """
         car = row['car']
         del row['_id']
         result = {**car, **row}
@@ -66,12 +81,22 @@ class ProductsHandler:
         return result_list
 
     def getProductByID(self, pid):
+        """
+        Fetch a product by the id.
+        :param pid: Id of product.
+        :return: Boolean, product if any, message.
+        """
         pid = v().sanitize(pid)
         if not self.productExistByID(pid):
             return False, None, 'no_product'
         return True, ProductsDao().getProductByID(pid), 'product_exists'
 
     def getProductQty(self, pid):
+        """
+        Fetch a product by the quantity.
+        :param pid: Id of the product.
+        :return: Qty of the product or zero if nothing.
+        """
         try:
             qty = ProductsDao().getProductQty(pid)
             return (qty)
@@ -467,6 +492,11 @@ class ProductsHandler:
 
     # --Auxiliary Functions--#
     def productExistByID(self, pid):
+        """
+        Check is a product exists.
+        :param pid: ID of product.
+        :return: True if exists, False if not.
+        """
         product = ProductsDao().productExistByID(pid)
         if product == None:
             return False
@@ -514,9 +544,20 @@ class ProductsHandler:
                 return False, None, 'update_not_successful'
 
     def genericProductSearch(self, string):
+        """
+        Create a generic search from a query.
+        :param string: Query
+        :return: Search results.
+        """
         return ProductsDao().genericProductSearch(string)
 
     def productQtyAvailable(self, pid, qty):
+        """
+        Check if a product is available.
+        :param pid: ID of product.
+        :param qty: Quantity of product to check availability.
+        :return: True if enough, False if not.
+        """
         dao = ProductsDao()
         product = dao.getProductByID(pid)
         print(product)
