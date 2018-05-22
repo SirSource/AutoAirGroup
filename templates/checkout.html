@@ -83,8 +83,10 @@
 
                     <div class="mb-3">
                         <label for="phone">Teléfono</label>
-                        <input type="text" class="form-control" id="phone" name="uphone" placeholder="Teléfono"
-                               oninvalid="this.setCustomValidity('Entre su número telefónico.')"
+                        <input type="phone" minlength="10" maxlength="10" pattern="[0-9]{10}" class="form-control"
+                               id="phone" name="uphone"
+                               placeholder="Teléfono, sólo números"
+                               oninvalid="this.setCustomValidity('Su teléfono sólo debe contener números, no guiones u otros símbolos.')"
                                oninput="setCustomValidity('')" required>
                     </div>
 
@@ -245,8 +247,10 @@
 
                     <div class="mb-3">
                         <label for="phone">Teléfono</label>
-                        <input type="phone" class="form-control" id="phone" name="uphone" placeholder="Teléfono"
-                               oninvalid="this.setCustomValidity('Entre su número telefónico.')"
+                        <input type="phone" minlength="10" maxlength="10" pattern="[0-9]{10}" class="form-control"
+                               id="phone" name="uphone"
+                               placeholder="Teléfono, sólo números"
+                               oninvalid="this.setCustomValidity('Su teléfono sólo debe contener números, no guiones u otros símbolos.')"
                                oninput="setCustomValidity('')" required>
                     </div>
 

@@ -1,6 +1,7 @@
 from config.dbconfig import client
 from bson.objectid import ObjectId
 from bson.decimal128 import Decimal128
+from utilities.valid import Valid as v
 import pymongo
 
 
@@ -119,7 +120,7 @@ class OrdersDao:
             'ufirst': user['ufirst'],
             'ulast': user['ulast'],
             'uemail': user['uemail'],
-            'uphone': user['uphone'],
+            'uphone': v().validPhone(v().phoneStrip(user['uphone'])),
             'address': address,
             'total': total,
             'ivu': ivu,

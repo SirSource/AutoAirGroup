@@ -180,3 +180,13 @@ class Valid:
         whitelist = string.ascii_letters + string.digits + ' ' + '-'
         newString = ''.join(c for c in str if c in whitelist)
         return newString
+
+    def phoneStrip(self, str):
+        """
+        Removes characters from a phone number.
+        :param str: String to filter
+        :return: Filtered String
+        """
+        whitelist = string.digits
+        newString = ''.join(c for c in str if c in whitelist)
+        return newString
