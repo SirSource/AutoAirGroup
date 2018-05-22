@@ -524,6 +524,11 @@ class ProductsHandler:
         featured = form['featured']
         if image == None:
             try:
+                if cmake == '' or cmodel == '' or cyear == '' or cmotor == '' or pid == '' or pcategory == '' or pname == '' or pdetails == '' or plocation == '' or pprice == '' or pbrand == '' or qty == '' or pshipping == '' or featured == '':
+                    return False, None, 'invalid_form'
+                if not qty.isdigit():
+                    return False, None, 'invalid_form'
+
                 dao = ProductsDao()
                 product = dao.updateProductByIdWithSameImage(cmake, cmodel, cyear, cmotor, pid, pcategory, pname,
                                                              pdetails, plocation, Decimal128(pprice), pbrand, int(qty),
