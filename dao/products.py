@@ -445,13 +445,13 @@ class ProductsDao:
 
         return products
 
-    def getGenericSearchCatalog(self, string):
+    def getGenericSearchCatalog(self, args):
         """
         author: Luis Perez
         :param string:
         :return:
         """
-
+        string = args.lower()
         collection = self.db
         collection.create_index(
             [('pbrand', 'text'), ('pname', 'text'), ('pdetails', 'text'), ('pid', 'text'), ('pcategory', 'text')])

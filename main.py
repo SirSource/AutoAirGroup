@@ -469,6 +469,8 @@ def charge():
             return render_template('paymentFailed.html')
     # Payment processed correctly, set order to complete.
     o().updateOrderStatusToComplete(oid)
+    session.pop('cart', None)
+    session.pop('allQty', None)
     # Send confirmation email.
     mail().sendOrderConfirmationEmail(email, oid)
     return render_template('succesfulPayment.html')  # Aqui puedes poner algun template como que confirmando o no
@@ -493,8 +495,6 @@ def processOrder():
         session['cartError'] = True
         session.modified = True
         return render_template('cartForced.html')
-    session.pop('cart', None)
-    session.pop('allQty', None)
     return render_template('pay.html', order=order[1], key=stripe_keys['live_pub'])
 
 
