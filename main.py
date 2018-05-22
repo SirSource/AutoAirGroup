@@ -377,7 +377,6 @@ def cartAdd():
     return redirect(request.referrer)
 
 
-# TODO: Comment.
 @app.route('/checkout')
 def checkout():
     """
@@ -385,16 +384,22 @@ def checkout():
     """
     user = None
     error = False
+    # user has no cart session (empty cart)
     if 'cart' not in session:
         return redirect('catalog')
+    # user is logged in.
     if 'email' in session:
         user = u().getUserByEmail(session['email'])
+    # Verify there is no error in the cart (item without required quantity).
     if 'cartError' in session:
         error = session['cartError']
         session.pop('cartError', None)
+    # Verify if items in cart have a qty of zero, if so remove those items.
     session['cart'] = purgeEmptyItemFromCart(session['cart'])
+    # Set the users total quantity.
     session['allQty'] = getQtyFromCart(session['cart'])
     session.modified = True
+    # If cart is now empty, return user to catalog.
     if len(session['cart']) == 0:
         session.pop('cart', None)
         session.pop('allQty', None)
@@ -421,32 +426,30 @@ def charge():
     """
     Routing for a stripe charge.
     """
+    # user cannot access this page directly if they try, send them to home page.
     if not request.method == 'POST':
         return redirect(url_for('home'))
-    # Amount in cents
-    # amount = 50  # Sacarlo del Form/Carrito
-
     if request.method == 'POST':
         oid = request.form['_oid']
         amount = request.form['_amount']
         email = request.form['_email']
         customer = stripe.Customer.create(
-            email=email,  # Sacar del form referente al email del usuario o cliente de AAG
+            email=email,
             source=request.form['stripeToken']
         )
         try:
-
+            # Charge the order amount to the user
             charge = stripe.Charge.create(
                 customer=customer.id,
                 amount=amount,
                 currency='usd',
-                description='Compra Auto Air Group'  # Poner otra descripcion si se puede
+                description='Compra Auto Air Group'
             )
 
             m = mail()
             m.sendOrderConfirmationEmail(email, oid, amount)
-
-        except stripe.error.CardError as e:  # Si no pasa el pago, pasa por este error!
+        # If payment fails, exception is raised.
+        except stripe.error.CardError as e:
 
             body = e.json_body
             err = body.get('error', {})
@@ -461,9 +464,12 @@ def charge():
             print("Message is: %s" % err.get('message'))
             # print("CARD ERROR")
             # flash('Error processing payment.', 'error')
+            # Set order status to cancelled.
             o().updateOrderStatusToCanceled(oid)
             return render_template('paymentFailed.html')
+    # Payment processed correctly, set order to complete.
     o().updateOrderStatusToComplete(oid)
+    # Send confirmation email.
     mail().sendOrderConfirmationEmail(email, oid)
     return render_template('succesfulPayment.html')  # Aqui puedes poner algun template como que confirmando o no
 
@@ -473,8 +479,10 @@ def processOrder():
     """
     Routing for processing the order once verified.
     """
+    # This page cannot be accessed directly, if so, redirect user to home.
     if request.referrer == None:
         return redirect('/')
+    # Create a user from the form information.
     user = u().formToFormattedUser(request.form)
     if request.form['_userStatus'] == '_newUser':
         genericPassword = v().generatePassword()
@@ -512,6 +520,7 @@ def admin():
     """
     Routing for admin dashboard.
     """
+    # If admin not logged in send to login page.
     if 'eid' not in session:
         return redirect(url_for('adminLogin'))
     operation = s().staffIsAdmin(session['eid'])
@@ -583,19 +592,22 @@ def adminOrders():
     if 'eid' not in session:
         return redirect(url_for('adminLogin'))
     message = None
+    # Get information about orders by status
     orders = o().getAllOrders()
     complete = o().countCompleteOrders()
     pending = o().countPendingOrders()
     unshipped = o().countUnshippedOrders()
     canceled = o().countCanceledOrders()
+    # Search form for orders was engaged.
     if request.method == 'POST':
         method = request.form['_method']
+        # Search by phone number.
         if method == 'FIND_PHONE':
             operation = o().getOrdersByPhone(request.form)
             message = operation[2]
-            print(operation[2])
             if operation[0]:
                 orders = operation[1]
+        # Search by order id.
         elif method == 'OID':
             oid = request.form.getlist('orderQuery')
             return adminOrdersView(oid[0])
