@@ -181,8 +181,7 @@ class ProductsDao:
         """
         products = self.db
         p = []
-        print(cmake.lower())
-        for doc in products.find({'car.make': cmake.lower(), 'featured': 'yes'}):
+        for doc in products.find({'car.make': cmake, 'featured': 'yes'}):
             p.append(doc)
         return p
 
