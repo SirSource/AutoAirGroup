@@ -665,9 +665,7 @@ def adminProducts():
                 image = v().generatePhotoName(extension[1])
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], image))
                 operation = p().addProduct(image, request.form)
-                # product = operation[1]
-                # message = operation[2]
-            return render_template('adminProducts.html', products=product)
+            return render_template('adminProducts.html', products=product, message=operation[2])
         elif method == 'SEARCH':
             product = p().genericProductSearch(request.form['query'])
     return render_template('adminProducts.html', products=product)

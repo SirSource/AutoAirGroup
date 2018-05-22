@@ -31,6 +31,15 @@
                     <!--Display products in the system-->
                     <div class="col-lg-12 mt-5">
                         <h5>Productos</h5>
+                        {% if message == 'product_exists' %}
+                            <div class="alert alert-danger">Error: Un producto con el mismo ID ya existe.</div>
+                        {% elif message == 'product_added' %}
+                            <div class="alert alert-primary">El producto fue añadido.</div>
+                        {% elif message == 'invalid_form' %}
+                            <div class="alert alert-danger">Error: Hubo un error con alguno de los campos del
+                                formulario, intente nuevamente.
+                            </div>
+                        {% endif %}
                         <table class="table table-responsive-md table-striped">
                             <thead>
                             <tr>
