@@ -16,10 +16,15 @@
                 <input type="hidden" name="_email" value="{{ order['email'] }}">
                 <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                         data-key="{{ key }}"
-                        data-description="A Flask Charge"
+                        data-name="Auto Air Group Corp"
+                        data-label="Pagar con tarjeta"
+                        data-image="url_for('static', filename='img/logo.png')"
+                        data-description="Order:{{ order['oid'] }}"
                         data-amount="{{ order['total'] }}"
                         data-locale="auto"
-                        data-email="{{ order['email'] }}">
+                        data-panel-label="Pagar"
+                        data-email="{{ order['email'] }}"
+                        data-zip-code="true">
                 </script>
             </form>
         </div>
