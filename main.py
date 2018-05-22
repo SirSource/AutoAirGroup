@@ -749,14 +749,6 @@ def adminStaff():
 
             return render_template('adminStaff.html', addSuccess=operation[1], staff=s().getAllStaff())
         if method == 'SEARCH':
-            # operation = s().getStaffByEid(request.form)
-            # status = operation[0]
-            # result = operation[1]
-            # message = operation[2]
-            # if not status:
-            #     return render_template('adminStaff.html', message=message, staff=staff)
-            # else:
-            #     return render_template('adminStaffEdit.html', staff=result)
             staff = s().genericStaffSearch(request.form['eid'])
             message = 'employee_found'
             if len(staff) == 0:
