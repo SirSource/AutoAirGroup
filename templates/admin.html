@@ -53,7 +53,8 @@
                 <tbody>
                 {% for item in orders %}
                     <tr>
-                        <th scope="row"><a href="{{ url_for('adminOrders') }}/{{ item['orderid'] }}">{{ item['orderid'] }}</a></th>
+                        <th scope="row"><a
+                                href="{{ url_for('adminOrders') }}/{{ item['orderid'] }}">{{ item['orderid'] }}</a></th>
                         <td>{{ item['ufirst'] }} {{ item['ulast'] }}</td>
                         <td>{{ item['uphone'] }}</td>
                         <td>${{ item['grand_total'] }}</td>
@@ -82,7 +83,16 @@
         </div>
         <div class="col-md mt-5">
             <h5 class="aag-border-bottom">Información</h5>
-            <span>Other information can be placed here.</span>
+            <p class="mt-2"><strong>Ordenes Completadas:</strong> Estas fueron pagadas exitosamente por el cliente. Sólo
+                requieren
+                envío.</p>
+            <p class="mt-2"><strong>Ordenes Canceladas:</strong> Estas no fueron pagadas aunque hubo intento por el
+                cliente. Por alguna
+                razón su método de pago fue declinado por la compañía procesadora de pagos.</p>
+            <p class="mt-2"><strong>Ordenes Pendientes:</strong> Estas fueron puestas en el carrito del cliente, y el
+                cliente comenzó el
+                proceso de compra. Algunas de estas se pueden estar llevando a cabo aún, o fueron abandonadas por el
+                cliente.</p>
         </div>
     </div>
 {% endblock %}
