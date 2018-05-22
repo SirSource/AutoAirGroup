@@ -105,7 +105,7 @@ class OrdersHandler:
             OrdersDao().updateOrderStatusForm(oid, status)
             return True, 'order_complete'
         elif status == 'canceled':
-            OrdersDao().updateOrderStatusForm(oid, status)
+            self.updateOrderStatusToCanceled(oid)
             return True, 'order_canceled'
         else:
             return False, 'update_error'
@@ -114,7 +114,12 @@ class OrdersHandler:
         OrdersDao().updateOrderStatusForm(oid, 'complete')
 
     def updateOrderStatusToCanceled(self, oid):
-        OrdersDao().updateOrderStatusForm(oid, 'canceled')
+        order = self.getOrdersByOrderID(oid)
+        if not(order['payment_status']=='canceled'):
+            for product in order['products']:
+                p().increaseProductQty(product['pid'],(int(product['qty'])))
+            OrdersDao().updateOrderStatusForm(oid, 'canceled')
+
 
     def updateOrderShippingForm(self, oid, form):
         status = form['shipping_status']

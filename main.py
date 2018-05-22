@@ -469,6 +469,7 @@ def charge():
             return render_template('paymentFailed.html')
     # Payment processed correctly, set order to complete.
     o().updateOrderStatusToComplete(oid)
+    #TODO: decrease quantity of each product from cart
     session.pop('cart', None)
     session.pop('allQty', None)
     # Send confirmation email.
