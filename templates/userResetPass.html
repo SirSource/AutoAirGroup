@@ -11,8 +11,15 @@
                 <div class="form-group">
                     <label for="email">Nueva contrseña</label>
                     <input type="password" class="form-control" name="newPass" id="newPass"
-                           oninvalid="this.setCustomValidity('Entre una nueva contraseña.')"
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                           title="Entre una constraseña con al menos: 1 letra mayúscula, 1 número, y 1 caracter especial (@, #, $, %, *, ?, !)."
+                           placeholder="Contraseña"
+                           oninvalid="this.setCustomValidity('Entre una constraseña con al menos: 1 letra mayúscula, 1 número, y 1 caracter especial (@, #, $, %, *, ?, !).')"
                            oninput="setCustomValidity('')" required>
+                    <small class="text-muted">Mínimo de 8 caracteres y un máximo de 15. Al menos: 1 letra mayúscula,
+                        1 número, y 1
+                        caracter especial (@, #, $, %, *, ?, !)
+                    </small>
                 </div>
                 <input type="hidden" name="_method" value="reset">
                 <button class="btn btn-primary">Recuperar Acceso</button>
