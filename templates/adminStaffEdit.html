@@ -14,73 +14,81 @@
         {% endif %}
     </div>
     <!--Dashboard Main Info Box-->
-
-    <div class="row mt-3 mb-5 bg-white p-4 aag-shadow">
-        {% if not staff==None %}
-            <div class="col-md-4">
-                <ul class="list-group">
-                    <li class="list-group-item">ID: <strong>{{ staff['eid'] }}</strong></li>
-                    <li class="list-group-item">Email: <strong>{{ staff['staff_email'] }}</strong></li>
-                    <li class="list-group-item">Tienda: <strong>{{ staff['staff_store'] }}</strong></li>
-                    {% if staff['admin'] == True %}
-                        <li class="list-group-item"><strong>Este usuario es administrador</strong></li>
-                    {% endif %}
-                </ul>
-            </div>
+    {% if staff['eid'] == "aag1" %}
+        <div class="row mt-3 mb-5 bg-white p-4 aag-shadow">
             <div class="col-md">
-                <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseStore"
-                            aria-expanded="false"
-                            aria-controls="collapseStore">
-                        Cambiar Tienda
-                    </button>
-                </p>
-                <div class="collapse" id="collapseStore">
-                    <form action="{{ url_for('adminStaff') }}/{{ staff['eid'] }}" method="POST">
-                        <div class="input-group">
-                            <select id="inputState" name="store" class="form-control">
-                                <option value="Caguas" selected="">Caguas</option>
-                                <option value="Bayamón">Bayamon</option>
-                                <option value="Guaynabo">Guaynabo</option>
-                                <option value="Río Piedras">Río Piedras</option>
-                            </select>
-                            <input type="hidden" name="_method" value="UPDATE_STORE">
-                            <button class="btn btn-primary">Actualizar</button>
-                        </div>
-                    </form>
-                </div>
-                <!--Make Administrator-->
-                <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
-                    <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseAdmin"
-                            aria-expanded="false"
-                            aria-controls="collapseAdmin">
-                        Estatus de Administrador
-                    </button>
-                </p>
-                <div class="collapse" id="collapseAdmin">
-                    <div class="aag-bg-gray1 p-2">Está por cambiar el estatus del empleado. Un administrador puede:
-                        <ul>
-                            <li>Crear, editar o borrar productos.</li>
-                            <li>Crear, editar o borrar empleados.</li>
-                            <li>Cambiar el estatus de adminsitrador de otros empleados.</li>
-                            <li>Editar el valor del impuesto sobre venta uy uso del portal.</li>
-                        </ul>
-                    </div>
-                    <form action="{{ url_for('adminStaff') }}/{{ staff['eid'] }}" method="POST">
-                        <div class="input-group">
-                            <select id="inputState" name="admin" class="form-control">
-                                <option selected="">-Estatus del empleado-</option>
-                                <option value="False">No</option>
-                                <option value="True">Si</option>
-                            </select>
-                            <input type="hidden" name="_method" value="UPDATE_ADMIN">
-                            <button class="btn btn-danger">Actualizar</button>
-                        </div>
-                    </form>
-                </div>
+                <h3>El Súper Admin no se puede editar.</h3>
             </div>
-        {% else %}
-            <h1>Error: El empleado no existe en el sistema.</h1>
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+        <div class="row mt-3 mb-5 bg-white p-4 aag-shadow">
+            {% if not staff==None %}
+                <div class="col-md-4">
+                    <ul class="list-group">
+                        <li class="list-group-item">ID: <strong>{{ staff['eid'] }}</strong></li>
+                        <li class="list-group-item">Email: <strong>{{ staff['staff_email'] }}</strong></li>
+                        <li class="list-group-item">Tienda: <strong>{{ staff['staff_store'] }}</strong></li>
+                        {% if staff['admin'] == True %}
+                            <li class="list-group-item"><strong>Este usuario es administrador</strong></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                data-target="#collapseStore"
+                                aria-expanded="false"
+                                aria-controls="collapseStore">
+                            Cambiar Tienda
+                        </button>
+                    </p>
+                    <div class="collapse" id="collapseStore">
+                        <form action="{{ url_for('adminStaff') }}/{{ staff['eid'] }}" method="POST">
+                            <div class="input-group">
+                                <select id="inputState" name="store" class="form-control">
+                                    <option value="Caguas" selected="">Caguas</option>
+                                    <option value="Bayamón">Bayamon</option>
+                                    <option value="Guaynabo">Guaynabo</option>
+                                    <option value="Río Piedras">Río Piedras</option>
+                                </select>
+                                <input type="hidden" name="_method" value="UPDATE_STORE">
+                                <button class="btn btn-primary">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!--Make Administrator-->
+                    <p class="justify-content-center col-12 mt-3 pb-3 aag-border-bottom">
+                        <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseAdmin"
+                                aria-expanded="false"
+                                aria-controls="collapseAdmin">
+                            Estatus de Administrador
+                        </button>
+                    </p>
+                    <div class="collapse" id="collapseAdmin">
+                        <div class="aag-bg-gray1 p-2">Está por cambiar el estatus del empleado. Un administrador puede:
+                            <ul>
+                                <li>Crear, editar o borrar productos.</li>
+                                <li>Crear, editar o borrar empleados.</li>
+                                <li>Cambiar el estatus de adminsitrador de otros empleados.</li>
+                                <li>Editar el valor del impuesto sobre venta uy uso del portal.</li>
+                            </ul>
+                        </div>
+                        <form action="{{ url_for('adminStaff') }}/{{ staff['eid'] }}" method="POST">
+                            <div class="input-group">
+                                <select id="inputState" name="admin" class="form-control">
+                                    <option selected="">-Estatus del empleado-</option>
+                                    <option value="False">No</option>
+                                    <option value="True">Si</option>
+                                </select>
+                                <input type="hidden" name="_method" value="UPDATE_ADMIN">
+                                <button class="btn btn-danger">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <h1>Error: El empleado no existe en el sistema.</h1>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
