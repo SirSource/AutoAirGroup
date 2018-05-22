@@ -181,7 +181,8 @@ class ProductsDao:
         """
         products = self.db
         p = []
-        for doc in products.find({'car.make': cmake, 'featured': 'yes'}):
+        print(cmake.lower())
+        for doc in products.find({'car.make': cmake.lower(), 'featured': 'yes'}):
             p.append(doc)
         return p
 
@@ -460,9 +461,7 @@ class ProductsDao:
         for doc in find:
             products.append(doc)
         token = re.split(" ", string)
-        print(token)
         for tk in token:
-            print(tk)
             cmake = self.getProductByCarMake(tk)
             for doc in cmake:
                 if doc and doc not in products:

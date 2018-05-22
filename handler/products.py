@@ -524,6 +524,7 @@ class ProductsHandler:
         featured = form['featured']
         if image == None:
             try:
+
                 if cmake == '' or cmodel == '' or cyear == '' or cmotor == '' or pid == '' or pcategory == '' or pname == '' or pdetails == '' or plocation == '' or pprice == '' or pbrand == '' or qty == '' or pshipping == '' or featured == '':
                     return False, None, 'invalid_form'
                 if not qty.isdigit():
