@@ -18,13 +18,12 @@
                         data-key="{{ key }}"
                         data-name="Auto Air Group Corp"
                         data-label="Pagar con tarjeta"
-                        data-image="url_for('static', filename='img/logo.png')"
                         data-description="Order:{{ order['oid'] }}"
                         data-amount="{{ order['total'] }}"
                         data-locale="auto"
+                        data-zip-code="true"
                         data-panel-label="Pagar"
                         data-email="{{ order['email'] }}"
-                        data-zip-code="true">
                 </script>
             </form>
         </div>
