@@ -444,6 +444,7 @@ def charge():
                 amount=amount,
                 currency='usd',
                 description='Compra Auto Air Group'
+                metadata={'order_id': oid}
             )
 
             m = mail()
