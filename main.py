@@ -66,7 +66,7 @@ def catalog():
         return render_template('catalog.html', products=products)
 
     except pymongo.errors.AutoReconnect:
-        print("ERRORRRRRRRR")
+        print("ERROR")
 
 
 @app.route('/product/<string:pid>')
@@ -469,7 +469,7 @@ def charge():
             return render_template('paymentFailed.html')
     # Payment processed correctly, set order to complete.
     o().updateOrderStatusToComplete(oid)
-    #TODO: decrease quantity of each product from cart
+    # TODO: decrease quantity of each product from cart
     session.pop('cart', None)
     session.pop('allQty', None)
     # Send confirmation email.
@@ -578,7 +578,6 @@ def staffProfile():
             eid = request.form['eid']
             operation = s().updateStaffPassword(eid, request.form['oldPass'], request.form['newPass'])
             message = operation[1]
-            print(message)
     eid = session['eid']
     admin = s().staffIsAdmin(session['eid'])[0]
     staff = s().getStaffByEidMain(eid)[1]
