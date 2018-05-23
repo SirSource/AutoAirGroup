@@ -448,7 +448,7 @@ def charge():
             )
 
             m = mail()
-            m.sendOrderConfirmationEmail(email, oid, amount)
+            m.sendOrderConfirmationEmail(email, oid)
         # If payment fails, exception is raised.
         except stripe.error.CardError as e:
 
