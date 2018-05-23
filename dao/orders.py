@@ -120,7 +120,7 @@ class OrdersDao:
             'ufirst': user['ufirst'],
             'ulast': user['ulast'],
             'uemail': user['uemail'],
-            'uphone': v().validPhone(v().phoneStrip(user['uphone'])),
+            'uphone': v().phoneStrip(user['uphone']),
             'address': address,
             'total': total,
             'ivu': ivu,
