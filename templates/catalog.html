@@ -120,13 +120,14 @@
             <div class="card-deck">
                 <!--Card-->
                 {% for item in products %}
-                    <div class="card aag-min-width-card mt-4 aag-shadow">
+                    <div class="card aag-min-width-card mt-4 aag-shadow justify-content-center"
+                         style="max-width: 95%;">
                         <div class="card-header">
                             {{ item['pname'] }}
                         </div>
-                        <div class="card-body">
+                        <div class="card-body text-center">
                             <a href="product/{{ item['pid'] }}">
-                                <img class="aag-catalog-pic"
+                                <img style="max-width: 150px"
                                      src="{{ url_for('static', filename='img/products/' + item['image']) }}">
                             </a>
                             <p class="card-text text-truncate">{{ item['pdetails'] }}</p>
