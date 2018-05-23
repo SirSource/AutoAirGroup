@@ -10,7 +10,7 @@
             <form action="{{ url_for('resetPassUser') }}" method="POST">
                 <div class="form-group">
                     <label for="email">Nueva contrseña</label>
-                    <input type="password" class="form-control" name="newPass" id="newPass"
+                    <input type="password" minlength="8" maxlength="15" class="form-control" name="newPass" id="newPass"
                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                            title="Entre una constraseña con al menos: 1 letra mayúscula, 1 número, y 1 caracter especial (@, #, $, %, *, ?, !)."
                            placeholder="Contraseña"
