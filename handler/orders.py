@@ -233,8 +233,8 @@ class OrdersHandler:
         # Calculate totals and tax.
         roundedTax = round(ivu.to_decimal() * total.to_decimal(), 2)
         taxed = Decimal128(roundedTax)
-        grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
         shipping = self.shippingCalcPercentage(shipping, allQty)
+        grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
         return True, products, total, shipping, taxed, grandTotal, allQty, 'cart_exists'
 
     def createOrderForProcessing(self, user, cart):
@@ -269,7 +269,8 @@ class OrdersHandler:
             # Add products to list.
             products.append(newProduct)
             total = Decimal128(total.to_decimal() + (pprice.to_decimal() * qty.to_decimal()))
-            shipping = Decimal128(shipping.to_decimal() + query['pshipping'].to_decimal())
+            shipping = Decimal128(
+                round(shipping.to_decimal() + (qty.to_decimal() * query['pshipping'].to_decimal()), 2))
             # Verify product quantities in inventory.
             if p().productQtyAvailable(pid, int(item[pid])):
                 p().decreaseProductQty(pid, int(item[pid]))
@@ -278,8 +279,8 @@ class OrdersHandler:
         # Calculate totals and tax.
         roundedTax = round(ivu.to_decimal() * total.to_decimal(), 2)
         taxed = Decimal128(roundedTax)
-        grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
         shipping = self.shippingCalcPercentage(shipping, allQty)
+        grandTotal = Decimal128(total.to_decimal() + taxed.to_decimal() + shipping.to_decimal())
         oid = self.generateOrderNumber()
         date = datetime.datetime.now()
         dao = OrdersDao()
